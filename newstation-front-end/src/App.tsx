@@ -6,6 +6,7 @@ import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import axios from 'axios';
 
 function App() {
 
@@ -72,33 +73,70 @@ function App() {
     setState({ ...state, company: { ...company, [name]: value } });
   };
 
-  const handleCompanyRegister = () => {
+  const handleCompanyRegister = async () => {
     const { company } = state;
-    const { company_password, company_confirm_password } = company;
+    const { company_password, company_confirm_password, company_email_address,
+      company_name, company_contact_number, company_address } = company;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     let errors: string[] = [];
 
-    Object.entries(company).map(([key, value]) => !value && errors.push(key));
+    try {
+      Object.entries(company).map(([key, value]) => !value && errors.push(key));
 
-    !strongRegex.test(company_password) && errors.push('company_password');
-    !strongRegex.test(company_confirm_password) && errors.push('company_confirm_password');
+      !strongRegex.test(company_password) && errors.push('company_password');
+      !strongRegex.test(company_confirm_password) && errors.push('company_confirm_password');
 
-    (company_confirm_password !== company_password) && errors.push('company_confirm_password');
+      (company_confirm_password !== company_password) && errors.push('company_confirm_password');
 
-    setState({ ...state, error: errors });
+      setState({ ...state, error: errors });
 
-    !errors.length && window.location.replace("http://localhost:3000/login");
+      // !errors.length ? 
+      const result = await axios.post('/company', {
+        company_email_address: company_email_address,
+        company_password: company_password,
+        company_name: company_name,
+        company_contact_number: company_contact_number,
+        company_address: company_address
+      })
+
+      const { success } = result.data;
+
+      success ?
+        window.location.replace("http://localhost:3000/login") :
+        window.location.replace("http://localhost:3000/register")
+
+    } catch (error) {
+
+    }
+    // window.location.replace("http://localhost:3000/login");
   }
 
-  const handleCompanyLogin = () => {
+  const handleCompanyLogin = async () => {
     const { company } = state;
     const { company_email_address, company_password } = company;
     let errors: string[] = [];
 
-    !(company_email_address) && errors.push('company_email_address');
-    !(company_password) && errors.push('company_password');
+    try {
+      !(company_email_address) && errors.push('company_email_address');
+      !(company_password) && errors.push('company_password');
 
-    setState({ ...state, error: errors });
+      setState({ ...state, error: errors });
+
+      if (!errors.length) {
+        const result = await axios.post('/company/login', {
+          company_email_address: company_email_address,
+          company_password: company_password
+        })
+
+        const { success } = result.data;
+
+        success ?
+          window.location.replace("http://localhost:3000/dashboard") :
+          window.location.replace("http://localhost:3000/login")
+      }
+    } catch (error) {
+
+    }
   }
 
   const handleEmployeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
