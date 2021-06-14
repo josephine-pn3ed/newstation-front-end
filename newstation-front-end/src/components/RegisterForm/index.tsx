@@ -1,53 +1,27 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import {
   CssBaseline,
   TextField,
-  Link, 
-  Grid, 
-  Box, 
-  Typography, 
-  Container, 
-  IconButton, 
-  OutlinedInput, 
-  InputLabel, 
-  InputAdornment, 
-  FormControl, 
-  MenuItem
+  Link,
+  Grid,
+  Typography,
+  Container,
+  IconButton,
+  OutlinedInput,
+  InputLabel,
+  InputAdornment,
+  FormControl,
+  Avatar,
+  Button
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Props } from './types';
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-    padding: theme.spacing(1)
-  },
-  password_field: {
-    width: '51ch'
-  }
-}));
+import useStyles from './styles';
 
 const RegisterForm = (props: Props) => {
   const classes = useStyles();
-  const { showPassword, showConfirmPassword, handleCompanyInputChange, handleClickShowPassword, handleMouseDownPassword, handleCompanySubmit, handleClickShowConfirmPassword, company, error } = props;
+  const { showPassword, showConfirmPassword, handleCompanyInputChange, handleClickShowPassword, handleMouseDownPassword, handleCompanyRegister, handleClickShowConfirmPassword, company, error } = props;
   const { company_address, company_contact_number, company_name, company_password, company_confirm_password } = company;
 
   return (
@@ -64,6 +38,7 @@ const RegisterForm = (props: Props) => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                error={error.includes('company_name')}
                 name="company_name"
                 variant="outlined"
                 fullWidth
@@ -73,6 +48,7 @@ const RegisterForm = (props: Props) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={error.includes('company_address')}
                 variant="outlined"
                 fullWidth
                 label="Company Address"
@@ -82,6 +58,7 @@ const RegisterForm = (props: Props) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={error.includes('company_contact_number')}
                 variant="outlined"
                 fullWidth
                 label="Company Contact Number"
@@ -91,16 +68,20 @@ const RegisterForm = (props: Props) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={error.includes('company_email_address')}
                 variant="outlined"
                 fullWidth
                 label="Email Address"
-                name="email"
+                name="company_email_address"
                 autoComplete="email"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCompanyInputChange(event)}
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControl variant="outlined" className={classes.password_field}>
+              <FormControl
+                variant="outlined"
+                className={classes.password_field}
+                error={error.includes('company_password')}>
                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
@@ -125,10 +106,13 @@ const RegisterForm = (props: Props) => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <FormControl variant="outlined" className={classes.password_field}>
-                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+              <FormControl
+                variant="outlined"
+                className={classes.password_field}
+                error={error.includes('company_confirm_password')}>
+                <InputLabel htmlFor="outlined-adornment-confirm-password">Confirm Password</InputLabel>
                 <OutlinedInput
-                  id="outlined-adornment-password"
+                  id="outlined-adornment-confirm-password"
                   type={showConfirmPassword ? 'text' : 'password'}
                   value={company_confirm_password}
                   name="company_confirm_password"
@@ -157,13 +141,13 @@ const RegisterForm = (props: Props) => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleCompanySubmit}
+            onClick={handleCompanyRegister}
           >
             Sign Up
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
