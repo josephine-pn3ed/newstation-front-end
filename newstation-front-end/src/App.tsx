@@ -6,8 +6,11 @@ import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
+import { login } from './utils';
 
 function App() {
 
@@ -136,19 +139,26 @@ function App() {
 
       if (!errors.length) {
         const result = await axios.post('/login', {
-          company_email_address: company_email_address,
+          company_email_address: company_email_address.toLowerCase(),
           company_password: company_password
         })
 
         const { success, message } = result.data;
 
-        success && (message === "Login successfully.") && setErrorLoginPassword(false)
-        success && (message === "Login successfully.") && setErrorLogin(false)
-        success && (message === "Wrong password.") && setErrorLoginPassword(true)
-        success && (message === "Wrong password.") && setErrorLogin(false)
-        success && (message === "Invalid credentials!") && setErrorLogin(true)
-
-        if (!success) throw Error;
+        if (!success) throw Error
+        else {
+          if (message === "Wrong password.") {
+            setErrorLoginPassword(true)
+            setErrorLogin(false)
+          } else if (message === "Invalid credentials!") {
+            setErrorLogin(true)
+          } else if (message === "Login successfully.") {
+            setErrorLoginPassword(false)
+            setErrorLogin(false)
+            login();
+            window.location.replace("http://localhost:3000/dashboard");
+          }
+        }
       }
     } catch (error) {
       alert('An error occurred while logging in!');
@@ -193,7 +203,7 @@ function App() {
       <div>
         <Navbar />
         <Switch>
-          <Route path="/login" exact >
+          <PublicRoute path="/login" exact >
             <LoginForm
               showPassword={showPassword}
               showConfirmPassword={showConfirmPassword}
@@ -207,8 +217,8 @@ function App() {
               errorLogin={errorLogin}
               errorLoginPassword={errorLoginPassword}
             />
-          </Route>
-          <Route path="/register" exact >
+          </PublicRoute>
+          <PublicRoute path="/register" exact >
             <RegisterForm
               showPassword={showPassword}
               showConfirmPassword={showConfirmPassword}
@@ -221,10 +231,15 @@ function App() {
               company={state.company}
               errorRegister={errorRegister}
             />
-          </Route>
-          <Route path="/dashboard">
+          </PublicRoute>
+          {/* <Route path="/dashboard">
+            <Navbar />
             <Dashboard />
-          </Route>
+          </Route> */}
+          <PrivateRoute path="/dashboard" exact >
+            <Dashboard />
+          </PrivateRoute>
+          <Redirect from="/" to="/login" exact />
         </Switch>
       </div>
     </Router>

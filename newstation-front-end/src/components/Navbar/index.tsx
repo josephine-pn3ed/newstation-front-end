@@ -24,11 +24,11 @@ const Navbar = () => {
               Support
             </Link>
           </nav> */}
-          <Button href="/login" color="primary" variant="contained" className={classes.link}>
-            Login
-          </Button>
           <Button href="/register" color="primary" variant="outlined" className={classes.link}>
             Sign Up
+          </Button>
+          <Button href="/login" color="primary" variant="contained" className={classes.link}>
+            Login
           </Button>
         </Toolbar>
       </AppBar>
