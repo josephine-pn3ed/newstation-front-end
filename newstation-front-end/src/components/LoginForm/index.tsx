@@ -12,7 +12,8 @@ import {
   InputAdornment,
   FormControl,
   Avatar,
-  Button
+  Button,
+  ListItemText
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -21,7 +22,17 @@ import useStyles from './styles';
 
 const LoginForm = (props: Props) => {
   const classes = useStyles();
-  const { showPassword, handleCompanyInputChange, handleClickShowPassword, handleMouseDownPassword, handleCompanyLogin, company, error } = props;
+  const {
+    showPassword,
+    handleCompanyInputChange,
+    handleClickShowPassword,
+    handleMouseDownPassword,
+    handleCompanyLogin,
+    company,
+    error,
+    errorLogin,
+    errorLoginPassword
+  } = props;
   const { company_password } = company;
 
   return (
@@ -36,9 +47,12 @@ const LoginForm = (props: Props) => {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
+            {errorLogin && <Grid item xs={12}>
+              <ListItemText primary="Invalid credentials!" className={classes.error} />
+            </Grid>}
             <Grid item xs={12}>
               <TextField
-                error={error.includes('company_email_address')}
+                error={error.includes('company_email_address') || errorLogin}
                 variant="outlined"
                 fullWidth
                 label="Email Address"
@@ -51,7 +65,7 @@ const LoginForm = (props: Props) => {
               <FormControl
                 variant="outlined"
                 className={classes.password_field}
-                error={error.includes('company_password')}>
+                error={error.includes('company_password') || errorLoginPassword || errorLogin}>
                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"

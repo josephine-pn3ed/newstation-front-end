@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
   },
   password_field: {
     width: '100%'
+  },
+  error: {
+    textAlign: 'center',
+    color: 'red'
   }
 }));
 

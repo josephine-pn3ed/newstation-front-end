@@ -63,6 +63,7 @@ function App() {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
   const [errorLogin, setErrorLogin] = useState<boolean>(false);
+  const [errorLoginPassword, setErrorLoginPassword] = useState<boolean>(false);
   const [errorRegister, setErrorRegister] = useState<boolean>(false);
 
   useEffect(() => {
@@ -89,7 +90,6 @@ function App() {
       !company_contact_number && errors.push('company_contact_number');
       !company_email_address && errors.push('company_email_address');
       !company_password && errors.push('company_password');
-      
       !validateEmail.test(company_email_address) && errors.push('company_email_address');
       !strongRegex.test(company_password) && errors.push('company_password');
       !strongRegex.test(company_confirm_password) && errors.push('company_confirm_password');
@@ -124,29 +124,34 @@ function App() {
   const handleCompanyLogin = async () => {
     const { company } = state;
     const { company_email_address, company_password } = company;
+    const validateEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errors: string[] = [];
 
     try {
       !(company_email_address) && errors.push('company_email_address');
       !(company_password) && errors.push('company_password');
+      !validateEmail.test(company_email_address) && errors.push('company_email_address');
 
       setError(errors);
 
       if (!errors.length) {
-        const result = await axios.post('/company/login', {
+        const result = await axios.post('/login', {
           company_email_address: company_email_address,
           company_password: company_password
         })
 
-        console.log(result.data)
         const { success, message } = result.data;
 
-        // success ?
-        //   window.location.replace("http://localhost:3000/dashboard") :
-        //   window.location.replace("http://localhost:3000/login")
+        success && (message === "Login successfully.") && setErrorLoginPassword(false)
+        success && (message === "Login successfully.") && setErrorLogin(false)
+        success && (message === "Wrong password.") && setErrorLoginPassword(true)
+        success && (message === "Wrong password.") && setErrorLogin(false)
+        success && (message === "Invalid credentials!") && setErrorLogin(true)
+
+        if (!success) throw Error;
       }
     } catch (error) {
-
+      alert('An error occurred while logging in!');
     }
   }
 
@@ -199,6 +204,8 @@ function App() {
               handleCompanyLogin={handleCompanyLogin}
               error={error}
               company={state.company}
+              errorLogin={errorLogin}
+              errorLoginPassword={errorLoginPassword}
             />
           </Route>
           <Route path="/register" exact >
