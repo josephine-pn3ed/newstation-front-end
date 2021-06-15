@@ -2,10 +2,7 @@ export interface State {
   company: Company,
   employee: Employee,
   news: News,
-  viewer: Viewer,
-  showPassword: boolean,
-  showConfirmPassword: boolean,
-  error: string[],
+  viewer: Viewer
 }
 
 type Status = "Active" | "Inactive";

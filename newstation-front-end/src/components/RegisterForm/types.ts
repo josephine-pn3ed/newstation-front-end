@@ -8,6 +8,7 @@ export interface Props {
   handleClickShowConfirmPassword: () => void;
   company: Company,
   error: string[],
+  errorRegister: boolean
 }
 
 type Status = "Active" | "Inactive";

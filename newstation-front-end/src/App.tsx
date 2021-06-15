@@ -5,6 +5,7 @@ import { State } from './types';
 import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import Navbar from './components/Navbar';
+import Dashboard from './components/Dashboard';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 
@@ -56,11 +57,13 @@ function App() {
       news_id: "",
       employee_id: "",
       viewed_at: "",
-    },
-    showPassword: false,
-    showConfirmPassword: false,
-    error: [],
+    }
   });
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [error, setError] = useState<string[]>([]);
+  const [errorLogin, setErrorLogin] = useState<boolean>(false);
+  const [errorRegister, setErrorRegister] = useState<boolean>(false);
 
   useEffect(() => {
 
@@ -75,40 +78,47 @@ function App() {
 
   const handleCompanyRegister = async () => {
     const { company } = state;
-    const { company_password, company_confirm_password, company_email_address,
-      company_name, company_contact_number, company_address } = company;
+    const { company_password, company_confirm_password, company_email_address, company_name, company_contact_number, company_address } = company;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    const validateEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errors: string[] = [];
 
     try {
-      Object.entries(company).map(([key, value]) => !value && errors.push(key));
-
+      !company_name && errors.push('company_name');
+      !company_address && errors.push('company_address');
+      !company_contact_number && errors.push('company_contact_number');
+      !company_email_address && errors.push('company_email_address');
+      !company_password && errors.push('company_password');
+      
+      !validateEmail.test(company_email_address) && errors.push('company_email_address');
       !strongRegex.test(company_password) && errors.push('company_password');
       !strongRegex.test(company_confirm_password) && errors.push('company_confirm_password');
 
       (company_confirm_password !== company_password) && errors.push('company_confirm_password');
 
-      setState({ ...state, error: errors });
+      setError(errors);
 
-      // !errors.length ? 
-      const result = await axios.post('/company', {
-        company_email_address: company_email_address,
-        company_password: company_password,
-        company_name: company_name,
-        company_contact_number: company_contact_number,
-        company_address: company_address
-      })
+      if (!errors.length) {
+        const result = await axios.post('/company', {
+          company_email_address: company_email_address.toLowerCase(),
+          company_password: company_password,
+          company_name: company_name,
+          company_contact_number: company_contact_number,
+          company_address: company_address
+        })
 
-      const { success } = result.data;
+        const { success, message } = result.data;
 
-      success ?
-        window.location.replace("http://localhost:3000/login") :
-        window.location.replace("http://localhost:3000/register")
+        if (!success) throw Error;
 
+        success && (message === 'Email address has already been taken.') ?
+          setErrorRegister(true) :
+          success && (Object.keys(message)) && window.location.replace("http://localhost:3000/login") && setErrorRegister(false);
+
+      }
     } catch (error) {
-
+      alert('An error occurred while signing up!');
     }
-    // window.location.replace("http://localhost:3000/login");
   }
 
   const handleCompanyLogin = async () => {
@@ -120,7 +130,7 @@ function App() {
       !(company_email_address) && errors.push('company_email_address');
       !(company_password) && errors.push('company_password');
 
-      setState({ ...state, error: errors });
+      setError(errors);
 
       if (!errors.length) {
         const result = await axios.post('/company/login', {
@@ -128,11 +138,12 @@ function App() {
           company_password: company_password
         })
 
-        const { success } = result.data;
+        console.log(result.data)
+        const { success, message } = result.data;
 
-        success ?
-          window.location.replace("http://localhost:3000/dashboard") :
-          window.location.replace("http://localhost:3000/login")
+        // success ?
+        //   window.location.replace("http://localhost:3000/dashboard") :
+        //   window.location.replace("http://localhost:3000/login")
       }
     } catch (error) {
 
@@ -154,17 +165,17 @@ function App() {
 
   const handleViewerInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
-    const { news } = state;
-    setState({ ...state, news: { ...news, [name]: value } });
+    const { viewer } = state;
+    setState({ ...state, viewer: { ...viewer, [name]: value } });
   };
 
   const handleClickShowPassword = () => {
-    setState({ ...state, showPassword: !state.showPassword });
+    setShowPassword(!showPassword);
     console.log(state);
   };
 
   const handleClickShowConfirmPassword = () => {
-    setState({ ...state, showConfirmPassword: !state.showConfirmPassword });
+    setShowConfirmPassword(!showConfirmPassword);
     console.log(state);
   };
 
@@ -179,29 +190,33 @@ function App() {
         <Switch>
           <Route path="/login" exact >
             <LoginForm
-              showPassword={state.showPassword}
-              showConfirmPassword={state.showConfirmPassword}
+              showPassword={showPassword}
+              showConfirmPassword={showConfirmPassword}
               handleClickShowPassword={handleClickShowPassword}
               handleClickShowConfirmPassword={handleClickShowConfirmPassword}
               handleMouseDownPassword={handleMouseDownPassword}
               handleCompanyInputChange={handleCompanyInputChange}
               handleCompanyLogin={handleCompanyLogin}
-              error={state.error}
+              error={error}
               company={state.company}
             />
           </Route>
           <Route path="/register" exact >
             <RegisterForm
-              showPassword={state.showPassword}
-              showConfirmPassword={state.showConfirmPassword}
+              showPassword={showPassword}
+              showConfirmPassword={showConfirmPassword}
               handleClickShowPassword={handleClickShowPassword}
               handleClickShowConfirmPassword={handleClickShowConfirmPassword}
               handleMouseDownPassword={handleMouseDownPassword}
               handleCompanyInputChange={handleCompanyInputChange}
               handleCompanyRegister={handleCompanyRegister}
-              error={state.error}
+              error={error}
               company={state.company}
+              errorRegister={errorRegister}
             />
+          </Route>
+          <Route path="/dashboard">
+            <Dashboard />
           </Route>
         </Switch>
       </div>

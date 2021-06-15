@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1)
   },
   password_field: {
-    width: '51ch'
+    width: '100%'
   }
 }));
 

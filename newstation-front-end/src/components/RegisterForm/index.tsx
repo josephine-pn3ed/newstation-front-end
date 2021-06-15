@@ -21,7 +21,18 @@ import useStyles from './styles';
 
 const RegisterForm = (props: Props) => {
   const classes = useStyles();
-  const { showPassword, showConfirmPassword, handleCompanyInputChange, handleClickShowPassword, handleMouseDownPassword, handleCompanyRegister, handleClickShowConfirmPassword, company, error } = props;
+  const { 
+    showPassword, 
+    showConfirmPassword, 
+    handleCompanyInputChange, 
+    handleClickShowPassword, 
+    handleMouseDownPassword, 
+    handleCompanyRegister, 
+    handleClickShowConfirmPassword, 
+    company, 
+    error,
+    errorRegister
+  } = props;
   const { company_address, company_contact_number, company_name, company_password, company_confirm_password } = company;
 
   return (
@@ -68,12 +79,14 @@ const RegisterForm = (props: Props) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={error.includes('company_email_address')}
+                error={error.includes('company_email_address') || errorRegister}
                 variant="outlined"
                 fullWidth
                 label="Email Address"
                 name="company_email_address"
                 autoComplete="email"
+                type="email"
+                helperText={errorRegister && 'Email address has already been taken'}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCompanyInputChange(event)}
               />
             </Grid>
