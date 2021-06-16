@@ -186,7 +186,7 @@ const RegisterForm = (props: Props) => {
             className={classes.submit}
             onClick={handleEmployeeRegister}
           >
-            Sign Up
+            Add Employee
           </Button>
           <Grid container justify="flex-end">
             <Grid item>

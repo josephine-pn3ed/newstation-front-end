@@ -18,7 +18,6 @@ const Register = (props: Props) => {
 
     return (
         <div>
-            <Navbar />
             <AddEmployeeForm
                 showPassword={showPassword}
                 showConfirmPassword={showConfirmPassword}

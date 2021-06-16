@@ -2,7 +2,6 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import './App.css';
 import { State } from './types';
-import Dashboard from './pages/Dashboard';
 import { BrowserRouter as Router, Switch, Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import PrivateRoute from './routes/PrivateRoute';
@@ -10,7 +9,10 @@ import PublicRoute from './routes/PublicRoute';
 import { login, logout } from './utils';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import RegisterEmployee from './pages/Register/employee';
+import Dashboard from './pages/Dashboard';
+import EmployeeList from './pages/EmployeeList';
+import AccountSettings from './pages/AccountSettings';
+import RegisterEmployee from './components/AddEmployeeForm'
 
 function App() {
 
@@ -303,7 +305,7 @@ function App() {
               handleLogoutButton={handleLogoutButton}
             />
           </PublicRoute>
-          <PublicRoute path="/employee-register" exact>
+          <PrivateRoute path="/employee-register" exact>
             <RegisterEmployee
               showPassword={showPassword}
               showConfirmPassword={showConfirmPassword}
@@ -316,9 +318,25 @@ function App() {
               employee={state.employee}
               errorRegister={errorRegister}
             />
-          </PublicRoute>
+          </PrivateRoute>
           <PrivateRoute path="/dashboard" exact >
             <Dashboard
+              open={open}
+              handleDrawerOpen={handleDrawerOpen}
+              handleDrawerClose={handleDrawerClose}
+              handleLogoutButton={handleLogoutButton}
+            />
+          </PrivateRoute>
+          <PrivateRoute path="/employees" exact >
+            <EmployeeList
+              open={open}
+              handleDrawerOpen={handleDrawerOpen}
+              handleDrawerClose={handleDrawerClose}
+              handleLogoutButton={handleLogoutButton}
+            />
+          </PrivateRoute>
+          <PrivateRoute path="/account-settings" exact >
+            <AccountSettings
               open={open}
               handleDrawerOpen={handleDrawerOpen}
               handleDrawerClose={handleDrawerClose}

@@ -41,10 +41,7 @@ const LoginForm = (props: Props) => {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg" className={classes.container}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h5" align="center" >
               Login
             </Typography>
             <form className={classes.form} noValidate>
