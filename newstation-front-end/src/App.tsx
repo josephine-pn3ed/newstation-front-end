@@ -2,15 +2,15 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import './App.css';
 import { State } from './types';
-import RegisterForm from './components/RegisterForm';
-import LoginForm from './components/LoginForm';
 import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import PrivateRoute from './components/PrivateRoute';
-import PublicRoute from './components/PublicRoute';
-import { login } from './utils';
+import PrivateRoute from './routes/PrivateRoute';
+import PublicRoute from './routes/PublicRoute';
+import { login, logout } from './utils';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
 
@@ -165,6 +165,11 @@ function App() {
     }
   }
 
+  const handleLogoutButton = () => {
+    logout();
+    window.location.replace("http://localhost:3000/login");
+  }
+
   const handleEmployeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
     const { employee } = state;
@@ -201,14 +206,11 @@ function App() {
   return (
     <Router>
       <div>
-        <Navbar />
         <Switch>
           <PublicRoute path="/login" exact >
-            <LoginForm
+            <Login
               showPassword={showPassword}
-              showConfirmPassword={showConfirmPassword}
               handleClickShowPassword={handleClickShowPassword}
-              handleClickShowConfirmPassword={handleClickShowConfirmPassword}
               handleMouseDownPassword={handleMouseDownPassword}
               handleCompanyInputChange={handleCompanyInputChange}
               handleCompanyLogin={handleCompanyLogin}
@@ -219,7 +221,8 @@ function App() {
             />
           </PublicRoute>
           <PublicRoute path="/register" exact >
-            <RegisterForm
+            <Navbar />
+            <Register
               showPassword={showPassword}
               showConfirmPassword={showConfirmPassword}
               handleClickShowPassword={handleClickShowPassword}
@@ -232,12 +235,8 @@ function App() {
               errorRegister={errorRegister}
             />
           </PublicRoute>
-          {/* <Route path="/dashboard">
-            <Navbar />
-            <Dashboard />
-          </Route> */}
           <PrivateRoute path="/dashboard" exact >
-            <Dashboard />
+            <Dashboard handleLogoutButton={handleLogoutButton} />
           </PrivateRoute>
           <Redirect from="/" to="/login" exact />
         </Switch>

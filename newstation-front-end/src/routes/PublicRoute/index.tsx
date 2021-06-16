@@ -8,7 +8,7 @@ import { isLogin } from '../../utils';
 
 const PublicRoute = (props: Props) => {
   const { children, ...rest } = props;
-  console.log('loginn!!!!!!!!!!!!!!!!!!!!!!!!!!!!1')
+  console.log('loginn!!!!!!!!!!!!!!!!!!!!!!!!!!!!1ss')
 
   const routeComponent = () => {
     if (!isLogin()) {
