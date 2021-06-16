@@ -34,7 +34,7 @@ function App() {
       employee_first_name: "",
       employee_middle_name: "",
       employee_last_name: "",
-      employee_email: "",
+      employee_email_address: "",
       employee_password: "",
       employee_confirm_password: "",
       employee_address: "",
@@ -124,6 +124,66 @@ function App() {
     }
   }
 
+  const handleEmployeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target;
+    const { employee } = state;
+
+    setState({ ...state, employee: { ...employee, [name]: value } });
+  };
+
+
+  const handleEmployeeRegister = async () => {
+    const { employee } = state;
+    const { employee_password, employee_confirm_password, employee_email_address, employee_first_name, employee_middle_name, employee_last_name,
+      employee_contact_number, employee_address, employee_position } = employee;
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    const validateEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let errors: string[] = [];
+
+    try {
+      !employee_first_name && errors.push('employee_first_name');
+      !employee_middle_name && errors.push('employee_middle_name');
+      !employee_last_name && errors.push('employee_last_name');
+      !employee_address && errors.push('employee_address');
+      !employee_contact_number && errors.push('employee_contact_number');
+      !employee_email_address && errors.push('employee_email_address');
+      !employee_password && errors.push('employee_password');
+      !employee_position && errors.push('employee_position');
+      !validateEmail.test(employee_email_address) && errors.push('employee_email_address');
+      !strongRegex.test(employee_password) && errors.push('employee_password');
+      !strongRegex.test(employee_confirm_password) && errors.push('employee_confirm_password');
+
+      (employee_confirm_password !== employee_password) && errors.push('company_confirm_password');
+
+      setError(errors);
+
+      if (!errors.length) {
+        const result = await axios.post('/employee', {
+          employee_email_address: employee_email_address.toLowerCase(),
+          employee_password: employee_password,
+          employee_first_name: employee_first_name,
+          employee_middle_name: employee_middle_name,
+          employee_last_name: employee_last_name,
+          employee_position: employee_position,
+          employee_contact_number: employee_contact_number,
+          employee_address: employee_address
+        })
+
+        const { success, message } = result.data;
+
+        if (!success) throw Error;
+
+        success && (message === 'Email address has already been taken.') ?
+          setErrorRegister(true) :
+          success && (Object.keys(message)) && window.location.replace("http://localhost:3000/login") && setErrorRegister(false);
+
+      }
+    } catch (error) {
+      alert('An error occurred while signing up!');
+    }
+  }
+
+
   const handleCompanyLogin = async () => {
     const { company } = state;
     const { company_email_address, company_password } = company;
@@ -170,12 +230,6 @@ function App() {
     window.location.replace("http://localhost:3000/login");
   }
 
-  const handleEmployeeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = event.target;
-    const { employee } = state;
-
-    setState({ ...state, employee: { ...employee, [name]: value } });
-  };
 
   const handleNewsInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;

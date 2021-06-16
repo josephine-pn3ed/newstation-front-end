@@ -27,7 +27,7 @@ interface Employee {
   employee_first_name: string,
   employee_middle_name: string,
   employee_last_name: string,
-  employee_email: string,
+  employee_email_address: string,
   employee_password: string,
   employee_confirm_password: string,
   employee_address: string,
