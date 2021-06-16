@@ -2,8 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import './App.css';
 import { State } from './types';
-import Navbar from './components/Navbar';
-import Dashboard from './components/Dashboard';
+import Dashboard from './pages/Dashboard';
 import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import PrivateRoute from './routes/PrivateRoute';
@@ -68,6 +67,7 @@ function App() {
   const [errorLogin, setErrorLogin] = useState<boolean>(false);
   const [errorLoginPassword, setErrorLoginPassword] = useState<boolean>(false);
   const [errorRegister, setErrorRegister] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(true);
 
   useEffect(() => {
 
@@ -203,6 +203,14 @@ function App() {
     event.preventDefault();
   };
 
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Router>
       <div>
@@ -218,11 +226,14 @@ function App() {
               company={state.company}
               errorLogin={errorLogin}
               errorLoginPassword={errorLoginPassword}
+              open={!open}
+              handleDrawerOpen={handleDrawerOpen}
+              handleLogoutButton={handleLogoutButton}
             />
           </PublicRoute>
           <PublicRoute path="/register" exact >
-            <Navbar />
             <Register
+              errorRegister={errorRegister}
               showPassword={showPassword}
               showConfirmPassword={showConfirmPassword}
               handleClickShowPassword={handleClickShowPassword}
@@ -232,11 +243,18 @@ function App() {
               handleCompanyRegister={handleCompanyRegister}
               error={error}
               company={state.company}
-              errorRegister={errorRegister}
+              open={!open}
+              handleDrawerOpen={handleDrawerOpen}
+              handleLogoutButton={handleLogoutButton}
             />
           </PublicRoute>
           <PrivateRoute path="/dashboard" exact >
-            <Dashboard handleLogoutButton={handleLogoutButton} />
+            <Dashboard
+              open={open}
+              handleDrawerOpen={handleDrawerOpen}
+              handleDrawerClose={handleDrawerClose}
+              handleLogoutButton={handleLogoutButton}
+            />
           </PrivateRoute>
           <Redirect from="/" to="/login" exact />
         </Switch>

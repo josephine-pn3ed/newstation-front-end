@@ -1,6 +1,6 @@
 import Navbar from '../../components/Navbar';
 import LoginForm from '../../components/LoginForm';
-import { Props } from '../../components/LoginForm/types';
+import { Props } from './types';
 
 const Login = (props: Props) => {
   const {
@@ -12,12 +12,15 @@ const Login = (props: Props) => {
     company,
     error,
     errorLogin,
-    errorLoginPassword
+    errorLoginPassword,
+    open,
+    handleDrawerOpen,
+    handleLogoutButton
   } = props;
 
   return (
     <div>
-      <Navbar />
+      <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <LoginForm
         showPassword={showPassword}
         handleClickShowPassword={handleClickShowPassword}
