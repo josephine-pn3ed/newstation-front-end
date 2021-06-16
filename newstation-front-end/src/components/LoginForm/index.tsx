@@ -18,7 +18,7 @@ import {
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Props } from './types';
-import useStyles from './styles';
+import useStyles from '../../styles/_LoginForm';
 
 const LoginForm = (props: Props) => {
   const classes = useStyles();
