@@ -6,19 +6,19 @@ import { AccountCircle } from '@material-ui/icons';
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button component="a" href="/dashboard">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component="a" href="/employees">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Employees" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component="a" href="/account-settings">
       <ListItemIcon>
         <AccountCircle />
       </ListItemIcon>

@@ -1,6 +1,3 @@
-
-const TOKEN_KEY = 'jwt';
-
 export const login = () => {
     localStorage.setItem('newstation', 'josephine');
 }

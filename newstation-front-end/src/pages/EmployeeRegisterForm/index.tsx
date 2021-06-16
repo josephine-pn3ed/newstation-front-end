@@ -5,7 +5,7 @@ import Sidenav from '../../components/Sidenav';
 import { Props } from './types';
 import useStyles from '../../styles/_Dashboard';
 
-const Dashboard = (props: Props) => {
+const EmployeesList = (props: Props) => {
   const { open, handleDrawerOpen, handleDrawerClose, handleLogoutButton } = props;
   const columns = ["Name", "Company", "City", "State"];
   const classes = useStyles();
@@ -17,10 +17,12 @@ const Dashboard = (props: Props) => {
       <CssBaseline />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-
+        <Container maxWidth="lg" className={classes.container}>
+          // code here
+        </Container>
       </main>
     </div>
   )
 }
 
-export default Dashboard;
+export default EmployeesList;
