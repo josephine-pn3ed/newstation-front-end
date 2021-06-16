@@ -4,6 +4,7 @@ import { Props } from './types';
 
 const Dashboard = (props: Props) => {
   const { open, handleDrawerOpen, handleDrawerClose, handleLogoutButton } = props;
+  
   return (
     <div>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />

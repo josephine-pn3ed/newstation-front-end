@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { State } from './types';
 import Dashboard from './pages/Dashboard';
-import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
