@@ -11,6 +11,7 @@ import PublicRoute from './routes/PublicRoute';
 import { login, logout } from './utils';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import RegisterEmployee from './pages/Register/employee';
 
 function App() {
 
@@ -275,7 +276,7 @@ function App() {
             />
           </PublicRoute>
           <PublicRoute path="/register" exact >
-            <Navbar />
+
             <Register
               showPassword={showPassword}
               showConfirmPassword={showConfirmPassword}
@@ -286,6 +287,20 @@ function App() {
               handleCompanyRegister={handleCompanyRegister}
               error={error}
               company={state.company}
+              errorRegister={errorRegister}
+            />
+          </PublicRoute>
+          <PublicRoute path="/employee-register" exact>
+            <RegisterEmployee
+              showPassword={showPassword}
+              showConfirmPassword={showConfirmPassword}
+              handleClickShowPassword={handleClickShowPassword}
+              handleClickShowConfirmPassword={handleClickShowConfirmPassword}
+              handleMouseDownPassword={handleMouseDownPassword}
+              handleEmployeeInputChange={handleEmployeeInputChange}
+              handleEmployeeRegister={handleEmployeeRegister}
+              error={error}
+              employee={state.employee}
               errorRegister={errorRegister}
             />
           </PublicRoute>
