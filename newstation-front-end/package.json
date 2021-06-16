@@ -2,7 +2,7 @@
   "name": "newstation-front-end",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://10.111.2.212:5000",
+  "proxy": "http://10.111.2.152:5000",
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",

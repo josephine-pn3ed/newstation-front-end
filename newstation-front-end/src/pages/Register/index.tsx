@@ -1,6 +1,6 @@
 import Navbar from '../../components/Navbar';
 import RegisterForm from '../../components/RegisterForm';
-import { Props } from '../../components/RegisterForm/types';
+import { Props } from './types';
 
 const Register = (props: Props) => {
   const {
@@ -13,12 +13,15 @@ const Register = (props: Props) => {
     handleClickShowConfirmPassword,
     company,
     error,
-    errorRegister
+    errorRegister,
+    open,
+    handleDrawerOpen,
+    handleLogoutButton
   } = props;
 
   return (
     <div>
-      <Navbar />
+      <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <RegisterForm
         showPassword={showPassword}
         showConfirmPassword={showConfirmPassword}

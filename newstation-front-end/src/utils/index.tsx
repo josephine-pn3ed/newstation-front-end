@@ -2,15 +2,15 @@
 const TOKEN_KEY = 'jwt';
 
 export const login = () => {
-    localStorage.setItem(TOKEN_KEY, 'TestLogin');
+    localStorage.setItem('newstation', 'josephine');
 }
 
 export const logout = () => {
-    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem('newstation');
 }
 
 export const isLogin = () => {
-    if (localStorage.getItem(TOKEN_KEY)) {
+    if (localStorage.getItem('newstation')) {
         return true;
     }
 

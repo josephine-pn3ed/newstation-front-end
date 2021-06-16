@@ -8,7 +8,6 @@ import { isLogin } from '../../utils';
 
 const PrivateRoute = (props: Props) => {
   const { children, ...rest } = props;
-  console.log('dashboard!!!!!!!!!!!!!!!!!!!!!!!11')
 
   const routeComponent = () => {
     if (isLogin()) {

@@ -1,32 +1,64 @@
 import React from 'react';
-import { AppBar, Button, CssBaseline, Toolbar, Typography } from '@material-ui/core';
-import useStyles from '../../styles/_Navbar';
+import clsx from 'clsx';
+import {
+  CssBaseline,
+  Button,
+  AppBar,
+  Typography,
+  IconButton,
+  Badge,
+  Toolbar
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import useStyles from '../../styles/_Dashboard';
 import { isLogin } from '../../utils';
+import { Props } from './types';
 
-const Navbar = () => {
+const Navbar = (props: Props) => {
+  const { open, handleDrawerOpen, handleLogoutButton } = props;
   const classes = useStyles();
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+      <AppBar position="absolute" color="default" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+          {isLogin() &&
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+            >
+              <MenuIcon />
+            </IconButton>
+          }
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Newstation
           </Typography>
+          {isLogin() &&
+            <IconButton color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          }
+          {isLogin() &&
+            <Button color="primary" variant="contained" onClick={handleLogoutButton} className={classes.link}>
+              Logout
+            </Button>
+          }
           {!isLogin() &&
-            <Button href="/register" color="primary" variant="outlined" className={classes.link}>
+            <Button href="/register" color="default" variant="outlined" className={classes.link}>
               Sign Up
             </Button>
           }
           {!isLogin() &&
             <Button href="/login" color="primary" variant="contained" className={classes.link}>
               Login
-            </Button>
-          }
-          {isLogin() &&
-            <Button href="/login" color="primary" variant="contained" className={classes.link}>
-              Logout
             </Button>
           }
         </Toolbar>
