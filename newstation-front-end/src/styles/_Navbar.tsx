@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
+    backgroundColor: '#2196f3'
   },
   toolbarIcon: {
     display: 'flex',
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    color: '#e3f2fd',
   },
   drawerPaper: {
     position: 'relative',
@@ -60,7 +62,27 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(9),
     },
   },
-  appBarSpacer: theme.mixins.toolbar,
-  }));
+  fixedHeight: {
+    height: 240,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
+  signUpButton: {
+    backgroundColor: '#bbdefb',
+    margin: theme.spacing(1, 2),
+  },
+  loginButton: {
+    backgroundColor: '#0d47a1',
+    margin: theme.spacing(1, 2),
+  },
+  logoutButton: {
+    backgroundColor: '#0d47a1',
+    margin: theme.spacing(1, 2),
+  }
+}))
 
-  export default useStyles;
+export default useStyles;

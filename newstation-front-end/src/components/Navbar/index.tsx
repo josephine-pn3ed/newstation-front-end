@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import useStyles from '../../styles/_Dashboard';
+import useStyles from '../../styles/_Navbar';
 import { isLogin } from '../../utils';
 import { Props } from './types';
 
@@ -47,17 +47,17 @@ const Navbar = (props: Props) => {
             </IconButton>
           }
           {isLogin() &&
-            <Button color="primary" variant="contained" onClick={handleLogoutButton} className={classes.link}>
+            <Button color="primary" variant="contained" onClick={handleLogoutButton} className={classes.logoutButton}>
               Logout
             </Button>
           }
           {!isLogin() &&
-            <Button href="/register" color="default" variant="outlined" className={classes.link}>
+            <Button href="/register" variant="outlined" className={classes.signUpButton}>
               Sign Up
             </Button>
           }
           {!isLogin() &&
-            <Button href="/login" color="primary" variant="contained" className={classes.link}>
+            <Button href="/login" color="primary" variant="contained" className={classes.loginButton}>
               Login
             </Button>
           }

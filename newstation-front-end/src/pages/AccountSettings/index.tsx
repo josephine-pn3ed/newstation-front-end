@@ -1,48 +1,27 @@
 import MUIDataTable from "mui-datatables";
-import { Container } from "@material-ui/core"
+import { CssBaseline, Container } from "@material-ui/core"
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import { Props } from './types';
+import useStyles from '../../styles/_Dashboard';
 
 const AccountSettings = (props: Props) => {
   const { open, handleDrawerOpen, handleDrawerClose, handleLogoutButton } = props;
   const columns = ["Name", "Company", "City", "State"];
-
-  const data = [
-    ["Joe James", "Test Corp", "Yonkers", "NY"],
-    ["John Walsh", "Test Corp", "Hartford", "CT"],
-    ["Bob Herm", "Test Corp", "Tampa", "FL"],
-    ["James Houston", "Test Corp", "Dallas", "TX"],
-    ["Joe James", "Test Corp", "Yonkers", "NY"],
-    ["John Walsh", "Test Corp", "Hartford", "CT"],
-    ["Bob Herm", "Test Corp", "Tampa", "FL"],
-    ["James Houston", "Test Corp", "Dallas", "TX"],
-    ["Joe James", "Test Corp", "Yonkers", "NY"],
-    ["John Walsh", "Test Corp", "Hartford", "CT"],
-    ["Bob Herm", "Test Corp", "Tampa", "FL"],
-    ["James Houston", "Test Corp", "Dallas", "TX"],
-    ["Joe James", "Test Corp", "Yonkers", "NY"],
-    ["John Walsh", "Test Corp", "Hartford", "CT"],
-    ["Bob Herm", "Test Corp", "Tampa", "FL"],
-    ["James Houston", "Test Corp", "Dallas", "TX"],
-  ];
-
-  const options = {
-    filterType: 'checkbox',
-  };
+  const classes = useStyles();
 
 
   return (
-    <div>
+    <div className={classes.root}>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
-        <Container maxWidth="lg">
-          <MUIDataTable
-            title={"Employee List"}
-            data={data}
-            columns={columns}
-          />
+      <CssBaseline />
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="xl" className={classes.container}>
+          {/* code here */}
         </Container>
+      </main>
     </div>
   )
 }
