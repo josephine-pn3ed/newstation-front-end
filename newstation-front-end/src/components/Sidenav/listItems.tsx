@@ -1,4 +1,3 @@
-import React from 'react';
 import { ListItem, ListItemIcon, ListItemText, } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';

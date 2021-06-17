@@ -41,10 +41,7 @@ const RegisterForm = (props: Props) => {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" align="center" >
             Register
           </Typography>
           <form className={classes.form} noValidate>
@@ -147,8 +144,6 @@ const RegisterForm = (props: Props) => {
                     labelWidth={135}
                   />
                 </FormControl>
-              </Grid>
-              <Grid item xs={12}>
               </Grid>
             </Grid>
             <Button

@@ -1,6 +1,7 @@
 import Navbar from '../../components/Navbar';
 import RegisterForm from '../../components/RegisterForm';
 import { Props } from './types';
+import useStyles from '../../styles/_RegisterForm';
 
 const Register = (props: Props) => {
   const {
@@ -19,8 +20,10 @@ const Register = (props: Props) => {
     handleLogoutButton
   } = props;
 
+  const { root } = useStyles();
+
   return (
-    <div>
+    <div className={root}>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <RegisterForm
         showPassword={showPassword}

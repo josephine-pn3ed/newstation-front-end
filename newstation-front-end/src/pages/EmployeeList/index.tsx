@@ -41,10 +41,10 @@ const EmployeesList = (props: Props) => {
       <CssBaseline />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Button href="/employee-register" color="secondary" variant="contained" className={classes.link}>
-            Add Employee
-          </Button>
+        <Button href="/employee-register" color="secondary" variant="contained" className={classes.link}>
+          Add Employee
+        </Button>
+        <Container maxWidth="xl" className={classes.container}>
           <MUIDataTable
             title={"Employee List"}
             data={data}

@@ -1,6 +1,7 @@
 import Navbar from '../../components/Navbar';
 import LoginForm from '../../components/LoginForm';
 import { Props } from './types';
+import useStyles from '../../styles/_LoginForm';
 
 const Login = (props: Props) => {
   const {
@@ -18,8 +19,10 @@ const Login = (props: Props) => {
     handleLogoutButton
   } = props;
 
+  const classes = useStyles();
+
   return (
-    <div>
+    <div className={classes.root}>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <LoginForm
         showPassword={showPassword}
