@@ -3,7 +3,7 @@ import { CssBaseline, Container, Button } from "@material-ui/core"
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import { Props } from './types';
-import useStyles from '../../styles/_Dashboard';
+import useStyles from '../../styles/_Employee';
 
 const EmployeesList = (props: Props) => {
   const { open, handleDrawerOpen, handleDrawerClose, handleLogoutButton } = props;
@@ -41,7 +41,7 @@ const EmployeesList = (props: Props) => {
       <CssBaseline />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Button href="/employee-register" color="secondary" variant="contained" className={classes.link}>
+        <Button href="/employee-registration-form" color="secondary" variant="contained" className={classes.addEmployeeButton}>
           Add Employee
         </Button>
         <Container maxWidth="xl" className={classes.container}>

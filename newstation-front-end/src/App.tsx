@@ -322,7 +322,7 @@ function App() {
               handleLogoutButton={handleLogoutButton}
             />
           </PrivateRoute>
-          <PrivateRoute path="/employee-register" exact>
+          <PrivateRoute path="/employee-registration-form" exact>
             <EmployeeRegisterForm
               showPassword={showPassword}
               showConfirmPassword={showConfirmPassword}
