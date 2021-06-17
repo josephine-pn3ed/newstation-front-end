@@ -19,7 +19,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Props } from './types';
 import useStyles from '../../styles/_RegisterForm';
 
-const RegisterForm = (props: Props) => {
+const AddEmployeeForm = (props: Props) => {
   const classes = useStyles();
   const {
     showPassword,
@@ -43,7 +43,7 @@ const RegisterForm = (props: Props) => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Register
+          Add Employee
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
@@ -190,8 +190,8 @@ const RegisterForm = (props: Props) => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2">
-                Already have an account? Sign in
+              <Link href="/employees" variant="body2">
+                BACK
               </Link>
             </Grid>
           </Grid>
@@ -201,4 +201,4 @@ const RegisterForm = (props: Props) => {
   );
 }
 
-export default RegisterForm;
+export default AddEmployeeForm;

@@ -12,7 +12,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import EmployeeList from './pages/EmployeeList';
 import AccountSettings from './pages/AccountSettings';
-import RegisterEmployee from './components/AddEmployeeForm'
+import EmployeeRegisterForm from './pages/EmployeeRegisterForm'
 
 function App() {
 
@@ -305,20 +305,7 @@ function App() {
               handleLogoutButton={handleLogoutButton}
             />
           </PublicRoute>
-          <PrivateRoute path="/employee-register" exact>
-            <RegisterEmployee
-              showPassword={showPassword}
-              showConfirmPassword={showConfirmPassword}
-              handleClickShowPassword={handleClickShowPassword}
-              handleClickShowConfirmPassword={handleClickShowConfirmPassword}
-              handleMouseDownPassword={handleMouseDownPassword}
-              handleEmployeeInputChange={handleEmployeeInputChange}
-              handleEmployeeRegister={handleEmployeeRegister}
-              error={error}
-              employee={state.employee}
-              errorRegister={errorRegister}
-            />
-          </PrivateRoute>
+
           <PrivateRoute path="/dashboard" exact >
             <Dashboard
               open={open}
@@ -329,6 +316,24 @@ function App() {
           </PrivateRoute>
           <PrivateRoute path="/employees" exact >
             <EmployeeList
+              open={open}
+              handleDrawerOpen={handleDrawerOpen}
+              handleDrawerClose={handleDrawerClose}
+              handleLogoutButton={handleLogoutButton}
+            />
+          </PrivateRoute>
+          <PrivateRoute path="/employee-register" exact>
+            <EmployeeRegisterForm
+              showPassword={showPassword}
+              showConfirmPassword={showConfirmPassword}
+              handleClickShowPassword={handleClickShowPassword}
+              handleClickShowConfirmPassword={handleClickShowConfirmPassword}
+              handleMouseDownPassword={handleMouseDownPassword}
+              handleEmployeeInputChange={handleEmployeeInputChange}
+              handleEmployeeRegister={handleEmployeeRegister}
+              error={error}
+              employee={state.employee}
+              errorRegister={errorRegister}
               open={open}
               handleDrawerOpen={handleDrawerOpen}
               handleDrawerClose={handleDrawerClose}
