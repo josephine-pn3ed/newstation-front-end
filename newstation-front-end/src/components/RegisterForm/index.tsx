@@ -145,8 +145,6 @@ const RegisterForm = (props: Props) => {
                   />
                 </FormControl>
               </Grid>
-              <Grid item xs={12}>
-              </Grid>
             </Grid>
             <Button
               fullWidth

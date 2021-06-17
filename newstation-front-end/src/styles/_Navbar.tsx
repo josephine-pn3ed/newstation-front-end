@@ -73,15 +73,15 @@ const useStyles = makeStyles((theme) => ({
   },
   signUpButton: {
     backgroundColor: '#bbdefb',
-    margin: theme.spacing(1, 2),
+    margin: theme.spacing(1),
   },
   loginButton: {
     backgroundColor: '#0d47a1',
-    margin: theme.spacing(1, 2),
+    margin: theme.spacing(1),
   },
   logoutButton: {
     backgroundColor: '#0d47a1',
-    margin: theme.spacing(1, 2),
+    margin: theme.spacing(1),
   }
 }))
 
