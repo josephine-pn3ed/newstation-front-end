@@ -13,3 +13,15 @@ export const isLogin = () => {
 
     return false;
 }
+
+export const setCompanyId = (id: string) => {
+    localStorage.setItem('company_id', id);
+} 
+
+export const getCompanyId = () => {
+    return localStorage.getItem('company_id');
+}
+
+export const removeCompanyId = () => {
+    localStorage.removeItem('company_id');
+}

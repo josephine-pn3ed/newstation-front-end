@@ -39,12 +39,6 @@ const EmployeeRegistrationForm = (props: Props) => {
     <main className={classes.content} >
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Add Employee
-        </Typography>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -79,31 +73,11 @@ const EmployeeRegistrationForm = (props: Props) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('employee_address')}
+                  error={error.includes('id')}
                   variant="outlined"
                   fullWidth
-                  label="Employee Address"
-                  name="employee_address"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={error.includes('employee_position')}
-                  variant="outlined"
-                  fullWidth
-                  label="Employee Position"
-                  name="employee_position"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={error.includes('employee_contact_number')}
-                  variant="outlined"
-                  fullWidth
-                  label="Employee Contact Number"
-                  name="employee_contact_number"
+                  label="Employee ID"
+                  name="id"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
                 />
               </Grid>
@@ -121,62 +95,34 @@ const EmployeeRegistrationForm = (props: Props) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControl
+                <TextField
+                  error={error.includes('employee_address')}
                   variant="outlined"
-                  className={classes.password_field}
-                  error={error.includes('employee_password')}>
-                  <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
-                    name="employee_password"
-                    type={showPassword ? 'text' : 'password'}
-                    value={employee_password}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    labelWidth={75}
-                  />
-                </FormControl>
+                  fullWidth
+                  label="Address"
+                  name="employee_address"
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
+                />
               </Grid>
               <Grid item xs={12}>
-                <FormControl
+                <TextField
+                  error={error.includes('employee_position')}
                   variant="outlined"
-                  className={classes.password_field}
-                  error={error.includes('employee_confirm_password')}>
-                  <InputLabel htmlFor="outlined-adornment-confirm-password">Confirm Password</InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-confirm-password"
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    value={employee_confirm_password}
-                    name="employee_confirm_password"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowConfirmPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    labelWidth={135}
-                  />
-                </FormControl>
+                  fullWidth
+                  label="Position"
+                  name="employee_position"
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
+                />
               </Grid>
               <Grid item xs={12}>
+                <TextField
+                  error={error.includes('employee_contact_number')}
+                  variant="outlined"
+                  fullWidth
+                  label="Contact Number"
+                  name="employee_contact_number"
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
+                />
               </Grid>
             </Grid>
             <Button

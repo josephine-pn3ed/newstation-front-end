@@ -2,17 +2,18 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import './App.css';
 import { State } from './types';
-import { BrowserRouter as Router, Switch, Redirect, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
-import { login, logout } from './utils';
+import { login, logout, setCompanyId, removeCompanyId, getCompanyId } from './utils';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Employee from './pages/Employee';
 import AccountSettings from './pages/AccountSettings';
-import EmployeeRegister from './pages/EmployeeRegister'
+import EmployeeRegister from './pages/EmployeeRegister';
+import { idText } from 'typescript';
 
 function App() {
 
@@ -136,21 +137,22 @@ function App() {
 
 
   const handleEmployeeRegister = async () => {
+    console.log(state.employee);
     const { employee } = state;
-    const { employee_password, employee_confirm_password, employee_email_address, employee_first_name, employee_middle_name, employee_last_name,
+    const { id, employee_password, employee_confirm_password, employee_email_address, employee_first_name, employee_middle_name, employee_last_name,
       employee_contact_number, employee_address, employee_position } = employee;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     const validateEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errors: string[] = [];
 
     try {
+      !id && errors.push('id');
       !employee_first_name && errors.push('employee_first_name');
       !employee_middle_name && errors.push('employee_middle_name');
       !employee_last_name && errors.push('employee_last_name');
       !employee_address && errors.push('employee_address');
       !employee_contact_number && errors.push('employee_contact_number');
       !employee_email_address && errors.push('employee_email_address');
-      !employee_password && errors.push('employee_password');
       !employee_position && errors.push('employee_position');
       !validateEmail.test(employee_email_address) && errors.push('employee_email_address');
       !strongRegex.test(employee_password) && errors.push('employee_password');
@@ -162,8 +164,10 @@ function App() {
 
       if (!errors.length) {
         const result = await axios.post('/employee', {
+          id: id,
+          company_id: getCompanyId(),
           employee_email_address: employee_email_address.toLowerCase(),
-          employee_password: employee_password,
+          employee_password: '',
           employee_first_name: employee_first_name,
           employee_middle_name: employee_middle_name,
           employee_last_name: employee_last_name,
@@ -175,10 +179,12 @@ function App() {
         const { success, message } = result.data;
 
         if (!success) throw Error;
-
-        success && (message === 'Email address has already been taken.') ?
-          setErrorRegister(true) :
-          success && (Object.keys(message)) && window.location.replace("http://localhost:3000/login") && setErrorRegister(false);
+        else if (success && (Object.keys(message))) {
+          setErrorRegister(false);
+        } 
+        else if (success && (message === 'Email address has already been taken.')) {
+          setErrorRegister(true);
+        }
 
       }
     } catch (error) {
@@ -215,10 +221,11 @@ function App() {
             setErrorLogin(false)
           } else if (message === "Invalid credentials!") {
             setErrorLogin(true)
-          } else if (message === "Login successfully.") {
+          } else {
             setErrorLoginPassword(false)
             setErrorLogin(false)
             login();
+            setCompanyId(message);
             window.location.replace("http://localhost:3000/dashboard");
           }
         }
@@ -230,6 +237,7 @@ function App() {
 
   const handleLogoutButton = () => {
     logout();
+    removeCompanyId();
     window.location.replace("http://localhost:3000/login");
   }
 
