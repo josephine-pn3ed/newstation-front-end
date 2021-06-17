@@ -10,9 +10,9 @@ import { login, logout } from './utils';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import EmployeeList from './pages/EmployeeList';
+import Employee from './pages/Employee';
 import AccountSettings from './pages/AccountSettings';
-import EmployeeRegisterForm from './pages/EmployeeRegisterForm'
+import EmployeeRegister from './pages/EmployeeRegister'
 
 function App() {
 
@@ -315,7 +315,7 @@ function App() {
             />
           </PrivateRoute>
           <PrivateRoute path="/employees" exact >
-            <EmployeeList
+            <Employee
               open={open}
               handleDrawerOpen={handleDrawerOpen}
               handleDrawerClose={handleDrawerClose}
@@ -323,7 +323,7 @@ function App() {
             />
           </PrivateRoute>
           <PrivateRoute path="/employee-registration-form" exact>
-            <EmployeeRegisterForm
+            <EmployeeRegister
               showPassword={showPassword}
               showConfirmPassword={showConfirmPassword}
               handleClickShowPassword={handleClickShowPassword}

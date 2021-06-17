@@ -1,7 +1,6 @@
-import MUIDataTable from "mui-datatables";
-import { CssBaseline, Container } from "@material-ui/core"
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
+import AccountSettingsContent from '../../components/AccountSettingsContent';
 import { Props } from './types';
 import useStyles from '../../styles/_Dashboard';
 
@@ -15,13 +14,7 @@ const AccountSettings = (props: Props) => {
     <div className={classes.root}>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
-      <CssBaseline />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="xl" className={classes.container}>
-          {/* code here */}
-        </Container>
-      </main>
+      <AccountSettingsContent />
     </div>
   )
 }

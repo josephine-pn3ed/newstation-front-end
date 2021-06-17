@@ -84,6 +84,10 @@ const useStyles = makeStyles((theme) => ({
   link: {
     margin: theme.spacing(1, 2),
   },
+  addNewsButton: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(3),
+  }
 }));
 
 export default useStyles;

@@ -2,10 +2,11 @@ import MUIDataTable from "mui-datatables";
 import { CssBaseline, Container, Button } from "@material-ui/core"
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
+import EmployeeList from '../../components/EmployeeList';
 import { Props } from './types';
 import useStyles from '../../styles/_Employee';
 
-const EmployeesList = (props: Props) => {
+const Employee = (props: Props) => {
   const { open, handleDrawerOpen, handleDrawerClose, handleLogoutButton } = props;
   const columns = ["Name", "Company", "City", "State"];
   const classes = useStyles();
@@ -38,22 +39,9 @@ const EmployeesList = (props: Props) => {
     <div className={classes.root}>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
-      <CssBaseline />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Button href="/employee-registration-form" color="secondary" variant="contained" className={classes.addEmployeeButton}>
-          Add Employee
-        </Button>
-        <Container maxWidth="xl" className={classes.container}>
-          <MUIDataTable
-            title={"Employee List"}
-            data={data}
-            columns={columns}
-          />
-        </Container>
-      </main>
+      <EmployeeList />
     </div>
   )
 }
 
-export default EmployeesList;
+export default Employee;
