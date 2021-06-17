@@ -1,6 +1,6 @@
 export interface State {
   company: Company,
-  employee: Employee,
+  employee: IEmployee,
   news: News,
   viewer: Viewer
 }
@@ -21,7 +21,7 @@ interface Company {
   updated_at: string
 }
 
-interface Employee {
+export interface IEmployee {
   id: string,
   company_id: string,
   employee_first_name: string,

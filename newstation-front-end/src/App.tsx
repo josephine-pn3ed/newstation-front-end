@@ -1,19 +1,21 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import './App.css';
-import { State } from './types';
+import { State, IEmployee } from './types';
 import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
 import { login, logout, setCompanyId, removeCompanyId, getCompanyId } from './utils';
+import { Tooltip, IconButton } from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Employee from './pages/Employee';
 import AccountSettings from './pages/AccountSettings';
 import EmployeeRegister from './pages/EmployeeRegister';
-import { idText } from 'typescript';
 
 function App() {
 
@@ -72,10 +74,51 @@ function App() {
   const [errorLoginPassword, setErrorLoginPassword] = useState<boolean>(false);
   const [errorRegister, setErrorRegister] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(true);
+  const [employees, setEmployees] = useState<string[][]>([]);
 
   useEffect(() => {
-
+    getEmployees();
   }, [])
+
+  const getEmployees = async () => {
+    const result = await axios.get('/employee');
+    const { data } = result;
+    const employees: string[][] = [];
+    data.map((value: IEmployee) => {
+      const { id, employee_first_name, employee_middle_name, employee_last_name, employee_email_address, employee_password,
+        employee_contact_number, employee_position, employee_status } = value;
+      const employee: any[] = [];
+
+      employee.push(id);
+      employee.push(employee_first_name + ' ' + employee_middle_name + ' ' + employee_last_name);
+      employee.push(employee_email_address);
+      employee.push(employee_password);
+      employee.push(employee_contact_number);
+      employee.push(employee_position);
+      employee.push(employee_status);
+      employee.push(actionButtons());
+
+      employees.push(employee);
+    })
+    setEmployees(employees);
+  }
+
+  const actionButtons = () => {
+    return (
+      <div>
+        <Tooltip title="Edit">
+          <IconButton>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete">
+          <IconButton>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </div>
+    )
+  }
 
   const handleCompanyInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
@@ -141,7 +184,6 @@ function App() {
     const { employee } = state;
     const { id, employee_password, employee_confirm_password, employee_email_address, employee_first_name, employee_middle_name, employee_last_name,
       employee_contact_number, employee_address, employee_position } = employee;
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     const validateEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errors: string[] = [];
 
@@ -150,13 +192,9 @@ function App() {
       !employee_first_name && errors.push('employee_first_name');
       !employee_middle_name && errors.push('employee_middle_name');
       !employee_last_name && errors.push('employee_last_name');
-      !employee_address && errors.push('employee_address');
-      !employee_contact_number && errors.push('employee_contact_number');
       !employee_email_address && errors.push('employee_email_address');
       !employee_position && errors.push('employee_position');
       !validateEmail.test(employee_email_address) && errors.push('employee_email_address');
-      !strongRegex.test(employee_password) && errors.push('employee_password');
-      !strongRegex.test(employee_confirm_password) && errors.push('employee_confirm_password');
 
       (employee_confirm_password !== employee_password) && errors.push('company_confirm_password');
 
@@ -167,7 +205,7 @@ function App() {
           id: id,
           company_id: getCompanyId(),
           employee_email_address: employee_email_address.toLowerCase(),
-          employee_password: '',
+          employee_password: employee_first_name.charAt(0).toUpperCase() + employee_last_name.charAt(0).toUpperCase() + employee_last_name.slice(1) + '@' + id,
           employee_first_name: employee_first_name,
           employee_middle_name: employee_middle_name,
           employee_last_name: employee_last_name,
@@ -176,22 +214,22 @@ function App() {
           employee_address: employee_address
         })
 
-        const { success, message } = result.data;
+        const { success } = result.data;
+        console.log(success);
 
         if (!success) throw Error;
-        else if (success && (Object.keys(message))) {
-          setErrorRegister(false);
-        } 
-        else if (success && (message === 'Email address has already been taken.')) {
-          setErrorRegister(true);
+        else if (success) {
+          window.location.replace("http://localhost:3000/employees");
         }
+        // else if (success && (message === 'Email address has already been taken.')) {
+        //   setErrorRegister(true);
+        // }
 
       }
     } catch (error) {
-      alert('An error occurred while signing up!');
+      alert('An error occurred while registering an employee!');
     }
   }
-
 
   const handleCompanyLogin = async () => {
     const { company } = state;
@@ -328,6 +366,7 @@ function App() {
               handleDrawerOpen={handleDrawerOpen}
               handleDrawerClose={handleDrawerClose}
               handleLogoutButton={handleLogoutButton}
+              employees={employees}
             />
           </PrivateRoute>
           <PrivateRoute path="/employee-registration-form" exact>

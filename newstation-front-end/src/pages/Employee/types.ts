@@ -3,4 +3,5 @@ export interface Props {
     handleDrawerOpen: () => void;
     handleDrawerClose: () => void;
     handleLogoutButton: () => void;
+    employees: string[][];
 }
