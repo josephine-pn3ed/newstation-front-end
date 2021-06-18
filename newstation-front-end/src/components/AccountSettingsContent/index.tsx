@@ -1,5 +1,4 @@
-import MUIDataTable from "mui-datatables";
-import { CssBaseline, Container } from "@material-ui/core"
+import { Container } from "@material-ui/core"
 import useStyles from '../../styles/_Dashboard';
 
 const AccountSettingsContent = () => {

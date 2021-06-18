@@ -1,39 +1,22 @@
 import React from 'react';
 import {
-  CssBaseline,
   TextField,
   Link,
   Grid,
-  Typography,
   Container,
-  IconButton,
-  OutlinedInput,
-  InputLabel,
-  InputAdornment,
-  FormControl,
-  Avatar,
   Button
 } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Props } from './types';
 import useStyles from '../../styles/_RegisterForm';
 
 const EmployeeRegistrationForm = (props: Props) => {
   const classes = useStyles();
   const {
-    showPassword,
-    showConfirmPassword,
     handleEmployeeInputChange,
-    handleClickShowPassword,
-    handleMouseDownPassword,
     handleEmployeeRegister,
-    handleClickShowConfirmPassword,
-    employee,
     error,
     errorRegister
   } = props;
-  const { employee_address, employee_contact_number, employee_first_name, employee_middle_name, employee_last_name, employee_password, employee_confirm_password } = employee;
 
   return (
     <main className={classes.content} >

@@ -11,12 +11,10 @@ import {
   InputLabel,
   InputAdornment,
   FormControl,
-  Avatar,
   Button,
   ListItemText
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Props } from './types';
 import useStyles from '../../styles/_LoginForm';
 

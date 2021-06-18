@@ -18,7 +18,6 @@ import { Props } from './types';
 const Navbar = (props: Props) => {
   const { open, handleDrawerOpen, handleLogoutButton } = props;
   const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <React.Fragment>

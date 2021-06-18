@@ -11,11 +11,9 @@ import {
   InputLabel,
   InputAdornment,
   FormControl,
-  Avatar,
   Button
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Props } from './types';
 import useStyles from '../../styles/_RegisterForm';
 
@@ -33,7 +31,7 @@ const RegisterForm = (props: Props) => {
     error,
     errorRegister
   } = props;
-  const { company_address, company_contact_number, company_name, company_password, company_confirm_password } = company;
+  const { company_password, company_confirm_password } = company;
 
   return (
     <Container component="main" maxWidth="xs">

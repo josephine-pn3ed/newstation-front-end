@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Tooltip, IconButton } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { useEffect, useState } from 'react';
+import { Tooltip, IconButton } from "@material-ui/core";
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
-import EmployeeList from '../../components/EmployeeList';
+import EmployeeTable from '../../components/EmployeeTable';
 import useStyles from '../../styles/_Employee';
 import { logout, removeCompanyId } from '../../utils';
 import { State } from './types';
@@ -29,6 +29,16 @@ const Employee = () => {
     setOpen(false);
   };
 
+  const handleEditButton = (id: string) => {
+    console.log('editing.............')
+    // const result = axios.delete('/employee/' + id);
+  }
+
+  const handleDeleteButton = (id: string) => {
+    const result = axios.delete('/employee/' + id);
+    console.log(result)
+  }
+
   const getEmployees = async () => {
     const result = await axios.get('/employee');
     const { data } = result;
@@ -45,26 +55,26 @@ const Employee = () => {
       employee.push(employee_contact_number);
       employee.push(employee_position);
       employee.push(employee_status);
-      employee.push(actionButtons());
+      employee.push(actionButtons(id));
 
       employees.push(employee);
     })
     setEmployees(employees);
   }
 
-  const actionButtons = () => {
+  const actionButtons = (id: string) => {
     return (
       <div>
-        <Tooltip title="Edit">
-          <IconButton>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+          <Tooltip color="primary" title="Edit" onClick={() => handleEditButton(id)} >
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip color="secondary" title="Delete" onClick={() => handleDeleteButton(id)} >
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
       </div>
     )
   }
@@ -77,7 +87,7 @@ const Employee = () => {
     <div className={classes.root}>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
-      <EmployeeList employees={employees} />
+      <EmployeeTable employees={employees} />
     </div>
   )
 }

@@ -1,20 +1,8 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
-import axios from 'axios';
 import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
-import { login, logout, setCompanyId, removeCompanyId, getCompanyId } from './utils';
-import { Tooltip, IconButton } from "@material-ui/core";
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import Employee from './pages/Employee';
-import AccountSettings from './pages/AccountSettings';
-import EmployeeRegister from './pages/EmployeeRegister';
+import { Login, Register, Dashboard, Employee, AccountSettings, EmployeeRegister } from './pages';
 
 function App() {
 
