@@ -221,9 +221,6 @@ function App() {
         else if (success) {
           window.location.replace("http://localhost:3000/employees");
         }
-        // else if (success && (message === 'Email address has already been taken.')) {
-        //   setErrorRegister(true);
-        // }
 
       }
     } catch (error) {
@@ -319,20 +316,7 @@ function App() {
       <div>
         <Switch>
           <PublicRoute path="/login" exact >
-            <Login
-              showPassword={showPassword}
-              handleClickShowPassword={handleClickShowPassword}
-              handleMouseDownPassword={handleMouseDownPassword}
-              handleCompanyInputChange={handleCompanyInputChange}
-              handleCompanyLogin={handleCompanyLogin}
-              error={error}
-              company={state.company}
-              errorLogin={errorLogin}
-              errorLoginPassword={errorLoginPassword}
-              open={!open}
-              handleDrawerOpen={handleDrawerOpen}
-              handleLogoutButton={handleLogoutButton}
-            />
+            <Login />
           </PublicRoute>
           <PublicRoute path="/register" exact >
             <Register
