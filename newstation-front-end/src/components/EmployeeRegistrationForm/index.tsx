@@ -6,11 +6,14 @@ import {
   Container,
   Button
 } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import { Props } from './types';
 import useStyles from '../../styles/_RegisterForm';
 
 const EmployeeRegistrationForm = (props: Props) => {
   const classes = useStyles();
+  const history = useHistory();
+
   const {
     handleEmployeeInputChange,
     handleEmployeeRegister,
@@ -119,7 +122,7 @@ const EmployeeRegistrationForm = (props: Props) => {
           </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link href="/employees" variant="body2">
+                <Link variant="body2" onClick={() => history.push('/employees')}>
                   BACK
               </Link>
               </Grid>
