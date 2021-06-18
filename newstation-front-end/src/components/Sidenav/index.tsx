@@ -16,6 +16,7 @@ import { useHistory } from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
 import { AccountCircle } from '@material-ui/icons';
+import { getUser } from '../../utils';
 
 const Sidenav = (props: Props) => {
   const { open, handleDrawerClose } = props;
@@ -45,12 +46,14 @@ const Sidenav = (props: Props) => {
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItem>
-          <ListItem button component="a" onClick={() => history.push('/employees')}>
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Employees" />
-          </ListItem>
+          {(getUser() === 'company') &&
+            <ListItem button component="a" onClick={() => history.push('/employees')}>
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Employees" />
+            </ListItem>
+          }
           <ListItem button component="a" onClick={() => history.push('/account-settings')}>
             <ListItemIcon>
               <AccountCircle />

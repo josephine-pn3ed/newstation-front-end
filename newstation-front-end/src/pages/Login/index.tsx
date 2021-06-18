@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import LoginForm from '../../components/LoginForm';
 import useStyles from '../../styles/_LoginForm';
-import { State } from './types';
-import { login, logout, setCompanyId, removeCompanyId } from '../../utils';
+import { Credentials } from './types';
+import { login, logout, setCompanyId, removeCompanyId, setUser } from '../../utils';
 
 const Login = () => {
   const classes = useStyles();
@@ -16,18 +16,10 @@ const Login = () => {
   const [errorLogin, setErrorLogin] = useState<boolean>(false);
   const [errorLoginPassword, setErrorLoginPassword] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
-  const [company, setCompany] = useState<State>({
-    id: "",
-    company_name: "",
-    company_image: "",
-    company_address: "",
-    company_contact_number: "",
-    company_email_address: "",
-    company_password: "",
-    company_confirm_password: "",
-    company_status: "Active",
-    created_at: "",
-    updated_at: ""
+
+  const [credentials, setCredentials] = useState<Credentials>({
+    email_address: '',
+    password: ''
   })
 
   const handleDrawerOpen = () => {
@@ -48,26 +40,26 @@ const Login = () => {
     history.push('/login');
   }
 
-  const handleCompanyLogin = async () => {
-    const { company_email_address, company_password } = company;
+  const handleLogin = async () => {
+    const { email_address, password } = credentials;
     const validateEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errors: string[] = [];
 
     try {
-      !(company_email_address) && errors.push('company_email_address');
-      !(company_password) && errors.push('company_password');
-      !validateEmail.test(company_email_address) && errors.push('company_email_address');
+      !(email_address) && errors.push('email_address');
+      !(password) && errors.push('password');
+      !validateEmail.test(email_address) && errors.push('email_address');
 
       setError(errors);
 
       if (!errors.length) {
         const result = await axios.post('/login', {
-          company_email_address: company_email_address.toLowerCase(),
-          company_password: company_password
+          email_address: email_address.toLowerCase(),
+          password: password
         })
 
-        const { success, message } = result.data;
-
+        const { success, message, user } = result.data;
+        console.log(result)
         if (!success) throw Error
         else {
           if (message === "Wrong password.") {
@@ -80,6 +72,7 @@ const Login = () => {
             setErrorLogin(false)
             login();
             setCompanyId(message);
+            setUser(user);
             history.push('/dashboard');
           }
         }
@@ -90,10 +83,10 @@ const Login = () => {
   }
 
 
-  const handleCompanyInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
 
-    setCompany({ ...company, [name]: value });
+    setCredentials({ ...credentials, [name]: value });
   };
 
   return (
@@ -103,10 +96,10 @@ const Login = () => {
         showPassword={showPassword}
         handleClickShowPassword={handleClickShowPassword}
         handleMouseDownPassword={handleMouseDownPassword}
-        handleCompanyInputChange={handleCompanyInputChange}
-        handleCompanyLogin={handleCompanyLogin}
+        handleInputChange={handleInputChange}
+        handleLogin={handleLogin}
         error={error}
-        company={company}
+        credentials={credentials}
         errorLogin={errorLogin}
         errorLoginPassword={errorLoginPassword}
       />

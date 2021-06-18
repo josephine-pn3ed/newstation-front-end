@@ -25,17 +25,17 @@ const LoginForm = (props: Props) => {
 
   const {
     showPassword,
-    handleCompanyInputChange,
+    handleInputChange,
     handleClickShowPassword,
     handleMouseDownPassword,
-    handleCompanyLogin,
-    company,
+    handleLogin,
+    credentials,
     error,
     errorLogin,
     errorLoginPassword
   } = props;
 
-  const { company_password } = company;
+  const { password } = credentials;
 
   return (
     <Container component="main" maxWidth="xs">
@@ -53,27 +53,27 @@ const LoginForm = (props: Props) => {
                 </Grid>}
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('company_email_address') || errorLogin}
+                    error={error.includes('email_address') || errorLogin}
                     variant="outlined"
                     fullWidth
                     label="Email Address"
-                    name="company_email_address"
+                    name="email_address"
                     autoComplete="email"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCompanyInputChange(event)}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl
                     variant="outlined"
                     className={classes.password_field}
-                    error={error.includes('company_password') || errorLoginPassword || errorLogin}>
+                    error={error.includes('password') || errorLoginPassword || errorLogin}>
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                       id="outlined-adornment-password"
-                      name="company_password"
+                      name="password"
                       type={showPassword ? 'text' : 'password'}
-                      value={company_password}
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCompanyInputChange(event)}
+                      value={password}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
@@ -96,7 +96,7 @@ const LoginForm = (props: Props) => {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={handleCompanyLogin}
+                onClick={handleLogin}
               >
                 Sign in
               </Button>

@@ -10,7 +10,6 @@ export const isLogin = () => {
     if (localStorage.getItem('newstation')) {
         return true;
     }
-
     return false;
 }
 
@@ -24,4 +23,16 @@ export const getCompanyId = () => {
 
 export const removeCompanyId = () => {
     localStorage.removeItem('company_id');
+}
+
+export const setUser = (user: string) => {
+    localStorage.setItem('user', user);
+}
+
+export const getUser = () => {
+    return localStorage.getItem('user');
+}
+
+export const removeUser = () => {
+    localStorage.removeItem('user');
 }
