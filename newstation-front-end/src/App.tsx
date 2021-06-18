@@ -326,13 +326,7 @@ function App() {
             <Dashboard />
           </PrivateRoute>
           <PrivateRoute path="/employees" exact >
-            <Employee
-              open={open}
-              handleDrawerOpen={handleDrawerOpen}
-              handleDrawerClose={handleDrawerClose}
-              handleLogoutButton={handleLogoutButton}
-              employees={employees}
-            />
+            <Employee />
           </PrivateRoute>
           <PrivateRoute path="/employee-registration-form" exact>
             <EmployeeRegister
