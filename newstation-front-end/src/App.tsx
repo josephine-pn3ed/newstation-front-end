@@ -323,12 +323,7 @@ function App() {
           </PublicRoute>
 
           <PrivateRoute path="/dashboard" exact >
-            <Dashboard
-              open={open}
-              handleDrawerOpen={handleDrawerOpen}
-              handleDrawerClose={handleDrawerClose}
-              handleLogoutButton={handleLogoutButton}
-            />
+            <Dashboard />
           </PrivateRoute>
           <PrivateRoute path="/employees" exact >
             <Employee

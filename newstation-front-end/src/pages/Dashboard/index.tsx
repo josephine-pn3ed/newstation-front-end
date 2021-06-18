@@ -1,13 +1,27 @@
-
+import { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import DashboardContent from '../../components/DashboardContent';
 import useStyles from '../../styles/_Dashboard';
-import { Props } from './types';
+import { logout, removeCompanyId } from '../../utils';
 
-const Dashboard = (props: Props) => {
-  const { open, handleDrawerOpen, handleDrawerClose, handleLogoutButton } = props;
+const Dashboard = () => {
   const classes = useStyles();
+  const [open, setOpen] = useState<boolean>(true);
+
+  const handleLogoutButton = () => {
+    logout();
+    removeCompanyId();
+    window.location.replace("http://localhost:3000/login");
+  }
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div className={classes.root}>
