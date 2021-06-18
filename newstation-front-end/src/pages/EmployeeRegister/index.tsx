@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import EmployeeRegistrationForm from '../../components/EmployeeRegistrationForm';
 import useStyles from '../../styles/_Dashboard';
-import { logout, removeCompanyId, getCompanyId } from '../../utils';
+import { logout, getCompanyId } from '../../utils';
 import { State } from './types';
 
 const EmployeeRegistration = () => {
@@ -38,7 +38,6 @@ const EmployeeRegistration = () => {
 
   const handleLogoutButton = () => {
     logout();
-    removeCompanyId();
     history.push('/login');
   }
 

@@ -1,4 +1,4 @@
-import { Container, Accordion, AccordionSummary, AccordionDetails, Typography } from "@material-ui/core";
+import { Container, Accordion, AccordionSummary, AccordionDetails, Typography, Button } from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from '../../styles/_Dashboard';
 
@@ -8,6 +8,9 @@ const DashboardContent = () => {
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
+      <Button color="secondary" className={classes.addNewsButton} variant="contained">
+        Add News
+      </Button>
       <Container maxWidth="xl" className={classes.container}>
         <Accordion>
           <AccordionSummary

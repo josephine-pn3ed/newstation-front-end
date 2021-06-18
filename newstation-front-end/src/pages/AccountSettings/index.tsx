@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import AccountSettingsContent from '../../components/AccountSettingsContent';
 import useStyles from '../../styles/_Dashboard';
-import { logout, removeCompanyId } from '../../utils';
+import { logout } from '../../utils';
 
 const AccountSettings = () => {
   const classes = useStyles();
@@ -14,7 +14,6 @@ const AccountSettings = () => {
 
   const handleLogoutButton = () => {
     logout();
-    removeCompanyId();
     history.push('/login');
   }
 

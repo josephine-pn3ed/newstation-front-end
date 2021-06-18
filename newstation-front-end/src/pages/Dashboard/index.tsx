@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import DashboardContent from '../../components/DashboardContent';
 import useStyles from '../../styles/_Dashboard';
-import { logout, removeCompanyId } from '../../utils';
+import { logout } from '../../utils';
 
 const Dashboard = () => {
   const classes = useStyles();
@@ -14,7 +14,6 @@ const Dashboard = () => {
 
   const handleLogoutButton = () => {
     logout();
-    removeCompanyId();
     history.push('/login');
   }
 

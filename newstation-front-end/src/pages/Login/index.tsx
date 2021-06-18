@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar';
 import LoginForm from '../../components/LoginForm';
 import useStyles from '../../styles/_LoginForm';
 import { Credentials } from './types';
-import { login, logout, setCompanyId, removeCompanyId, setUser } from '../../utils';
+import { login, logout, setCompanyId, setUser } from '../../utils';
 
 const Login = () => {
   const classes = useStyles();
@@ -36,7 +36,6 @@ const Login = () => {
 
   const handleLogoutButton = () => {
     logout();
-    removeCompanyId();
     history.push('/login');
   }
 

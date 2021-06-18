@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar';
 import RegisterForm from '../../components/RegisterForm';
 import { State } from './types';
 import useStyles from '../../styles/_RegisterForm';
-import { logout, removeCompanyId } from '../../utils';
+import { logout } from '../../utils';
 
 const Register = () => {
   const { root } = useStyles();
@@ -97,7 +97,6 @@ const Register = () => {
 
   const handleLogoutButton = () => {
     logout();
-    removeCompanyId();
     history.push('/login');
   }
 

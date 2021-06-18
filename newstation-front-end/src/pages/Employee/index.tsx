@@ -8,7 +8,7 @@ import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import EmployeeTable from '../../components/EmployeeTable';
 import useStyles from '../../styles/_Employee';
-import { logout, removeCompanyId } from '../../utils';
+import { logout} from '../../utils';
 import { State } from './types';
 
 const Employee = () => {
@@ -20,7 +20,6 @@ const Employee = () => {
 
   const handleLogoutButton = () => {
     logout();
-    removeCompanyId();
     history.push('/login');
   }
 

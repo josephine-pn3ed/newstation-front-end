@@ -4,6 +4,8 @@ export const login = () => {
 
 export const logout = () => {
     localStorage.removeItem('newstation');
+    localStorage.removeItem('company_id');
+    localStorage.removeItem('user');
 }
 
 export const isLogin = () => {
