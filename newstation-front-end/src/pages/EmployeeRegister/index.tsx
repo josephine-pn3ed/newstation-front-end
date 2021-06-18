@@ -102,13 +102,13 @@ const EmployeeRegistration = () => {
           employee_address: employee_address
         })
 
-        const { success } = result.data;
-        console.log(success);
+        const { success, message } = result.data;
+        console.log(result);
 
-        if (!success) throw Error;
-        else if (success) {
+        if (success && message === 'Employee added successfully!') {
           history.push('/employees');
         }
+        else throw Error;
 
       }
     } catch (error) {
