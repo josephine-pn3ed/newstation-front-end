@@ -1,14 +1,28 @@
+import { useState } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import AccountSettingsContent from '../../components/AccountSettingsContent';
-import { Props } from './types';
 import useStyles from '../../styles/_Dashboard';
+import { logout, removeCompanyId } from '../../utils';
 
-const AccountSettings = (props: Props) => {
-  const { open, handleDrawerOpen, handleDrawerClose, handleLogoutButton } = props;
-  const columns = ["Name", "Company", "City", "State"];
+const AccountSettings = () => {
   const classes = useStyles();
 
+  const [open, setOpen] = useState<boolean>(true);
+
+  const handleLogoutButton = () => {
+    logout();
+    removeCompanyId();
+    window.location.replace("http://localhost:3000/login");
+  }
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div className={classes.root}>

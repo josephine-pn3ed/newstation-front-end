@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import DashboardContent from '../../components/DashboardContent';
