@@ -1,13 +1,15 @@
+import axios from 'axios';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import LoginForm from '../../components/LoginForm';
 import useStyles from '../../styles/_LoginForm';
 import { State } from './types';
-import axios from 'axios';
 import { login, logout, setCompanyId, removeCompanyId } from '../../utils';
 
 const Login = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [open, setOpen] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -43,7 +45,7 @@ const Login = () => {
   const handleLogoutButton = () => {
     logout();
     removeCompanyId();
-    window.location.replace("http://localhost:3000/login");
+    history.push('/login');
   }
 
   const handleCompanyLogin = async () => {
@@ -78,7 +80,7 @@ const Login = () => {
             setErrorLogin(false)
             login();
             setCompanyId(message);
-            window.location.replace("http://localhost:3000/dashboard");
+            history.push('/dashboard');
           }
         }
       }

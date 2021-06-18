@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import EmployeeRegistrationForm from '../../components/EmployeeRegistrationForm';
@@ -9,6 +10,8 @@ import { State } from './types';
 
 const EmployeeRegistration = () => {
   const classes = useStyles();
+  const history = useHistory();
+
   const [open, setOpen] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
@@ -36,7 +39,7 @@ const EmployeeRegistration = () => {
   const handleLogoutButton = () => {
     logout();
     removeCompanyId();
-    window.location.replace("http://localhost:3000/login");
+    history.push('/login');
   }
 
   const handleDrawerOpen = () => {
@@ -104,7 +107,7 @@ const EmployeeRegistration = () => {
 
         if (!success) throw Error;
         else if (success) {
-          window.location.replace("http://localhost:3000/employees");
+          history.push('/employees');
         }
 
       }

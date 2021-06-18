@@ -3,6 +3,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { useEffect, useState } from 'react';
 import { Tooltip, IconButton } from "@material-ui/core";
+import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import EmployeeTable from '../../components/EmployeeTable';
@@ -12,13 +13,15 @@ import { State } from './types';
 
 const Employee = () => {
   const classes = useStyles();
+  const history = useHistory();
+
   const [open, setOpen] = useState<boolean>(true);
   const [employees, setEmployees] = useState<string[][]>([])
 
   const handleLogoutButton = () => {
     logout();
     removeCompanyId();
-    window.location.replace("http://localhost:3000/login");
+    history.push('/login');
   }
 
   const handleDrawerOpen = () => {
@@ -34,9 +37,10 @@ const Employee = () => {
     // const result = axios.delete('/employee/' + id);
   }
 
-  const handleDeleteButton = (id: string) => {
-    const result = axios.delete('/employee/' + id);
+  const handleDeleteButton = async (id: string) => {
+    const result = await axios.delete('/employee/' + id);
     console.log(result)
+    getEmployees();
   }
 
   const getEmployees = async () => {
@@ -65,16 +69,16 @@ const Employee = () => {
   const actionButtons = (id: string) => {
     return (
       <div>
-          <Tooltip color="primary" title="Edit" onClick={() => handleEditButton(id)} >
-            <IconButton>
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip color="secondary" title="Delete" onClick={() => handleDeleteButton(id)} >
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
+        <Tooltip color="primary" title="Edit" onClick={() => handleEditButton(id)} >
+          <IconButton>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip color="secondary" title="Delete" onClick={() => handleDeleteButton(id)} >
+          <IconButton>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     )
   }

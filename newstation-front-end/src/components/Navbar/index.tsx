@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { useHistory } from 'react-router-dom';
 import {
   CssBaseline,
   Button,
@@ -17,7 +18,9 @@ import { Props } from './types';
 
 const Navbar = (props: Props) => {
   const { open, handleDrawerOpen, handleLogoutButton } = props;
+
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <React.Fragment>
@@ -51,12 +54,12 @@ const Navbar = (props: Props) => {
             </Button>
           }
           {!isLogin() &&
-            <Button href="/register" variant="outlined" className={classes.signUpButton}>
+            <Button variant="outlined" className={classes.signUpButton} onClick={() => history.push('/register')}>
               Sign Up
             </Button>
           }
           {!isLogin() &&
-            <Button href="/login" color="primary" variant="contained" className={classes.loginButton}>
+            <Button color="primary" variant="contained" className={classes.loginButton} onClick={() => history.push('/login')}>
               Login
             </Button>
           }

@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import RegisterForm from '../../components/RegisterForm';
 import { State } from './types';
@@ -8,6 +9,7 @@ import { logout, removeCompanyId } from '../../utils';
 
 const Register = () => {
   const { root } = useStyles();
+  const history = useHistory();
 
   const [company, setCompany] = useState<State>({
     id: "",
@@ -64,8 +66,7 @@ const Register = () => {
 
         success && (message === 'Email address has already been taken.') ?
           setErrorRegister(true) :
-          success && (Object.keys(message)) && window.location.replace("http://localhost:3000/login") && setErrorRegister(false);
-
+          success && (Object.keys(message)) && history.push('/login');;
       }
     } catch (error) {
       alert('An error occurred while signing up!');
@@ -97,7 +98,7 @@ const Register = () => {
   const handleLogoutButton = () => {
     logout();
     removeCompanyId();
-    window.location.replace("http://localhost:3000/login");
+    history.push('/login');
   }
 
   return (

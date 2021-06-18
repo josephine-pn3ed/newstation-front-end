@@ -5,15 +5,22 @@ import {
   List,
   Divider,
   IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText
 } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems } from './listItems';
 import useStyles from '../../styles/_Dashboard';
 import { Props } from './types';
+import { useHistory } from 'react-router-dom';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import PeopleIcon from '@material-ui/icons/People';
+import { AccountCircle } from '@material-ui/icons';
 
 const Sidenav = (props: Props) => {
   const { open, handleDrawerClose } = props;
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <div className={classes.root}>
@@ -31,7 +38,26 @@ const Sidenav = (props: Props) => {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <ListItem button component="a" onClick={() => history.push('/dashboard')}>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItem>
+          <ListItem button component="a" onClick={() => history.push('/employees')}>
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Employees" />
+          </ListItem>
+          <ListItem button component="a" onClick={() => history.push('/account-settings')}>
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="My Account" />
+          </ListItem>
+        </List>
         <Divider />
       </Drawer>
     </div>

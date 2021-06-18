@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import DashboardContent from '../../components/DashboardContent';
@@ -7,12 +8,14 @@ import { logout, removeCompanyId } from '../../utils';
 
 const Dashboard = () => {
   const classes = useStyles();
+  const history = useHistory();
+
   const [open, setOpen] = useState<boolean>(true);
 
   const handleLogoutButton = () => {
     logout();
     removeCompanyId();
-    window.location.replace("http://localhost:3000/login");
+    history.push('/login');
   }
 
   const handleDrawerOpen = () => {

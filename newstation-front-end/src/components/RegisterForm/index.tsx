@@ -13,12 +13,15 @@ import {
   FormControl,
   Button
 } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { Props } from './types';
 import useStyles from '../../styles/_RegisterForm';
+import { Props } from './types';
 
 const RegisterForm = (props: Props) => {
   const classes = useStyles();
+  const history = useHistory();
+
   const {
     showPassword,
     showConfirmPassword,
@@ -31,6 +34,7 @@ const RegisterForm = (props: Props) => {
     error,
     errorRegister
   } = props;
+
   const { company_password, company_confirm_password } = company;
 
   return (
@@ -155,7 +159,7 @@ const RegisterForm = (props: Props) => {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link variant="body2" onClick={() => history.push('/login')}>
                   Already have an account? Sign in
                 </Link>
               </Grid>
