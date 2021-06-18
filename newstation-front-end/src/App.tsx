@@ -321,7 +321,6 @@ function App() {
           <PublicRoute path="/register" exact >
             <Register />
           </PublicRoute>
-
           <PrivateRoute path="/dashboard" exact >
             <Dashboard />
           </PrivateRoute>
@@ -329,22 +328,7 @@ function App() {
             <Employee />
           </PrivateRoute>
           <PrivateRoute path="/employee-registration-form" exact>
-            <EmployeeRegister
-              showPassword={showPassword}
-              showConfirmPassword={showConfirmPassword}
-              handleClickShowPassword={handleClickShowPassword}
-              handleClickShowConfirmPassword={handleClickShowConfirmPassword}
-              handleMouseDownPassword={handleMouseDownPassword}
-              handleEmployeeInputChange={handleEmployeeInputChange}
-              handleEmployeeRegister={handleEmployeeRegister}
-              error={error}
-              employee={state.employee}
-              errorRegister={errorRegister}
-              open={open}
-              handleDrawerOpen={handleDrawerOpen}
-              handleDrawerClose={handleDrawerClose}
-              handleLogoutButton={handleLogoutButton}
-            />
+            <EmployeeRegister />
           </PrivateRoute>
           <PrivateRoute path="/account-settings" exact >
             <AccountSettings

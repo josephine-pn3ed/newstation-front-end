@@ -1,24 +1,6 @@
-export interface Props {
-    open: boolean;
-    handleDrawerOpen: () => void;
-    handleDrawerClose: () => void;
-    handleLogoutButton: () => void;
-    showPassword: boolean,
-    showConfirmPassword: boolean,
-    handleEmployeeInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-    handleClickShowPassword: () => void,
-    handleMouseDownPassword: (e: React.MouseEvent<HTMLButtonElement>) => void,
-    handleEmployeeRegister: () => void;
-    handleClickShowConfirmPassword: () => void;
-    employee: Employee,
-    error: string[],
-    errorRegister: boolean
-}
-
-
 type Status = "Active" | "Inactive";
 
-interface Employee {
+export interface State {
     id: string,
     company_id: string,
     employee_first_name: string,

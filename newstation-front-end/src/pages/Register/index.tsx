@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import axios from 'axios';
 import Navbar from '../../components/Navbar';
 import RegisterForm from '../../components/RegisterForm';
 import { State } from './types';
 import useStyles from '../../styles/_RegisterForm';
-import axios from 'axios';
 import { logout, removeCompanyId } from '../../utils';
 
 const Register = () => {
