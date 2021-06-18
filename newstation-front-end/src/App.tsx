@@ -319,21 +319,7 @@ function App() {
             <Login />
           </PublicRoute>
           <PublicRoute path="/register" exact >
-            <Register
-              errorRegister={errorRegister}
-              showPassword={showPassword}
-              showConfirmPassword={showConfirmPassword}
-              handleClickShowPassword={handleClickShowPassword}
-              handleClickShowConfirmPassword={handleClickShowConfirmPassword}
-              handleMouseDownPassword={handleMouseDownPassword}
-              handleCompanyInputChange={handleCompanyInputChange}
-              handleCompanyRegister={handleCompanyRegister}
-              error={error}
-              company={state.company}
-              open={!open}
-              handleDrawerOpen={handleDrawerOpen}
-              handleLogoutButton={handleLogoutButton}
-            />
+            <Register />
           </PublicRoute>
 
           <PrivateRoute path="/dashboard" exact >

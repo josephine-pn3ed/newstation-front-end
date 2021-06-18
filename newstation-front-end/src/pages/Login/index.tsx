@@ -4,7 +4,7 @@ import LoginForm from '../../components/LoginForm';
 import useStyles from '../../styles/_LoginForm';
 import { State } from './types';
 import axios from 'axios';
-import { login, logout, setCompanyId, removeCompanyId, getCompanyId } from '../../utils';
+import { login, logout, setCompanyId, removeCompanyId } from '../../utils';
 
 const Login = () => {
   const classes = useStyles();
