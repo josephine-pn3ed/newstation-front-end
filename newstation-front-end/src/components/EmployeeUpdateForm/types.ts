@@ -1,14 +1,9 @@
 export interface Props {
-  showPassword: boolean,
-  showConfirmPassword: boolean,
-  handleEmployeeInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  handleClickShowPassword: () => void,
-  handleMouseDownPassword: (e: React.MouseEvent<HTMLButtonElement>) => void,
-  handleEmployeeRegister: () => void;
-  handleClickShowConfirmPassword: () => void;
-  employee: Employee,
-  error: string[],
-  errorRegister: boolean
+  handleEditEmployee: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  handleCloseEdit: () => void,
+  handleUpdateEmployee: (e: React.MouseEvent<HTMLButtonElement>) => void,
+  editedEmployee: Employee;
+  error: string[]
 }
 
 type Status = "Active" | "Inactive";

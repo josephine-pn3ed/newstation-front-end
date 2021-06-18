@@ -10,16 +10,20 @@ import { useHistory } from 'react-router-dom';
 import { Props } from './types';
 import useStyles from '../../styles/_RegisterForm';
 
-const EmployeeRegistrationForm = (props: Props) => {
+const EmployeeUpdateForm = (props: Props) => {
   const classes = useStyles();
   const history = useHistory();
 
   const {
-    handleEmployeeInputChange,
-    handleEmployeeRegister,
+    handleEditEmployee,
+    handleCloseEdit,
+    handleUpdateEmployee,
     error,
-    errorRegister
+    editedEmployee
   } = props;
+
+  const { employee_first_name, employee_middle_name, employee_last_name, employee_email_address, employee_address
+    , employee_position, employee_contact_number } = editedEmployee
 
   return (
     <main className={classes.content} >
@@ -31,53 +35,48 @@ const EmployeeRegistrationForm = (props: Props) => {
                 <TextField
                   error={error.includes('employee_first_name')}
                   name="employee_first_name"
+                  value={employee_first_name}
                   variant="outlined"
                   fullWidth
                   label="First Name"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   error={error.includes('employee_middle_name')}
                   name="employee_middle_name"
+                  value={employee_middle_name}
                   variant="outlined"
                   fullWidth
                   label="Middle Name"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   error={error.includes('employee_last_name')}
                   name="employee_last_name"
+                  value={employee_last_name}
                   variant="outlined"
                   fullWidth
                   label="Last Name"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('id')}
-                  variant="outlined"
-                  fullWidth
-                  label="Employee ID"
-                  name="id"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={error.includes('employee_email_address') || errorRegister}
+                  //   error={error.includes('employee_email_address') || errorRegister}
                   variant="outlined"
                   fullWidth
                   label="Email Address"
                   name="employee_email_address"
+                  value={employee_email_address}
                   autoComplete="email"
                   type="email"
-                  helperText={errorRegister && 'Email address has already been taken'}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
+                  //  helperText={errorRegister && 'Email address has already been taken'}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -87,7 +86,8 @@ const EmployeeRegistrationForm = (props: Props) => {
                   fullWidth
                   label="Address"
                   name="employee_address"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
+                  value={employee_address}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -97,7 +97,8 @@ const EmployeeRegistrationForm = (props: Props) => {
                   fullWidth
                   label="Position"
                   name="employee_position"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
+                  value={employee_position}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -107,7 +108,8 @@ const EmployeeRegistrationForm = (props: Props) => {
                   fullWidth
                   label="Contact Number"
                   name="employee_contact_number"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
+                  value={employee_contact_number}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
                 />
               </Grid>
             </Grid>
@@ -116,17 +118,18 @@ const EmployeeRegistrationForm = (props: Props) => {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={handleEmployeeRegister}
-            >
-              Add Employee
-          </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link variant="body2" onClick={() => history.push('/employees')}>
-                  BACK
-              </Link>
-              </Grid>
-            </Grid>
+              onClick={handleUpdateEmployee}
+            >UPDATE
+            </Button>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleCloseEdit}
+            >CLOSE
+            </Button>
+
           </form>
         </div>
       </Container >
@@ -134,4 +137,4 @@ const EmployeeRegistrationForm = (props: Props) => {
   );
 }
 
-export default EmployeeRegistrationForm;
+export default EmployeeUpdateForm;
