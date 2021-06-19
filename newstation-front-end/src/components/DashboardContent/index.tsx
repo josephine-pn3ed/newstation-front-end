@@ -1,14 +1,16 @@
 import { Container, Accordion, AccordionSummary, AccordionDetails, Typography, Button } from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from '../../styles/_Dashboard';
+import { Props } from './types';
 
-const DashboardContent = () => {
+const DashboardContent = (props: Props) => {
   const classes = useStyles();
+  const { handleCloseAddForm } = props;
 
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
-      <Button color="secondary" className={classes.addNewsButton} variant="contained">
+      <Button color="secondary" className={classes.addNewsButton} variant="contained" onClick={() => handleCloseAddForm()}>
         Add News
       </Button>
       <Container maxWidth="xl" className={classes.container}>
