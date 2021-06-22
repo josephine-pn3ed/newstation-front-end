@@ -2,6 +2,7 @@ import axios from 'axios';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import RestoreIcon from '@material-ui/icons/Restore';
+import Swal from 'sweetalert2';
 import { useEffect, useState } from 'react';
 import { Tooltip, IconButton } from "@material-ui/core";
 import { useHistory } from 'react-router-dom';
@@ -89,21 +90,77 @@ const Employee = () => {
   }
 
 
-  const handleDeleteButton = async (id: string) => {
+  const handleDeleteButton = (id: string) => {
     try {
-      await axios.delete('/employee/' + id);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor:  "#3085d6",
+        cancelButtonColor:  "#d33",
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await axios.delete('/employee/' + id);
 
-      getEmployees();
+          Swal.fire(
+            'Deleted!',
+            'Employee information has been restored.',
+            'success'
+          )
+
+          getEmployees();
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          Swal.fire(
+            'Cancelled',
+            'Restoring employee information has been cancelled.',
+            'error'
+          )
+        }
+      })
     } catch (error) {
       alert('There is an error while deleting employee information!')
     }
   }
 
-  const handleRestoreEmployee = async (id: string) => {
+  const handleRestoreEmployee = (id: string) => {
     try {
-      await axios.put('/employee/restore/' + id);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "This employee information will be restored.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor:  "#3085d6",
+        cancelButtonColor:  "#d33",
+        confirmButtonText: 'Yes, restore it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await axios.put('/employee/restore/' + id);
 
-      getEmployees();
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+
+          getEmployees();
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          Swal.fire(
+            'Cancelled',
+            'Deleting employee has been cancelled.',
+            'error'
+          )
+        }
+      })
     } catch (error) {
       alert('There is an error while restoring employee information!')
     }
@@ -121,7 +178,8 @@ const Employee = () => {
   }
 
   const employeesToPushToHooks = (data: State[]) => {
-    const employees: string[][] = [];
+    const active_employees: string[][] = [];
+    const inactive_employees: string[][] = [];
 
     data.map((value: State) => {
       const { id, employee_first_name, employee_middle_name, employee_last_name, employee_email_address, employee_password,
@@ -139,7 +197,18 @@ const Employee = () => {
 
       employee.push(actionButtons(id, employee_status));
 
-      employees.push(employee);
+      (employee_status === 'Active') && active_employees.push(employee);
+      (employee_status === 'Inactive') && inactive_employees.push(employee);
+    })
+
+    const employees :string[][] =[];
+
+    active_employees.map((value: string[]) => {
+      employees.push(value);
+    })
+
+    inactive_employees.map((value: string[]) => {
+      employees.push(value);
     })
 
     setEmployees(employees);
