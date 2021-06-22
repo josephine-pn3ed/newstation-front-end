@@ -102,7 +102,6 @@ const EmployeeRegistration = () => {
         })
 
         const { success, message } = result.data;
-        console.log(result);
 
         if (success && message === 'Employee added successfully!') {
           history.push('/employees');

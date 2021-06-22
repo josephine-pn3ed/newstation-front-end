@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar';
 import LoginForm from '../../components/LoginForm';
 import useStyles from '../../styles/_LoginForm';
 import { Credentials } from './types';
-import { login, logout, setCompanyId, setUser } from '../../utils';
+import { login, logout } from '../../utils';
 
 const Login = () => {
   const classes = useStyles();
@@ -44,12 +44,13 @@ const Login = () => {
     const validateEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errors: string[] = [];
 
-    try {
-      !(email_address) && errors.push('email_address');
-      !(password) && errors.push('password');
-      !validateEmail.test(email_address) && errors.push('email_address');
+    !(email_address) && errors.push('email_address');
+    !(password) && errors.push('password');
+    !validateEmail.test(email_address) && errors.push('email_address');
 
-      setError(errors);
+    setError(errors);
+
+    try {
 
       if (!errors.length) {
         const result = await axios.post('/login', {
@@ -57,9 +58,9 @@ const Login = () => {
           password: password
         })
 
-        const { success, message, user } = result.data;
-        console.log(result)
-        if (!success) throw Error
+        const { success, message, user, email } = result.data;
+
+        if (!success) throw Error;
         else {
           if (message === "Wrong password.") {
             setErrorLoginPassword(true)
@@ -69,9 +70,7 @@ const Login = () => {
           } else {
             setErrorLoginPassword(false)
             setErrorLogin(false)
-            login();
-            setCompanyId(message);
-            setUser(user);
+            login(email, user, message);
             history.push('/dashboard');
           }
         }

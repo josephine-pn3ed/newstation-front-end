@@ -41,13 +41,13 @@ const Navbar = (props: Props) => {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Newstation
           </Typography>
-          {isLogin() &&
+          {/* {isLogin() &&
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-          }
+          } */}
           {isLogin() &&
             <Button color="primary" variant="contained" onClick={handleLogoutButton} className={classes.logoutButton}>
               Logout

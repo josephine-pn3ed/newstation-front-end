@@ -9,7 +9,7 @@ import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import EmployeeTable from '../../components/EmployeeTable';
 import useStyles from '../../styles/_Employee';
-import { logout} from '../../utils';
+import { logout, getCompanyId } from '../../utils';
 import { State } from './types';
 import EmployeeUpdateForm from '../../components/EmployeeUpdateForm';
 
@@ -20,10 +20,7 @@ const Employee = () => {
   const [open, setOpen] = useState<boolean>(true);
   const [employees, setEmployees] = useState<string[][]>([])
   const [closeEdit, setCloseEdit] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
-  const [errorRegister, setErrorRegister] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [editedEmployee, setEditedEmployee] = useState<State>({
     id: "",
     company_id: "",
@@ -41,18 +38,6 @@ const Employee = () => {
     created_at: "",
     updated_at: ""
   })
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-
-  const handleClickShowConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
 
   const handleLogoutButton = () => {
     logout();
@@ -80,46 +65,68 @@ const Employee = () => {
 
 
   const handleEditButton = async (id: string) => {
-    // const {
-    //   employee_password, employee_email_address, employee_first_name, employee_middle_name, employee_last_name,
-    //   employee_contact_number, employee_address, employee_position
-    // } = editedEmployee;
-    // console.log('editing.............')
+    try {
+      const result = await axios.get('/employee/' + id);
+      const { data } = result;
 
-    const result = await axios.get('/employee/' + id);
-    const { data } = result;
-    console.log(data);
-    setEditedEmployee(data)
-    setCloseEdit(true);
+      setEditedEmployee(data)
+      setCloseEdit(true);
+    } catch (error) {
+      alert('There is an error while getting employee information!')
+    }
   }
 
   const handleUpdateEmployee = async () => {
-    console.log(editedEmployee)
-    const { id } = editedEmployee
-    const result = await axios.put('/employee/' + id, editedEmployee)
-    getEmployees();
-    handleCloseEdit();
+    try {
+      const { id } = editedEmployee
+      await axios.put('/employee/' + id, editedEmployee)
+
+      getEmployees();
+      handleCloseEdit();
+    } catch (error) {
+      alert('There is an error while updating employee information!')
+    }
   }
 
 
   const handleDeleteButton = async (id: string) => {
-    const result = await axios.delete('/employee/' + id);
-    console.log(result)
-    getEmployees();
+    try {
+      await axios.delete('/employee/' + id);
+
+      getEmployees();
+    } catch (error) {
+      alert('There is an error while deleting employee information!')
+    }
   }
 
   const handleRestoreEmployee = async (id: string) => {
-    const result = await axios.put('/employee/restore/' + id);
-    getEmployees();
+    try {
+      await axios.put('/employee/restore/' + id);
+
+      getEmployees();
+    } catch (error) {
+      alert('There is an error while restoring employee information!')
+    }
   }
 
   const getEmployees = async () => {
-    const result = await axios.get('/employee');
-    const { data } = result;
+    try {
+      const result = await axios.get('/employees/' + getCompanyId());
+      const { data } = result;
+
+      employeesToPushToHooks(data);
+    } catch (error) {
+      alert('There is an error while getting employees!')
+    }
+  }
+
+  const employeesToPushToHooks = (data: State[]) => {
     const employees: string[][] = [];
+
     data.map((value: State) => {
       const { id, employee_first_name, employee_middle_name, employee_last_name, employee_email_address, employee_password,
         employee_contact_number, employee_position, employee_status } = value;
+
       const employee: any[] = [];
 
       employee.push(id);
@@ -134,6 +141,7 @@ const Employee = () => {
 
       employees.push(employee);
     })
+
     setEmployees(employees);
   }
 
@@ -152,11 +160,12 @@ const Employee = () => {
               <DeleteIcon />
             </IconButton>
           </Tooltip> :
-          <Tooltip color="default" title="Delete" onClick={() => handleRestoreEmployee(id)} >
+          <Tooltip color="default" title="Restore" onClick={() => handleRestoreEmployee(id)} >
             <IconButton>
               <RestoreIcon />
             </IconButton>
-          </Tooltip>}
+          </Tooltip>
+        }
 
 
       </div>
@@ -172,8 +181,6 @@ const Employee = () => {
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
       <EmployeeTable employees={employees} />
-
-      {console.log(closeEdit)}
       {closeEdit ? (<EmployeeUpdateForm handleEditEmployee={handleEditEmployee} handleCloseEdit={handleCloseEdit}
         handleUpdateEmployee={handleUpdateEmployee} error={error} editedEmployee={editedEmployee} />) : ""}
     </div>
