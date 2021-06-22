@@ -114,6 +114,7 @@ const Register = () => {
         error={error}
         company={company}
         errorRegister={errorRegister}
+
       />
     </div>
   )

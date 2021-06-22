@@ -1,12 +1,15 @@
 export interface Props {
-    open: boolean;
-    handleDrawerOpen: () => void;
-    handleDrawerClose: () => void;
-    handleLogoutButton: () => void;
+    handleEditAccountInput: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    handleUpdateAccount: () => void;
+    handleDeleteAccount: () => void;
+    //handleEditAccountButton: () => void;
+    editedAccount: Employee,
+    error: string[]
 }
 
+type Status = "Active" | "Inactive";
 
-export interface State {
+interface Employee {
     id: string,
     employee_first_name: string,
     employee_middle_name: string,
@@ -20,5 +23,3 @@ export interface State {
     employee_status: Status,
     updated_at: string
 }
-
-type Status = "Active" | "Inactive";

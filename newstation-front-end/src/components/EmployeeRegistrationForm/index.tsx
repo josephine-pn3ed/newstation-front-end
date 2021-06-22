@@ -119,12 +119,12 @@ const EmployeeRegistrationForm = (props: Props) => {
               onClick={handleEmployeeRegister}
             >
               Add Employee
-          </Button>
+            </Button>
             <Grid container justify="flex-end">
               <Grid item>
                 <Link variant="body2" onClick={() => history.push('/employees')}>
                   BACK
-              </Link>
+                </Link>
               </Grid>
             </Grid>
           </form>

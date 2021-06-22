@@ -9,9 +9,10 @@ import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import EmployeeTable from '../../components/EmployeeTable';
 import useStyles from '../../styles/_Employee';
-import { logout} from '../../utils';
+import { logout, getUser, getCompanyId } from '../../utils';
 import { State } from './types';
 import EmployeeUpdateForm from '../../components/EmployeeUpdateForm';
+import Alert from '@material-ui/lab/Alert';
 
 const Employee = () => {
   const classes = useStyles();
@@ -24,6 +25,7 @@ const Employee = () => {
   const [error, setError] = useState<string[]>([]);
   const [errorRegister, setErrorRegister] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [alert, setAlert] = useState<boolean>(false)
   const [editedEmployee, setEditedEmployee] = useState<State>({
     id: "",
     company_id: "",
@@ -80,66 +82,97 @@ const Employee = () => {
 
 
   const handleEditButton = async (id: string) => {
-    // const {
-    //   employee_password, employee_email_address, employee_first_name, employee_middle_name, employee_last_name,
-    //   employee_contact_number, employee_address, employee_position
-    // } = editedEmployee;
-    // console.log('editing.............')
+    try {
+      const user = getUser();
+      const result = await axios.get('/employee/' + id);
+      const { data } = result;
+      console.log("hi", data);
+      console.log("hi", id);
+      console.log("hi", user);
 
-    const result = await axios.get('/employee/' + id);
-    const { data } = result;
-    console.log(data);
-    setEditedEmployee(data)
-    setCloseEdit(true);
+      setEditedEmployee(data)
+      setCloseEdit(true);
+    }
+    catch (error) {
+      return { "message": "Invalid credentials!" };
+    }
   }
 
   const handleUpdateEmployee = async () => {
-    console.log(editedEmployee)
-    const { id } = editedEmployee
-    const result = await axios.put('/employee/' + id, editedEmployee)
-    getEmployees();
-    handleCloseEdit();
+    try {
+      console.log(editedEmployee)
+      const { id } = editedEmployee
+      const result = await axios.put('/employee/' + id, editedEmployee)
+      getEmployees();
+      handleCloseEdit();
+    } catch (error) {
+      return { "message": "Error Update!" };
+    }
   }
 
+  const handleCloseAlert = () => {
+    setAlert(true);
+  }
+
+  const handleOpenAlert = () => {
+    setAlert(false)
+  }
 
   const handleDeleteButton = async (id: string) => {
-    const result = await axios.delete('/employee/' + id);
-    console.log(result)
-    getEmployees();
+    try {
+      const result = await axios.delete('/employee/' + id);
+      console.log(result)
+
+      getEmployees();
+
+    } catch (error) {
+      return { "message": "Error Delete!" };
+    }
   }
 
   const handleRestoreEmployee = async (id: string) => {
-    const result = await axios.put('/employee/restore/' + id);
-    getEmployees();
+    try {
+      const result = await axios.put('/employee/restore/' + id);
+      getEmployees();
+    } catch (error) {
+      return { "message": "Invalid credentials!" };
+    }
   }
 
   const getEmployees = async () => {
-    const result = await axios.get('/employee');
-    const { data } = result;
-    const employees: string[][] = [];
-    data.map((value: State) => {
-      const { id, employee_first_name, employee_middle_name, employee_last_name, employee_email_address, employee_password,
-        employee_contact_number, employee_position, employee_status } = value;
-      const employee: any[] = [];
+    try {
+      const id = getCompanyId();
+      console.log("company id", id)
+      const result = await axios.get('/employees/' + id);
+      const { data } = result;
+      const employees: string[][] = [];
+      data.map((value: State) => {
+        const { id, employee_first_name, employee_middle_name, employee_last_name, employee_email_address, employee_password,
+          employee_contact_number, employee_position, employee_status } = value;
+        const employee: any[] = [];
 
-      employee.push(id);
-      employee.push(employee_first_name + ' ' + employee_middle_name + ' ' + employee_last_name);
-      employee.push(employee_email_address);
-      employee.push(employee_password);
-      employee.push(employee_contact_number);
-      employee.push(employee_position);
-      employee.push(employee_status);
+        employee.push(id);
+        employee.push(employee_first_name + ' ' + employee_middle_name + ' ' + employee_last_name);
+        employee.push(employee_email_address);
+        employee.push(employee_password);
+        employee.push(employee_contact_number);
+        employee.push(employee_position);
+        employee.push(employee_status);
 
-      employee.push(actionButtons(id, employee_status));
+        employee.push(actionButtons(id, employee_status));
 
-      employees.push(employee);
-    })
-    setEmployees(employees);
+        employees.push(employee);
+      })
+      setEmployees(employees);
+    } catch (error) {
+      return { "message": "Invalid credentials!" };
+    }
   }
 
   const actionButtons = (id: string, employee_status: string) => {
     return (
       <div>
+
         <Tooltip color="primary" title="Edit" onClick={() => handleEditButton(id)} >
           <IconButton>
             <EditIcon />
@@ -152,12 +185,11 @@ const Employee = () => {
               <DeleteIcon />
             </IconButton>
           </Tooltip> :
-          <Tooltip color="default" title="Delete" onClick={() => handleRestoreEmployee(id)} >
+          <Tooltip color="default" title="Restore" onClick={() => handleRestoreEmployee(id)} >
             <IconButton>
               <RestoreIcon />
             </IconButton>
           </Tooltip>}
-
 
       </div>
     )
@@ -176,6 +208,8 @@ const Employee = () => {
       {console.log(closeEdit)}
       {closeEdit ? (<EmployeeUpdateForm handleEditEmployee={handleEditEmployee} handleCloseEdit={handleCloseEdit}
         handleUpdateEmployee={handleUpdateEmployee} error={error} editedEmployee={editedEmployee} />) : ""}
+
+
     </div>
   )
 }
