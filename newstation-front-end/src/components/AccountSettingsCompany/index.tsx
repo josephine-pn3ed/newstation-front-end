@@ -16,7 +16,6 @@ const AccountSettingsCompany = (props: Props) => {
   const { handleEditCompanyInput, handleUpdateCompany, handleDeleteCompany, editedCompany, error } = props;
   const { company_name, company_email_address,
     company_password, company_address, company_contact_number } = editedCompany
-  console.log("Acct settings", editedCompany)
 
 
   return (
@@ -104,13 +103,15 @@ const AccountSettingsCompany = (props: Props) => {
             >
               Delete Account
             </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link variant="body2" onClick={() => history.push('/')}>
-                  BACK
-                </Link>
-              </Grid>
-            </Grid>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="inherit"
+              className={classes.submit}
+              onClick={() => history.push('/dashboard')}
+            >
+              BACK
+            </Button>
           </form>
         </div>
       </Container>

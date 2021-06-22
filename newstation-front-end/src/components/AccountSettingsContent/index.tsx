@@ -13,14 +13,9 @@ import { getUser } from '../../utils';
 const AccountSettingsContent = (props: Props) => {
   const classes = useStyles();
   const history = useHistory();
-
-
   const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount, error } = props;
-  //handleEditAccountButton();
   const { employee_first_name, employee_middle_name, employee_last_name, id, employee_email_address,
     employee_password, employee_address, employee_position, employee_contact_number } = editedAccount
-  console.log("Acct settings", editedAccount)
-  console.log("Acct settings", employee_first_name)
 
   return (
     <main className={classes.content}>
@@ -142,13 +137,15 @@ const AccountSettingsContent = (props: Props) => {
             >
               Delete Account
             </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link variant="body2" onClick={() => history.push('/')}>
-                  BACK
-                </Link>
-              </Grid>
-            </Grid>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="inherit"
+              className={classes.submit}
+              onClick={() => history.push('/dashboard')}
+            >
+              BACK
+            </Button>
           </form>
         </div>
       </Container>

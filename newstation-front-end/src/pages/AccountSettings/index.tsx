@@ -75,26 +75,20 @@ const AccountSettings = () => {
 
   const getAccountEmployee = async () => {
     const id = getEmployeeId();
-    console.log("employee_ID", id)
     const response = await axios.get("/employee/" + id);
     const { data } = response;
-    console.log("employee result", data)
-    console.log("dom", type, id, "the data is", data);
     setEditedAccount(data)
   }
 
   const getAccountCompany = async () => {
     const id = getCompanyId();
     const response = await axios.get("/company/" + id);
-    console.log(response)
     const { result } = response.data
-    console.log("dom", type, id, "the data is", result);
     setEditedCompany(result)
   }
 
   const handleUpdateAccount = async () => {
     try {
-      console.log("id of edited", editedAccount)
       const { id } = editedAccount
       const result = await axios.put('/employee/' + id, editedAccount)
     } catch (error) {
@@ -104,7 +98,6 @@ const AccountSettings = () => {
 
   const handleUpdateCompany = async () => {
     try {
-      console.log("id of edited", editedCompany)
       const { id } = editedAccount
       const result = await axios.put('/company/' + id, editedAccount)
     } catch (error) {
@@ -116,7 +109,6 @@ const AccountSettings = () => {
     try {
       const { id } = editedAccount
       const result = await axios.delete('/employee/' + id);
-      console.log(result)
       logout();
       history.push('/login');
 
@@ -129,7 +121,6 @@ const AccountSettings = () => {
     try {
       const { id } = editedCompany
       const result = await axios.delete('/company/' + id);
-      console.log(result)
       logout();
       history.push('/login');
 
@@ -140,9 +131,6 @@ const AccountSettings = () => {
   useEffect(() => {
     getAccount();
   }, [])
-
-  console.log(editedCompany)
-
 
   return (
     <div className={classes.root}>
