@@ -1,18 +1,15 @@
 import React from 'react';
 import {
   TextField,
-  Link,
   Grid,
   Container,
   Button
 } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
 import { Props } from './types';
 import useStyles from '../../styles/_RegisterForm';
 
 const EmployeeUpdateForm = (props: Props) => {
   const classes = useStyles();
-  const history = useHistory();
 
   const {
     handleEditEmployee,
@@ -133,24 +130,27 @@ const EmployeeUpdateForm = (props: Props) => {
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
                 />
               </Grid>
+              <Grid item xs={6}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  className={classes.submit}
+                  onClick={handleCloseEdit}
+                >CLOSE
+            </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={handleUpdateEmployee}
+                >UPDATE
+            </Button>
+              </Grid>
             </Grid>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={handleUpdateEmployee}
-            >UPDATE
-            </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={handleCloseEdit}
-            >CLOSE
-            </Button>
-
           </form>
         </div>
       </Container >

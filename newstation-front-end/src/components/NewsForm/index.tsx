@@ -71,7 +71,7 @@ const NewsForm = (props: Props) => {
                   className={classes.submit}
                   onClick={() => handleCloseAddForm(false)}
                 >Close
-            </Button>
+                </Button>
               </Grid>
               {!id ?
                 <Grid item xs={6}>

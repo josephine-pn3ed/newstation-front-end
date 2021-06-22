@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useDebugValue, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
@@ -12,7 +12,10 @@ import { State } from './types';
 
 const Dashboard = () => {
   const classes = useStyles();
+
   const history = useHistory();
+
+  const [company, setCompany] = useState<string>('');
 
   const [closeAddForm, setCloseAddForm] = useState<boolean>(false);
 
@@ -21,6 +24,7 @@ const Dashboard = () => {
   const [news, setNews] = useState<State>({
     id: '',
     company_id: '',
+    company_name: '',
     news_topic: '',
     news_body: '',
     news_image: null,
@@ -50,6 +54,7 @@ const Dashboard = () => {
     setNews({
       id: '',
       company_id: '',
+      company_name: '',
       news_topic: '',
       news_body: '',
       news_image: null,
@@ -71,6 +76,7 @@ const Dashboard = () => {
       setNews({
         id: id,
         company_id: company_id,
+        company_name: '',
         news_topic: news_topic,
         news_body: news_body,
         news_image: news_image,
@@ -145,7 +151,6 @@ const Dashboard = () => {
 
       if (!success) throw Error;
       Swal.fire('Updated!', 'News updated successfully!', 'success')
-      Swal.fire('')
       handleCloseAddForm(false);
       getNews();
     } catch (error) {
@@ -184,11 +189,17 @@ const Dashboard = () => {
   }
 
   const getNews = async () => {
-    const news = await axios.get('/news/' + getCompanyId(), {
+    try {
+      const response = await axios.get('/news/' + getCompanyId());
+      const { success, company, news } = response.data;
 
-    });
-    const { result } = news.data;
-    setRetrievedNews(result)
+      if (!success) throw Error;
+
+      setRetrievedNews(news)
+      setCompany(company.company_name);
+    } catch (error) {
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
+    }
   }
 
   useEffect(() => {
@@ -204,6 +215,7 @@ const Dashboard = () => {
         handleUpdateForm={handleUpdateForm}
         handleButtonDelete={handleButtonDelete}
         news={retrievedNews}
+        company={company}
         max_width={closeAddForm ? "lg" : "xl"}
       />
       {closeAddForm &&

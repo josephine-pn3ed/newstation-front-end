@@ -70,13 +70,12 @@ const EmployeeRegistration = () => {
 
 
   const handleEmployeeRegister = async () => {
-    const { id, employee_password, employee_confirm_password, employee_email_address, employee_first_name, employee_middle_name, employee_last_name,
+    const { employee_password, employee_confirm_password, employee_email_address, employee_first_name, employee_middle_name, employee_last_name,
       employee_contact_number, employee_address, employee_position } = employee;
     const validateEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errors: string[] = [];
 
     try {
-      !id && errors.push('id');
       !employee_first_name && errors.push('employee_first_name');
       !employee_middle_name && errors.push('employee_middle_name');
       !employee_last_name && errors.push('employee_last_name');
@@ -90,10 +89,8 @@ const EmployeeRegistration = () => {
 
       if (!errors.length) {
         const result = await axios.post('/employee', {
-          id: id,
           company_id: getCompanyId(),
           employee_email_address: employee_email_address.toLowerCase(),
-          employee_password: employee_first_name.charAt(0).toUpperCase() + employee_last_name.charAt(0).toUpperCase() + employee_last_name.slice(1) + '@' + id,
           employee_first_name: employee_first_name,
           employee_middle_name: employee_middle_name,
           employee_last_name: employee_last_name,

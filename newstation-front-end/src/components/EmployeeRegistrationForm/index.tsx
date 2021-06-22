@@ -59,16 +59,6 @@ const EmployeeRegistrationForm = (props: Props) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('id')}
-                  variant="outlined"
-                  fullWidth
-                  label="Employee ID"
-                  name="id"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEmployeeInputChange(event)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
                   error={error.includes('employee_email_address') || errorRegister}
                   variant="outlined"
                   fullWidth
