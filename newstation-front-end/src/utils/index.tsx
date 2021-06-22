@@ -22,12 +22,7 @@ export const getUserEmail = () => {
 }
 
 export const setCompanyId = (id: string) => {
-<<<<<<< HEAD
-    localStorage.setItem('company_id', id);
 }
-=======
-} 
->>>>>>> 32054668505ec360329909e82c3005397eca54da
 
 export const getCompanyId = () => {
     return localStorage.getItem('company_id');
