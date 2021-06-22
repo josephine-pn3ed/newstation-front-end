@@ -26,6 +26,7 @@ const AccountSettingsContent = (props: Props) => {
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
       <Container maxWidth="xl" className={classes.container}>
+        <h1>{employee_first_name} {employee_last_name}'s Account Management Settings</h1>
         <div className={classes.paper}>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
@@ -60,17 +61,6 @@ const AccountSettingsContent = (props: Props) => {
                   variant="outlined"
                   fullWidth
                   label="Last Name"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={error.includes('id')}
-                  variant="outlined"
-                  fullWidth
-                  label="Employee ID"
-                  name="id"
-                  value={id}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
                 />
               </Grid>

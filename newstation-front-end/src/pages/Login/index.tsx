@@ -73,6 +73,7 @@ const Login = () => {
             setCompanyId(message);
             setUser(user);
             history.push('/dashboard');
+            console.log(message, user)
           }
         }
       }

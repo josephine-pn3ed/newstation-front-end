@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import AccountSettingsContent from '../../components/AccountSettingsContent';
 import useStyles from '../../styles/_Dashboard';
-import { logout, getUser } from '../../utils';
+import { logout, getUser, getCompanyId } from '../../utils';
 import { State } from './types';
 import axios from 'axios';
 
@@ -51,10 +51,10 @@ const AccountSettings = () => {
   }
 
   const getAccount = async () => {
-    const id = getUser();
+    const id = getCompanyId();
     try {
       console.log("dom", id);
-      const result = await axios.get('/employee/b0698f5f-6f9b-4ff3-96f9-f4adc43d3863');
+      const result = await axios.get('/employee/' + id);
       const { data } = result;
       console.log(data);
       setEditedAccount(data)
@@ -83,8 +83,8 @@ const AccountSettings = () => {
       const { id } = editedAccount
       const result = await axios.delete('/employee/' + id);
       console.log(result)
-
-      getAccount();
+      logout();
+      history.push('/login');
 
     } catch (error) {
       return { "message": "Error Delete!" };
