@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useDebugValue, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
@@ -45,8 +46,18 @@ const Dashboard = () => {
     setOpen(false);
   };
 
-  const handleCloseAddForm = () => {
-    setCloseAddForm(!closeAddForm);
+  const handleCloseAddForm = (open: boolean) => {
+    setNews({
+      id: '',
+      company_id: '',
+      news_topic: '',
+      news_body: '',
+      news_image: null,
+      news_status: 'Active',
+      created_at: '',
+      updated_at: ''
+    })
+    setCloseAddForm(open);
   }
 
   const handleUpdateForm = async (newsId: string) => {
@@ -78,6 +89,44 @@ const Dashboard = () => {
     setNews({ ...news, [name]: value });
   };
 
+  const handleButtonDelete = async (id: string) => {
+    try {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "This news will be deleted.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor:  "#3085d6",
+        cancelButtonColor:  "#d33",
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await axios.delete('/news/' + id);
+
+          Swal.fire(
+            'Deleted!',
+            'News has been deleted.',
+            'success'
+          )
+
+          getNews();
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          Swal.fire(
+            'Cancelled',
+            'Deleting news has been cancelled.',
+            'error'
+          )
+        }
+      })
+    } catch (error) {
+      alert('There is an error while deleting news.')
+    }
+  }
+
   const handleButtonUpdate = async (id: string) => {
     const { news_topic, news_body } = news;
     let errors: string[] = [];
@@ -91,12 +140,12 @@ const Dashboard = () => {
         news_topic: news_topic,
         news_body: news_body,
       });
-      
+
       const { success } = result.data;
 
       if (!success) throw Error;
 
-      handleCloseAddForm();
+      handleCloseAddForm(false);
       getNews();
     } catch (error) {
       alert('There is an error while updating news!')
@@ -104,7 +153,7 @@ const Dashboard = () => {
   }
 
   const handleButtonSubmit = async () => {
-    const { news_topic, news_body, news_image } = news;
+    const { news_topic, news_body } = news;
     let errors: string[] = [];
 
     try {
@@ -124,7 +173,7 @@ const Dashboard = () => {
         const { success } = result.data;
 
         if (!success) throw Error;
-        success && handleCloseAddForm();
+        success && handleCloseAddForm(false);
         getNews();
       }
     } catch (error) {
@@ -151,6 +200,7 @@ const Dashboard = () => {
       <DashboardContent
         handleCloseAddForm={handleCloseAddForm}
         handleUpdateForm={handleUpdateForm}
+        handleButtonDelete={handleButtonDelete}
         news={retrievedNews}
         max_width={closeAddForm ? "lg" : "xl"}
       />

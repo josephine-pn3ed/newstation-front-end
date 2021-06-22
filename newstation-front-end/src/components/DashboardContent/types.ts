@@ -1,6 +1,7 @@
 export interface Props {
-    handleCloseAddForm: () => void;
+    handleCloseAddForm: (open: boolean) => void;
     handleUpdateForm: (id: string) => void;
+    handleButtonDelete: (id: string) => void;
     max_width: any;
     news: News[]
 }

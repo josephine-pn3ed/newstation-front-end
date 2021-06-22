@@ -69,7 +69,7 @@ const NewsForm = (props: Props) => {
                   variant="contained"
                   color="secondary"
                   className={classes.submit}
-                  onClick={() => handleCloseAddForm()}
+                  onClick={() => handleCloseAddForm(false)}
                 >Close
             </Button>
               </Grid>

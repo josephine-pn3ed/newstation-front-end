@@ -94,7 +94,7 @@ const Employee = () => {
     try {
       Swal.fire({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: "This employee information will be deleted.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor:  "#3085d6",
@@ -108,7 +108,7 @@ const Employee = () => {
 
           Swal.fire(
             'Deleted!',
-            'Employee information has been restored.',
+            'Employee information has been deleted.',
             'success'
           )
 
@@ -118,7 +118,7 @@ const Employee = () => {
         ) {
           Swal.fire(
             'Cancelled',
-            'Restoring employee information has been cancelled.',
+            'Deleting employee information has been cancelled.',
             'error'
           )
         }
@@ -145,8 +145,8 @@ const Employee = () => {
           await axios.put('/employee/restore/' + id);
 
           Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
+            'Restored!',
+            'Employee information has been restored.',
             'success'
           )
 
@@ -156,7 +156,7 @@ const Employee = () => {
         ) {
           Swal.fire(
             'Cancelled',
-            'Deleting employee has been cancelled.',
+            'Restoring employee information has been cancelled.',
             'error'
           )
         }
