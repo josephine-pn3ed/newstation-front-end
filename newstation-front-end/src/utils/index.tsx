@@ -1,13 +1,15 @@
-export const login = (email: string, user: string, company_id: string) => {
+export const login = (email: string, user: string, company_id: string, id: string) => {
     localStorage.setItem('user_email', email);
     localStorage.setItem('company_id', company_id);
     localStorage.setItem('user', user);
+    localStorage.setItem('employee_id', id);
 }
 
 export const logout = () => {
     localStorage.removeItem('user_email');
     localStorage.removeItem('company_id');
     localStorage.removeItem('user');
+    localStorage.removeItem('employee_id');
 }
 
 export const isLogin = () => {
@@ -21,18 +23,16 @@ export const getUserEmail = () => {
     return localStorage.getItem('user_email')
 }
 
-export const setCompanyId = (id: string) => {
-}
-
 export const getCompanyId = () => {
     return localStorage.getItem('company_id');
 }
 
-export const removeCompanyId = () => {
-    localStorage.removeItem('company_id');
+export const getEmployeeId = () => {
+    return localStorage.getItem('employee_id');
 }
 
-export const setUser = (user: string) => {
+export const removeCompanyId = () => {
+    localStorage.removeItem('company_id');
 }
 
 export const getUser = () => {

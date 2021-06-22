@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useDebugValue, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
@@ -10,13 +11,13 @@ import { logout, getCompanyId } from '../../utils';
 import { State } from './types';
 
 const Dashboard = () => {
-
   const classes = useStyles();
   const history = useHistory();
 
   const [closeAddForm, setCloseAddForm] = useState<boolean>(false);
 
   const [open, setOpen] = useState<boolean>(true);
+
   const [news, setNews] = useState<State>({
     id: '',
     company_id: '',
@@ -45,8 +46,18 @@ const Dashboard = () => {
     setOpen(false);
   };
 
-  const handleCloseAddForm = () => {
-    setCloseAddForm(!closeAddForm);
+  const handleCloseAddForm = (open: boolean) => {
+    setNews({
+      id: '',
+      company_id: '',
+      news_topic: '',
+      news_body: '',
+      news_image: null,
+      news_status: 'Active',
+      created_at: '',
+      updated_at: ''
+    })
+    setCloseAddForm(open);
   }
 
   const handleUpdateForm = async (newsId: string) => {
@@ -68,7 +79,7 @@ const Dashboard = () => {
         updated_at: updated_at
       })
     } catch (error) {
-      alert('There is an error while getting news!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
@@ -77,6 +88,44 @@ const Dashboard = () => {
 
     setNews({ ...news, [name]: value });
   };
+
+  const handleButtonDelete = async (id: string) => {
+    try {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "This news will be deleted.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await axios.delete('/news/' + id);
+
+          Swal.fire(
+            'Deleted!',
+            'News has been deleted.',
+            'success'
+          )
+
+          getNews();
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          Swal.fire(
+            'Cancelled',
+            'Deleting news has been cancelled.',
+            'error'
+          )
+        }
+      })
+    } catch (error) {
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
+    }
+  }
 
   const handleButtonUpdate = async (id: string) => {
     const { news_topic, news_body } = news;
@@ -95,16 +144,17 @@ const Dashboard = () => {
       const { success } = result.data;
 
       if (!success) throw Error;
-
-      handleCloseAddForm();
+      Swal.fire('Updated!', 'News updated successfully!', 'success')
+      Swal.fire('')
+      handleCloseAddForm(false);
       getNews();
     } catch (error) {
-      alert('There is an error while updating news!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
   const handleButtonSubmit = async () => {
-    const { news_topic, news_body, news_image } = news;
+    const { news_topic, news_body } = news;
     let errors: string[] = [];
 
     try {
@@ -124,25 +174,27 @@ const Dashboard = () => {
         const { success } = result.data;
 
         if (!success) throw Error;
-        success && handleCloseAddForm();
+        Swal.fire('Added!', 'News added successfully!', 'success')
+        handleCloseAddForm(false);
         getNews();
       }
     } catch (error) {
-      alert('An error occurred while adding news!');
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
   const getNews = async () => {
-    const news = await axios.get('/news/' + getCompanyId(), {
-
-    });
-    const { result } = news.data;
-    setRetrievedNews(result)
+    const response = await axios.get('/news/' + getCompanyId())
+    const { news } = response.data;
+    console.log("getnews", news.data)
+    setRetrievedNews(news)
   }
 
   useEffect(() => {
     getNews();
   }, [])
+
+  console.log(retrievedNews)
 
   return (
     <div className={classes.root}>
@@ -151,6 +203,7 @@ const Dashboard = () => {
       <DashboardContent
         handleCloseAddForm={handleCloseAddForm}
         handleUpdateForm={handleUpdateForm}
+        handleButtonDelete={handleButtonDelete}
         news={retrievedNews}
         max_width={closeAddForm ? "lg" : "xl"}
       />

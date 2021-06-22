@@ -1,9 +1,9 @@
 export interface Props {
-    handleCloseAddForm: () => void;
-    handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    handleButtonSubmit: () => void;
-    handleButtonUpdate: (id: string) => void;
-    news: News;
+  handleCloseAddForm: (open: boolean) => void;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleButtonSubmit: () => void;
+  handleButtonUpdate: (id: string) => void;
+  news: News;
 }
 
 type Status = "Active" | "Inactive";

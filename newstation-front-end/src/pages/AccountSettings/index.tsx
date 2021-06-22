@@ -3,8 +3,9 @@ import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import AccountSettingsContent from '../../components/AccountSettingsContent';
+import AccountSettingsCompany from '../../components/AccountSettingsCompany';
 import useStyles from '../../styles/_Dashboard';
-import { logout, getUser, getCompanyId } from '../../utils';
+import { logout, getUser, getCompanyId, getEmployeeId } from '../../utils';
 import { State, Company } from './types';
 import axios from 'axios';
 
@@ -69,24 +70,26 @@ const AccountSettings = () => {
   }
 
   const getAccount = async () => {
+    type == 'company' ? getAccountCompany() : getAccountEmployee()
+  }
 
-    try {
+  const getAccountEmployee = async () => {
+    const id = getEmployeeId();
+    console.log("employee_ID", id)
+    const response = await axios.get("/employee/" + id);
+    const { data } = response;
+    console.log("employee result", data)
+    console.log("dom", type, id, "the data is", data);
+    setEditedAccount(data)
+  }
 
-      const id = getCompanyId();
-
-      const result = await axios.get(`/${type}/${id}`);
-      const { data } = result;
-      console.log("dom", type, id, "the data is", data);
-
-      (type == 'company' ? setEditedCompany(data) : setEditedAccount(data))
-
-      //console.log("getAcc", data)
-      // setCloseEdit(true);
-
-    }
-    catch (error) {
-      return { "message": "Invalid credentials!" };
-    }
+  const getAccountCompany = async () => {
+    const id = getCompanyId();
+    const response = await axios.get("/company/" + id);
+    console.log(response)
+    const { result } = response.data
+    console.log("dom", type, id, "the data is", result);
+    setEditedCompany(result)
   }
 
   const handleUpdateAccount = async () => {
@@ -94,8 +97,16 @@ const AccountSettings = () => {
       console.log("id of edited", editedAccount)
       const { id } = editedAccount
       const result = await axios.put('/employee/' + id, editedAccount)
-      //getEmployees();
-      // handleCloseEdit();
+    } catch (error) {
+      return { "message": "Error Update!" };
+    }
+  }
+
+  const handleUpdateCompany = async () => {
+    try {
+      console.log("id of edited", editedCompany)
+      const { id } = editedAccount
+      const result = await axios.put('/company/' + id, editedAccount)
     } catch (error) {
       return { "message": "Error Update!" };
     }
@@ -114,18 +125,34 @@ const AccountSettings = () => {
     }
   }
 
+  const handleDeleteCompany = async () => {
+    try {
+      const { id } = editedCompany
+      const result = await axios.delete('/company/' + id);
+      console.log(result)
+      logout();
+      history.push('/login');
+
+    } catch (error) {
+      return { "message": "Error Delete!" };
+    }
+  }
   useEffect(() => {
     getAccount();
   }, [])
 
+  console.log(editedCompany)
 
 
   return (
     <div className={classes.root}>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
-      <AccountSettingsContent handleEditAccountInput={handleEditAccountInput} error={error} editedAccount={editedAccount}
-        handleUpdateAccount={handleUpdateAccount} handleDeleteAccount={handleDeleteAccount} editedCompany={editedCompany} type={type} />
+      {type === "company" ? <AccountSettingsCompany editedCompany={editedCompany} handleEditCompanyInput={handleEditCompanyInput} error={error}
+        handleDeleteCompany={handleDeleteCompany} handleUpdateCompany={handleUpdateCompany} /> :
+        <AccountSettingsContent handleEditAccountInput={handleEditAccountInput} error={error} editedAccount={editedAccount}
+          handleUpdateAccount={handleUpdateAccount} handleDeleteAccount={handleDeleteAccount} />}
+
     </div>
   )
 }

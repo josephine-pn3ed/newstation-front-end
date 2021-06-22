@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-type Status = 'Active' | 'Inactive';
-
-export interface News {
-    id: string;
-    news_topic: string;
-    news_body: string;
-    news_status: Status;
-}
-=======
-
-
-type Status = "Active" | "Inactive";
-
 export interface State {
   id: string,
   company_id: string,
@@ -22,4 +8,6 @@ export interface State {
   created_at: string,
   updated_at: string
 }
->>>>>>> 32054668505ec360329909e82c3005397eca54da
+
+type Status = "Active" | "Inactive";
+

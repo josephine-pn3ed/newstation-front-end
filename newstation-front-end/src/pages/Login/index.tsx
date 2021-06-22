@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar';
 import LoginForm from '../../components/LoginForm';
 import useStyles from '../../styles/_LoginForm';
 import { Credentials } from './types';
-import { login, logout, setCompanyId, setUser } from '../../utils';
+import { login, logout } from '../../utils';
 
 const Login = () => {
   const classes = useStyles();
@@ -57,7 +57,7 @@ const Login = () => {
           password: password
         })
 
-        const { success, message, user, email } = result.data;
+        const { success, message, user, email, id } = result.data;
         console.log(result)
         if (!success) throw Error
         else {
@@ -69,7 +69,7 @@ const Login = () => {
           } else {
             setErrorLoginPassword(false)
             setErrorLogin(false)
-            login(email, user, message);
+            login(email, user, message, id);
             history.push('/dashboard');
 
           }

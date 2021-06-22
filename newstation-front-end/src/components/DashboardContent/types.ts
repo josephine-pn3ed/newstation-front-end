@@ -1,18 +1,7 @@
-//type Status = "Active" | "Inactive";
-
 export interface Props {
-    handleCloseAddForm: () => void;
-<<<<<<< HEAD
-}
-
-// export interface News {
-//     id: string;
-//     news_topic: string;
-//     news_body: string;
-//     news_status: Status;
-// }
-=======
+    handleCloseAddForm: (open: boolean) => void;
     handleUpdateForm: (id: string) => void;
+    handleButtonDelete: (id: string) => void;
     max_width: any;
     news: News[]
 }
@@ -29,4 +18,3 @@ export interface News {
     created_at: string,
     updated_at: string
 }
->>>>>>> 32054668505ec360329909e82c3005397eca54da

@@ -14,8 +14,6 @@ const AccountSettingsContent = (props: Props) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { type } = props;
-
 
   const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount, error } = props;
   //handleEditAccountButton();
@@ -77,6 +75,18 @@ const AccountSettingsContent = (props: Props) => {
                   type="email"
                   value={employee_email_address}
                   // helperText={errorRegister && 'Email address has already been taken'}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  error={error.includes('employee_password')}
+                  name="employee_password"
+                  value={employee_password}
+                  variant="outlined"
+                  fullWidth
+
+                  label="Password"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
                 />
               </Grid>

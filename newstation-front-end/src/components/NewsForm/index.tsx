@@ -69,9 +69,9 @@ const NewsForm = (props: Props) => {
                   variant="contained"
                   color="secondary"
                   className={classes.submit}
-                  onClick={() => handleCloseAddForm()}
+                  onClick={() => handleCloseAddForm(false)}
                 >Close
-            </Button>
+                </Button>
               </Grid>
               {!id ?
                 <Grid item xs={6}>
@@ -82,7 +82,7 @@ const NewsForm = (props: Props) => {
                     className={classes.submit}
                     onClick={handleButtonSubmit}
                   >Submit
-                </Button>
+                  </Button>
                 </Grid> :
                 <Grid item xs={6}>
                   <Button
@@ -92,7 +92,7 @@ const NewsForm = (props: Props) => {
                     className={classes.submit}
                     onClick={() => handleButtonUpdate(id)}
                   >Update
-              </Button>
+                  </Button>
                 </Grid>
               }
             </Grid>
