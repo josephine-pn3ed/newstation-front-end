@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
@@ -58,7 +59,7 @@ const Login = () => {
           password: password
         })
 
-        const { success, message, user, email } = result.data;
+        const { success, message, user, email, id } = result.data;
 
         if (!success) throw Error;
         else {
@@ -70,13 +71,13 @@ const Login = () => {
           } else {
             setErrorLoginPassword(false)
             setErrorLogin(false)
-            login(email, user, message);
+            login(email, user, message, id);
             history.push('/dashboard');
           }
         }
       }
     } catch (error) {
-      alert('An error occurred while logging in!');
+      Swal.fire('An error occurred while logging in!');
     }
   }
 

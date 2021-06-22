@@ -79,7 +79,7 @@ const Dashboard = () => {
         updated_at: updated_at
       })
     } catch (error) {
-      alert('There is an error while getting news!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
@@ -123,7 +123,7 @@ const Dashboard = () => {
         }
       })
     } catch (error) {
-      alert('There is an error while deleting news.')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
@@ -144,11 +144,12 @@ const Dashboard = () => {
       const { success } = result.data;
 
       if (!success) throw Error;
-
+      Swal.fire('Updated!', 'News updated successfully!', 'success')
+      Swal.fire('')
       handleCloseAddForm(false);
       getNews();
     } catch (error) {
-      alert('There is an error while updating news!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
@@ -173,11 +174,12 @@ const Dashboard = () => {
         const { success } = result.data;
 
         if (!success) throw Error;
-        success && handleCloseAddForm(false);
+        Swal.fire('Added!', 'News added successfully!', 'success')
+        handleCloseAddForm(false);
         getNews();
       }
     } catch (error) {
-      alert('An error occurred while adding news!');
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 

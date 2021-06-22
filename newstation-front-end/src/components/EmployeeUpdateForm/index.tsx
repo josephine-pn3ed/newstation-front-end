@@ -26,7 +26,7 @@ const EmployeeUpdateForm = (props: Props) => {
     , employee_position, employee_contact_number } = editedEmployee
 
   return (
-    <main className={classes.content} >
+    <main>
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
           <form className={classes.form} noValidate>

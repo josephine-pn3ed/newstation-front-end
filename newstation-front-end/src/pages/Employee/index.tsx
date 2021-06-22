@@ -73,19 +73,22 @@ const Employee = () => {
       setEditedEmployee(data)
       setCloseEdit(true);
     } catch (error) {
-      alert('There is an error while getting employee information!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
   const handleUpdateEmployee = async () => {
     try {
       const { id } = editedEmployee
-      await axios.put('/employee/' + id, editedEmployee)
+      const response = await axios.put('/employee/' + id, editedEmployee)
+      const { success } = response.data;
 
+      if (!success) throw Error;
+      Swal.fire('Updated!', 'Employee information updated successfully!', 'success')
       getEmployees();
       handleCloseEdit();
     } catch (error) {
-      alert('There is an error while updating employee information!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
@@ -97,8 +100,8 @@ const Employee = () => {
         text: "This employee information will be deleted.",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor:  "#3085d6",
-        cancelButtonColor:  "#d33",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, cancel!',
         reverseButtons: true
@@ -124,7 +127,7 @@ const Employee = () => {
         }
       })
     } catch (error) {
-      alert('There is an error while deleting employee information!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
@@ -135,8 +138,8 @@ const Employee = () => {
         text: "This employee information will be restored.",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor:  "#3085d6",
-        cancelButtonColor:  "#d33",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
         confirmButtonText: 'Yes, restore it!',
         cancelButtonText: 'No, cancel!',
         reverseButtons: true
@@ -162,7 +165,7 @@ const Employee = () => {
         }
       })
     } catch (error) {
-      alert('There is an error while restoring employee information!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
@@ -173,7 +176,7 @@ const Employee = () => {
 
       employeesToPushToHooks(data);
     } catch (error) {
-      alert('There is an error while getting employees!')
+      Swal.fire('There is an error while getting employees!')
     }
   }
 
@@ -201,7 +204,7 @@ const Employee = () => {
       (employee_status === 'Inactive') && inactive_employees.push(employee);
     })
 
-    const employees :string[][] =[];
+    const employees: string[][] = [];
 
     active_employees.map((value: string[]) => {
       employees.push(value);
@@ -250,8 +253,8 @@ const Employee = () => {
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
       <EmployeeTable employees={employees} />
-      {closeEdit ? (<EmployeeUpdateForm handleEditEmployee={handleEditEmployee} handleCloseEdit={handleCloseEdit}
-        handleUpdateEmployee={handleUpdateEmployee} error={error} editedEmployee={editedEmployee} />) : ""}
+      {closeEdit && (<EmployeeUpdateForm handleEditEmployee={handleEditEmployee} handleCloseEdit={handleCloseEdit}
+        handleUpdateEmployee={handleUpdateEmployee} error={error} editedEmployee={editedEmployee} />)}
     </div>
   )
 }

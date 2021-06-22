@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
@@ -103,14 +104,15 @@ const EmployeeRegistration = () => {
 
         const { success, message } = result.data;
 
-        if (success && message === 'Employee added successfully!') {
+        if (!success) throw Error;
+        if (message === 'Employee added successfully!') {
+          Swal.fire('Added!', 'Employee added successfully!', 'success');
           history.push('/employees');
         }
-        else throw Error;
 
       }
     } catch (error) {
-      alert('An error occurred while registering an employee!');
+      Swal.fire('An error occurred while registering an employee!');
     }
   }
 
