@@ -1,18 +1,13 @@
-import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useDebugValue, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import DashboardContent from '../../components/DashboardContent';
-import EditNewsForm from '../../components/EditNewsForm';
-import AddNewsForm from '../../components/AddNewsForm';
+import NewsForm from '../../components/NewsForm';
 import useStyles from '../../styles/_Dashboard';
-import { logout } from '../../utils';
-import axios from 'axios'
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import RestoreIcon from '@material-ui/icons/Restore';
-import { Tooltip, IconButton } from "@material-ui/core";
-import { News } from './types'
+import { logout, getCompanyId } from '../../utils';
+import { State } from './types';
 
 const Dashboard = () => {
 
@@ -22,15 +17,20 @@ const Dashboard = () => {
   const [closeAddForm, setCloseAddForm] = useState<boolean>(false);
 
   const [open, setOpen] = useState<boolean>(true);
-  const [newsData, setNewsData] = useState<string[][]>([]);
-  const [error, setError] = useState<string[]>([]);
-  const [closeEditNews, setCloseEditNews] = useState<boolean>(false);
-  const [editedNews, setEditedNews] = useState<News>({
-    id: "",
-    news_topic: "",
-    news_body: "",
-    news_status: "Active"
+  const [news, setNews] = useState<State>({
+    id: '',
+    company_id: '',
+    news_topic: '',
+    news_body: '',
+    news_image: null,
+    news_status: 'Active',
+    created_at: '',
+    updated_at: ''
   })
+
+  const [retrievedNews, setRetrievedNews] = useState<State[]>([]);
+
+  const [error, setError] = useState<string[]>([]);
 
   const handleLogoutButton = () => {
     logout();
@@ -49,106 +49,119 @@ const Dashboard = () => {
     setCloseAddForm(!closeAddForm);
   }
 
-  const handleEditNewsInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setEditedNews({ ...editedNews, [name]: value })
+  const handleUpdateForm = async (newsId: string) => {
+    try {
+      const newsById = await axios.get('/news-company/' + newsId);
+      const { result, success } = newsById.data;
+      const { id, company_id, news_topic, news_body, news_image, news_status, created_at, updated_at } = result;
+
+      if (!success) throw Error;
+      setCloseAddForm(true);
+      setNews({
+        id: id,
+        company_id: company_id,
+        news_topic: news_topic,
+        news_body: news_body,
+        news_image: news_image,
+        news_status: news_status,
+        created_at: created_at,
+        updated_at: updated_at
+      })
+    } catch (error) {
+      alert('There is an error while getting news!')
+    }
   }
 
-  const handleCloseEditNews = () => {
-    setCloseEditNews(false);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target;
+
+    setNews({ ...news, [name]: value });
+  };
+
+  const handleButtonUpdate = async (id: string) => {
+    const { news_topic, news_body } = news;
+    let errors: string[] = [];
+    try {
+      !(news_topic) && errors.push('news_topic');
+      !(news_body) && errors.push('news_body');
+
+      setError(errors);
+
+      const result = await axios.put('/news/' + id, {
+        news_topic: news_topic,
+        news_body: news_body,
+      });
+
+      const { success } = result.data;
+
+      if (!success) throw Error;
+
+      handleCloseAddForm();
+      getNews();
+    } catch (error) {
+      alert('There is an error while updating news!')
+    }
   }
 
+  const handleButtonSubmit = async () => {
+    const { news_topic, news_body, news_image } = news;
+    let errors: string[] = [];
+
+    try {
+      !(news_topic) && errors.push('news_topic');
+      !(news_body) && errors.push('news_body');
+
+      setError(errors);
+
+      if (!errors.length) {
+        const result = await axios.post('/news', {
+          news_topic: news_topic,
+          news_body: news_body,
+          news_image: null,
+          company_id: getCompanyId()
+        })
+
+        const { success } = result.data;
+
+        if (!success) throw Error;
+        success && handleCloseAddForm();
+        getNews();
+      }
+    } catch (error) {
+      alert('An error occurred while adding news!');
+    }
+  }
 
   const getNews = async () => {
-    const result = await axios.get('/News');
-    const { data } = result;
-    console.log(data)
-    const newsData: string[][] = [];
-    data.map((value: News) => {
-      const { id, news_topic, news_body, news_status } = value;
-      const news: any[] = [];
+    const news = await axios.get('/news/' + getCompanyId(), {
 
-      news.push(id);
-      news.push(news_topic);
-      news.push(news_body);
-      news.push(news_status);
-
-      news.push(actionButtons(id, news_status));
-
-      newsData.push(news);
-    })
-    setNewsData(newsData);
-  }
-
-  const actionButtons = (id: string, news_status: string) => {
-    return (
-      <div>
-        <Tooltip color="primary" title="Edit" onClick={() => handleEditNewsButton(id)} >
-          <IconButton>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-
-        {news_status === 'Active' ?
-          <Tooltip color="secondary" title="Delete" onClick={() => handleDeleteNewsButton(id)} >
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip> :
-          <Tooltip color="default" title="Delete" onClick={() => handleRestoreNews(id)} >
-            <IconButton>
-              <RestoreIcon />
-            </IconButton>
-          </Tooltip>}
-
-
-      </div>
-    )
-  }
-
-  const handleUpdateNews = async () => {
-    console.log(editedNews)
-    const { id } = editedNews
-    const result = await axios.put('/employee/' + id, editedNews)
-    getNews();
-    handleCloseEditNews();
-  }
-
-
-  const handleEditNewsButton = async (id: string) => {
-
-    const result = await axios.get('/news/' + id);
-    const { data } = result;
-    console.log(data);
-    setEditedNews(data)
-    setCloseEditNews(true);
-  }
-
-  const handleDeleteNewsButton = async (id: string) => {
-    const result = await axios.delete('/news/' + id);
-    console.log(result)
-    getNews();
-  }
-
-  const handleRestoreNews = async (id: string) => {
-    const result = await axios.put('/news/restore/' + id);
-    getNews();
+    });
+    const { result } = news.data;
+    setRetrievedNews(result)
   }
 
   useEffect(() => {
     getNews();
   }, [])
 
-
-
   return (
     <div className={classes.root}>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
-      <DashboardContent handleCloseAddForm={handleCloseAddForm} />
-      {closeAddForm && (<AddNewsForm handleCloseAddForm={handleCloseAddForm} />)}
-      {closeEditNews ? (<EditNewsForm handleEditNewsInput={handleEditNewsInput} handleCloseEditNews={handleCloseEditNews}
-        handleUpdateNews={handleUpdateNews} error={error} editedNews={editedNews} />) : ""}
+      <DashboardContent
+        handleCloseAddForm={handleCloseAddForm}
+        handleUpdateForm={handleUpdateForm}
+        news={retrievedNews}
+        max_width={closeAddForm ? "lg" : "xl"}
+      />
+      {closeAddForm &&
+        (<NewsForm
+          handleCloseAddForm={handleCloseAddForm}
+          handleInputChange={handleInputChange}
+          handleButtonSubmit={handleButtonSubmit}
+          handleButtonUpdate={handleButtonUpdate}
+          news={news}
+        />)}
     </div>
   )
 }

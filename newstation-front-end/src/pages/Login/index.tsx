@@ -57,7 +57,7 @@ const Login = () => {
           password: password
         })
 
-        const { success, message, user } = result.data;
+        const { success, message, user, email } = result.data;
         console.log(result)
         if (!success) throw Error
         else {
@@ -69,11 +69,9 @@ const Login = () => {
           } else {
             setErrorLoginPassword(false)
             setErrorLogin(false)
-            login();
-            setCompanyId(message);
-            setUser(user);
+            login(email, user, message);
             history.push('/dashboard');
-            console.log(message, user)
+
           }
         }
       }

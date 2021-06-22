@@ -9,7 +9,7 @@ import Navbar from '../../components/Navbar';
 import Sidenav from '../../components/Sidenav';
 import EmployeeTable from '../../components/EmployeeTable';
 import useStyles from '../../styles/_Employee';
-import { logout, getUser, getCompanyId } from '../../utils';
+import { logout, getCompanyId } from '../../utils';
 import { State } from './types';
 import EmployeeUpdateForm from '../../components/EmployeeUpdateForm';
 import Alert from '@material-ui/lab/Alert';
@@ -21,11 +21,7 @@ const Employee = () => {
   const [open, setOpen] = useState<boolean>(true);
   const [employees, setEmployees] = useState<string[][]>([])
   const [closeEdit, setCloseEdit] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
-  const [errorRegister, setErrorRegister] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
-  const [alert, setAlert] = useState<boolean>(false)
   const [editedEmployee, setEditedEmployee] = useState<State>({
     id: "",
     company_id: "",
@@ -43,18 +39,6 @@ const Employee = () => {
     created_at: "",
     updated_at: ""
   })
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-
-  const handleClickShowConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
 
   const handleLogoutButton = () => {
     logout();
@@ -83,90 +67,82 @@ const Employee = () => {
 
   const handleEditButton = async (id: string) => {
     try {
-      const user = getUser();
       const result = await axios.get('/employee/' + id);
       const { data } = result;
-      console.log("hi", data);
-      console.log("hi", id);
-      console.log("hi", user);
 
       setEditedEmployee(data)
       setCloseEdit(true);
-    }
-    catch (error) {
-      return { "message": "Invalid credentials!" };
+    } catch (error) {
+      alert('There is an error while getting employee information!')
     }
   }
 
   const handleUpdateEmployee = async () => {
     try {
-      console.log(editedEmployee)
       const { id } = editedEmployee
-      const result = await axios.put('/employee/' + id, editedEmployee)
+      await axios.put('/employee/' + id, editedEmployee)
+
       getEmployees();
       handleCloseEdit();
     } catch (error) {
-      return { "message": "Error Update!" };
+      alert('There is an error while updating employee information!')
     }
-  }
-
-  const handleCloseAlert = () => {
-    setAlert(true);
-  }
-
-  const handleOpenAlert = () => {
-    setAlert(false)
   }
 
   const handleDeleteButton = async (id: string) => {
     try {
-      const result = await axios.delete('/employee/' + id);
-      console.log(result)
+      await axios.delete('/employee/' + id);
 
       getEmployees();
-
     } catch (error) {
-      return { "message": "Error Delete!" };
+      alert('There is an error while deleting employee information!')
     }
   }
 
   const handleRestoreEmployee = async (id: string) => {
     try {
-      const result = await axios.put('/employee/restore/' + id);
+      await axios.put('/employee/restore/' + id);
+
       getEmployees();
     } catch (error) {
-      return { "message": "Invalid credentials!" };
+      alert('There is an error while restoring employee information!')
     }
   }
 
   const getEmployees = async () => {
     try {
-      const id = getCompanyId();
-      console.log("company id", id)
-      const result = await axios.get('/employees/' + id);
+      const result = await axios.get('/employees/' + getCompanyId());
       const { data } = result;
-      const employees: string[][] = [];
-      data.map((value: State) => {
-        const { id, employee_first_name, employee_middle_name, employee_last_name, employee_email_address, employee_password,
-          employee_contact_number, employee_position, employee_status } = value;
-        const employee: any[] = [];
 
-        employee.push(id);
-        employee.push(employee_first_name + ' ' + employee_middle_name + ' ' + employee_last_name);
-        employee.push(employee_email_address);
-        employee.push(employee_password);
-        employee.push(employee_contact_number);
-        employee.push(employee_position);
-        employee.push(employee_status);
-
-        employee.push(actionButtons(id, employee_status));
-
-        employees.push(employee);
-      })
-      setEmployees(employees);
+      employeesToPushToHooks(data);
     } catch (error) {
-      return { "message": "Invalid credentials!" };
+      alert('There is an error while getting employees!')
     }
+  }
+
+  const employeesToPushToHooks = (data: State[]) => {
+    const employees: string[][] = [];
+
+    data.map((value: State) => {
+      const { id, employee_first_name, employee_middle_name, employee_last_name, employee_email_address, employee_password,
+        employee_contact_number, employee_position, employee_status } = value;
+
+      const employee: any[] = [];
+
+      employee.push(id);
+      employee.push(employee_first_name + ' ' + employee_middle_name + ' ' + employee_last_name);
+      employee.push(employee_email_address);
+      employee.push(employee_password);
+      employee.push(employee_contact_number);
+      employee.push(employee_position);
+      employee.push(employee_status);
+
+      employee.push(actionButtons(id, employee_status));
+
+      employees.push(employee);
+    })
+
+    setEmployees(employees);
   }
 
   const actionButtons = (id: string, employee_status: string) => {
@@ -189,7 +165,8 @@ const Employee = () => {
             <IconButton>
               <RestoreIcon />
             </IconButton>
-          </Tooltip>}
+          </Tooltip>
+        }
 
       </div>
     )
@@ -204,8 +181,6 @@ const Employee = () => {
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
       <EmployeeTable employees={employees} />
-
-      {console.log(closeEdit)}
       {closeEdit ? (<EmployeeUpdateForm handleEditEmployee={handleEditEmployee} handleCloseEdit={handleCloseEdit}
         handleUpdateEmployee={handleUpdateEmployee} error={error} editedEmployee={editedEmployee} />) : ""}
 

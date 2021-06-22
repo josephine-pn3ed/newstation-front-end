@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
 import { AccountCircle } from '@material-ui/icons';
-import { getUser } from '../../utils';
+import { getUser, getUserEmail } from '../../utils';
 
 const Sidenav = (props: Props) => {
   const { open, handleDrawerClose } = props;
@@ -58,7 +58,7 @@ const Sidenav = (props: Props) => {
             <ListItemIcon>
               <AccountCircle />
             </ListItemIcon>
-            <ListItemText primary="My Account" />
+            <ListItemText primary={getUserEmail()} />
           </ListItem>
         </List>
         <Divider />

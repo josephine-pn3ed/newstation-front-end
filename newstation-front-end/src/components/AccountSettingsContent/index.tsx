@@ -8,12 +8,14 @@ import {
 import useStyles from '../../styles/_RegisterForm';
 import { useHistory } from 'react-router-dom';
 import { Props } from './types';
-
-
+import { getUser } from '../../utils';
 
 const AccountSettingsContent = (props: Props) => {
   const classes = useStyles();
   const history = useHistory();
+
+  const { type } = props;
+
 
   const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount, error } = props;
   //handleEditAccountButton();
@@ -141,6 +143,7 @@ const AccountSettingsContent = (props: Props) => {
         </div>
       </Container>
     </main>
+
   )
 }
 

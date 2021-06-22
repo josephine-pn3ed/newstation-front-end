@@ -1,16 +1,19 @@
-import React from 'react'
 import {
   Route,
   Redirect,
 } from "react-router-dom";
 import { Props } from './types';
-import { isLogin } from '../../utils';
+import { getUser, isLogin } from '../../utils';
 
 const PrivateRoute = (props: Props) => {
   const { children, ...rest } = props;
+  const { path } = rest;
 
   const routeComponent = () => {
     if (isLogin()) {
+      if ((getUser() !== 'company') && (path === '/employees')) {
+        return (<Redirect to={{ pathname: "/dashboard" }} />)
+      }
       return (children)
     } else {
       return (<Redirect to={{ pathname: "/login" }} />)

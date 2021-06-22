@@ -5,7 +5,7 @@ import Sidenav from '../../components/Sidenav';
 import AccountSettingsContent from '../../components/AccountSettingsContent';
 import useStyles from '../../styles/_Dashboard';
 import { logout, getUser, getCompanyId } from '../../utils';
-import { State } from './types';
+import { State, Company } from './types';
 import axios from 'axios';
 
 const AccountSettings = () => {
@@ -14,6 +14,8 @@ const AccountSettings = () => {
   const [open, setOpen] = useState<boolean>(true);
   const [error, setError] = useState<string[]>([]);
   const [errorRegister, setErrorRegister] = useState<boolean>(false);
+  let type: string;
+  (getUser() === 'company' ? type = 'company' : type = 'employee')
 
   const [editedAccount, setEditedAccount] = useState<State>({
     id: "",
@@ -28,6 +30,16 @@ const AccountSettings = () => {
     employee_image: "",
     employee_status: "Active",
     updated_at: ""
+  })
+
+  const [editedCompany, setEditedCompany] = useState<Company>({
+    id: "",
+    company_name: "",
+    company_address: "",
+    company_contact_number: "",
+    company_email_address: "",
+    company_password: "",
+    company_status: "Active",
   })
 
   const handleLogoutButton = () => {
@@ -50,16 +62,27 @@ const AccountSettings = () => {
 
   }
 
+  const handleEditCompanyInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setEditedCompany({ ...editedCompany, [name]: value })
+
+  }
+
   const getAccount = async () => {
-    const id = getCompanyId();
+
     try {
-      console.log("dom", id);
-      const result = await axios.get('/employee/' + id);
+
+      const id = getCompanyId();
+
+      const result = await axios.get(`/${type}/${id}`);
       const { data } = result;
-      console.log(data);
-      setEditedAccount(data)
-      console.log("getAcc", data)
+      console.log("dom", type, id, "the data is", data);
+
+      (type == 'company' ? setEditedCompany(data) : setEditedAccount(data))
+
+      //console.log("getAcc", data)
       // setCloseEdit(true);
+
     }
     catch (error) {
       return { "message": "Invalid credentials!" };
@@ -95,7 +118,6 @@ const AccountSettings = () => {
     getAccount();
   }, [])
 
-  console.log("hi", editedAccount);
 
 
   return (
@@ -103,7 +125,7 @@ const AccountSettings = () => {
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
       <AccountSettingsContent handleEditAccountInput={handleEditAccountInput} error={error} editedAccount={editedAccount}
-        handleUpdateAccount={handleUpdateAccount} handleDeleteAccount={handleDeleteAccount} />
+        handleUpdateAccount={handleUpdateAccount} handleDeleteAccount={handleDeleteAccount} editedCompany={editedCompany} type={type} />
     </div>
   )
 }
