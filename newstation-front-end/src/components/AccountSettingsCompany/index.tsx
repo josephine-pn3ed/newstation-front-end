@@ -5,7 +5,7 @@ import {
   Container,
   Button
 } from '@material-ui/core';
-import useStyles from '../../styles/_RegisterForm';
+import useStyles from '../../styles/_AccountSettings';
 import { useHistory } from 'react-router-dom';
 import { Props } from './types';
 import { getUser } from '../../utils';
@@ -21,9 +21,10 @@ const AccountSettingsCompany = (props: Props) => {
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
-      <Container maxWidth="xl" className={classes.container}>
-        <h1>{company_name}'s Account Management Settings</h1>
+      <Container maxWidth="md" className={classes.container}>
+
         <div className={classes.paper}>
+          <h2>{company_name}'s Account Management Settings</h2>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -87,6 +88,8 @@ const AccountSettingsCompany = (props: Props) => {
             </Grid>
             <Button
               fullWidth
+
+              size='small'
               variant="contained"
               color="primary"
               className={classes.submit}
@@ -105,6 +108,7 @@ const AccountSettingsCompany = (props: Props) => {
             </Button>
             <Button
               fullWidth
+              size='medium'
               variant="outlined"
               color="inherit"
               className={classes.submit}

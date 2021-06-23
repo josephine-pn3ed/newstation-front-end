@@ -5,10 +5,9 @@ import {
   Container,
   Button
 } from '@material-ui/core';
-import useStyles from '../../styles/_RegisterForm';
+import useStyles from '../../styles/_AccountSettings'
 import { useHistory } from 'react-router-dom';
 import { Props } from './types';
-import { getUser } from '../../utils';
 
 const AccountSettingsContent = (props: Props) => {
   const classes = useStyles();
@@ -20,9 +19,9 @@ const AccountSettingsContent = (props: Props) => {
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
-      <Container maxWidth="xl" className={classes.container}>
-        <h1>{employee_first_name} {employee_last_name}'s Account Management Settings</h1>
+      <Container maxWidth="md" className={classes.container}>
         <div className={classes.paper}>
+          <h1>{employee_first_name} {employee_last_name}'s Account Management Settings</h1>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>
