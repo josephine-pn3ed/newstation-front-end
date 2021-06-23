@@ -8,7 +8,7 @@ import {
 import useStyles from '../../styles/_AccountSettings'
 import { useHistory } from 'react-router-dom';
 import { Props } from './types';
-import { getUserEmail } from '../../utils';
+import { getUserEmail, getUser, getEmployeeId } from '../../utils';
 
 const AccountSettingsContent = (props: Props) => {
   const classes = useStyles();
@@ -23,8 +23,9 @@ const AccountSettingsContent = (props: Props) => {
       <div className={classes.appBarSpacer} />
       <Container maxWidth="md" className={classes.container}>
         <div className={classes.paper}>
-          {<h2><i> {employee} </i></h2>}
           <h2> Account Management Settings</h2>
+          {<h2> <i> {getUserEmail()} </i></h2>}
+          <h4> {getUser()} ID : {getEmployeeId()} </h4>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>

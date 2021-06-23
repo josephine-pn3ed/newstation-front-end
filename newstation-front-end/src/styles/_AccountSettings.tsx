@@ -6,10 +6,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#e3f2fd'
     },
     paper: {
-        marginTop: theme.spacing(-2),
+        marginTop: theme.spacing(-5),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+
+
     },
     avatar: {
         margin: theme.spacing(1),
@@ -18,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     form: {
         width: '40%', // Fix IE 11 issue.
         marginTop: theme.spacing(3),
+
     },
     submit: {
         margin: theme.spacing(1, 0, 1),
