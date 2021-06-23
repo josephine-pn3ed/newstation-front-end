@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
@@ -58,8 +59,8 @@ const Login = () => {
         })
 
         const { success, message, user, email, id } = result.data;
-        console.log(result)
-        if (!success) throw Error
+
+        if (!success) throw Error;
         else {
           if (message === "Wrong password.") {
             setErrorLoginPassword(true)
@@ -76,7 +77,7 @@ const Login = () => {
         }
       }
     } catch (error) {
-      alert('An error occurred while logging in!');
+      Swal.fire('An error occurred while logging in!');
     }
   }
 

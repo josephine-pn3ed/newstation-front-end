@@ -92,9 +92,6 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
-  header: {
-    width: '100px'
-  },
   card: {
     marginBottom: '20px'
   }

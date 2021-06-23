@@ -7,7 +7,7 @@ import { getUser, getUserEmail } from '../../utils';
 
 const DashboardContent = (props: Props) => {
   const classes = useStyles();
-  const { handleCloseAddForm, handleUpdateForm, handleButtonDelete, max_width, news } = props;
+  const { handleCloseAddForm, handleUpdateForm, handleButtonDelete, max_width, news, company } = props;
 
   return (
     <main className={classes.content}>
@@ -22,12 +22,15 @@ const DashboardContent = (props: Props) => {
             <Card className={classes.card}>
               <CardHeader
                 avatar={
-                  <Avatar aria-label="user" className={classes.avatar}>{getUserEmail()?.slice(0, 1)}</Avatar>
+                  <Avatar aria-label="user" className={classes.avatar}>{company?.slice(0, 1)}</Avatar>
                 }
-                title={value.news_topic}
+                title={company}
                 subheader={value.updated_at}
               />
               <CardContent>
+                <Typography variant="body2" color="textPrimary" component="p">
+                  <h3>{value.news_topic}</h3>
+                </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                   <p style={{ whiteSpace: 'pre-line' }}>{value.news_body}</p>
                 </Typography>

@@ -74,19 +74,22 @@ const Employee = () => {
       setEditedEmployee(data)
       setCloseEdit(true);
     } catch (error) {
-      alert('There is an error while getting employee information!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
   const handleUpdateEmployee = async () => {
     try {
       const { id } = editedEmployee
-      await axios.put('/employee/' + id, editedEmployee)
+      const response = await axios.put('/employee/' + id, editedEmployee)
+      const { success } = response.data;
 
+      if (!success) throw Error;
+      Swal.fire('Updated!', 'Employee information updated successfully!', 'success')
       getEmployees();
       handleCloseEdit();
     } catch (error) {
-      alert('There is an error while updating employee information!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
@@ -95,7 +98,7 @@ const Employee = () => {
     try {
       Swal.fire({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: "This employee information will be deleted.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -109,7 +112,7 @@ const Employee = () => {
 
           Swal.fire(
             'Deleted!',
-            'Employee information has been restored.',
+            'Employee information has been deleted.',
             'success'
           )
 
@@ -119,13 +122,13 @@ const Employee = () => {
         ) {
           Swal.fire(
             'Cancelled',
-            'Restoring employee information has been cancelled.',
+            'Deleting employee information has been cancelled.',
             'error'
           )
         }
       })
     } catch (error) {
-      alert('There is an error while deleting employee information!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
@@ -146,8 +149,8 @@ const Employee = () => {
           await axios.put('/employee/restore/' + id);
 
           Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
+            'Restored!',
+            'Employee information has been restored.',
             'success'
           )
 
@@ -157,13 +160,13 @@ const Employee = () => {
         ) {
           Swal.fire(
             'Cancelled',
-            'Deleting employee has been cancelled.',
+            'Restoring employee information has been cancelled.',
             'error'
           )
         }
       })
     } catch (error) {
-      alert('There is an error while restoring employee information!')
+      Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
   }
 
@@ -174,7 +177,7 @@ const Employee = () => {
 
       employeesToPushToHooks(data);
     } catch (error) {
-      alert('There is an error while getting employees!')
+      Swal.fire('There is an error while getting employees!')
     }
   }
 
@@ -251,10 +254,8 @@ const Employee = () => {
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
       <EmployeeTable employees={employees} />
-      {closeEdit ? (<EmployeeUpdateForm handleEditEmployee={handleEditEmployee} handleCloseEdit={handleCloseEdit}
-        handleUpdateEmployee={handleUpdateEmployee} error={error} editedEmployee={editedEmployee} />) : ""}
-
-
+      {closeEdit && (<EmployeeUpdateForm handleEditEmployee={handleEditEmployee} handleCloseEdit={handleCloseEdit}
+        handleUpdateEmployee={handleUpdateEmployee} error={error} editedEmployee={editedEmployee} />)}
     </div>
   )
 }

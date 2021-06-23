@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
@@ -69,7 +70,7 @@ const Register = () => {
           success && (Object.keys(message)) && history.push('/login');;
       }
     } catch (error) {
-      alert('An error occurred while signing up!');
+      Swal.fire('An error occurred while signing up!');
     }
   }
 
