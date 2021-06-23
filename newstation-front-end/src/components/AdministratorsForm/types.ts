@@ -1,19 +1,14 @@
 export interface Props {
-  showPassword: boolean;
-  showConfirmPassword: boolean;
   handleAdministratorInputChange: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
-  handleClickShowPassword: () => void;
-  handleMouseDownPassword: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleFormLoaded: (open: boolean) => void;
   handleAdministratorRegister: () => void;
-  handleClickShowConfirmPassword: () => void;
+  handleUpdateAdministrator: () => void;
   administrator: Administrator;
   error: string[];
   errorRegister: boolean;
-  handleFormLoaded: (open: boolean) => void;
   addForm: boolean;
-  handleUpdateAdministrator: () => void;
 }
 
 type Status = "Active" | "Inactive";
@@ -30,7 +25,6 @@ interface Administrator {
   user_address: string;
   user_position: string;
   user_contact_number: string;
-  user_image: string;
   user_status: Status;
   created_at: string;
   updated_at: string;

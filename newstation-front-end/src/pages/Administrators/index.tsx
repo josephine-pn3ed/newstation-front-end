@@ -12,7 +12,7 @@ import Sidenav from "../../components/Sidenav";
 import AdministratorsTable from "../../components/AdministratorsTable";
 import useStyles from "../../styles/_Administrator";
 import { logout, getCompanyId } from "../../utils";
-import { Administrator, Company } from "./types";
+import { Administrator } from "./types";
 import AdministratorsForm from "../../components/AdministratorsForm";
 
 const Administrators = () => {
@@ -34,20 +34,6 @@ const Administrators = () => {
 
   const [addForm, setAddForm] = useState<boolean>(false);
 
-  const [company, setCompany] = useState<Company>({
-    id: "",
-    company_name: "",
-    company_image: "",
-    company_address: "",
-    company_contact_number: "",
-    company_email_address: "",
-    company_password: "",
-    company_confirm_password: "",
-    company_status: "Active",
-    created_at: "",
-    updated_at: "",
-  });
-
   const [administrator, setAdministrator] = useState<Administrator>({
     id: "",
     company_id: "",
@@ -60,66 +46,10 @@ const Administrators = () => {
     user_address: "",
     user_position: "",
     user_contact_number: "",
-    user_image: "",
     user_status: "Active",
     created_at: "",
     updated_at: "",
   });
-
-  const handleCompanyRegister = async () => {
-    const {
-      company_password,
-      company_confirm_password,
-      company_email_address,
-      company_name,
-      company_contact_number,
-      company_address,
-    } = company;
-    const strongRegex = new RegExp(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-    );
-    const validateEmail =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    let errors: string[] = [];
-
-    try {
-      !company_name && errors.push("company_name");
-      !company_address && errors.push("company_address");
-      !company_contact_number && errors.push("company_contact_number");
-      !company_email_address && errors.push("company_email_address");
-      !company_password && errors.push("company_password");
-      !validateEmail.test(company_email_address) &&
-        errors.push("company_email_address");
-      !strongRegex.test(company_password) && errors.push("company_password");
-      !strongRegex.test(company_confirm_password) &&
-        errors.push("company_confirm_password");
-
-      company_confirm_password !== company_password &&
-        errors.push("company_confirm_password");
-
-      setError(errors);
-
-      if (!errors.length) {
-        const result = await axios.post("/company", {
-          company_email_address: company_email_address.toLowerCase(),
-          company_password: company_password,
-          company_name: company_name,
-          company_contact_number: company_contact_number,
-          company_address: company_address,
-        });
-
-        const { success, message } = result.data;
-
-        if (!success) throw Error;
-
-        success && message === "Email address has already been taken."
-          ? setErrorRegister(true)
-          : success && Object.keys(message) && history.push("/login");
-      }
-    } catch (error) {
-      Swal.fire("An error occurred while signing up!");
-    }
-  };
 
   const handleFormLoaded = (open: boolean) => {
     setAdministrator({
@@ -134,35 +64,12 @@ const Administrators = () => {
       user_address: "",
       user_position: "",
       user_contact_number: "",
-      user_image: "",
       user_status: "Active",
       created_at: "",
       updated_at: "",
     });
     setAddForm(true);
     setFormLoaded(open);
-  };
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleClickShowConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  const handleCompanyInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { value, name } = event.target;
-
-    setCompany({ ...company, [name]: value });
   };
 
   const handleLogoutButton = () => {
@@ -176,13 +83,6 @@ const Administrators = () => {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
-
-  const handleEditAdministrator = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { name, value } = event.target;
-    setAdministrator({ ...administrator, [name]: value });
   };
 
   const handleCloseEdit = () => {
@@ -494,11 +394,6 @@ const Administrators = () => {
       )}
       {formLoaded && (
         <AdministratorsForm
-          showPassword={showPassword}
-          showConfirmPassword={showConfirmPassword}
-          handleClickShowPassword={handleClickShowPassword}
-          handleClickShowConfirmPassword={handleClickShowConfirmPassword}
-          handleMouseDownPassword={handleMouseDownPassword}
           handleAdministratorInputChange={handleAdministratorInputChange}
           handleAdministratorRegister={handleAdministratorRegister}
           handleUpdateAdministrator={handleUpdateAdministrator}
