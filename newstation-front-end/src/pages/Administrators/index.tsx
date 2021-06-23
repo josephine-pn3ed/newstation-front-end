@@ -180,6 +180,8 @@ const Administrators = () => {
           Swal.fire("Added!", "Administrator added successfully!", "success");
           setFormLoaded(false);
           getAdministrators();
+        } else {
+          setErrorRegister(true);
         }
       }
     } catch (error) {
