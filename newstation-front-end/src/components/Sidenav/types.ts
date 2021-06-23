@@ -1,4 +1,4 @@
 export interface Props {
-    open: boolean,
-    handleDrawerClose: () => void;
+  open: boolean;
+  handleDrawerClose: () => void;
 }

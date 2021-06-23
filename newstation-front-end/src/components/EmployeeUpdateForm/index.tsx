@@ -1,12 +1,7 @@
-import React from 'react';
-import {
-  TextField,
-  Grid,
-  Container,
-  Button
-} from '@material-ui/core';
-import { Props } from './types';
-import useStyles from '../../styles/_RegisterForm';
+import React from "react";
+import { TextField, Grid, Container, Button } from "@material-ui/core";
+import { Props } from "./types";
+import useStyles from "../../styles/_AdministratorForm";
 
 const EmployeeUpdateForm = (props: Props) => {
   const classes = useStyles();
@@ -16,11 +11,18 @@ const EmployeeUpdateForm = (props: Props) => {
     handleCloseEdit,
     handleUpdateEmployee,
     error,
-    editedEmployee
+    editedEmployee,
   } = props;
 
-  const { employee_first_name, employee_middle_name, employee_last_name, employee_email_address, employee_address
-    , employee_position, employee_contact_number } = editedEmployee
+  const {
+    employee_first_name,
+    employee_middle_name,
+    employee_last_name,
+    employee_email_address,
+    employee_address,
+    employee_position,
+    employee_contact_number,
+  } = editedEmployee;
 
   return (
     <main>
@@ -30,7 +32,7 @@ const EmployeeUpdateForm = (props: Props) => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('employee_first_name')}
+                  error={error.includes("employee_first_name")}
                   name="employee_first_name"
                   value={employee_first_name}
                   variant="outlined"
@@ -39,12 +41,14 @@ const EmployeeUpdateForm = (props: Props) => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleEditEmployee(event)
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('employee_middle_name')}
+                  error={error.includes("employee_middle_name")}
                   name="employee_middle_name"
                   value={employee_middle_name}
                   variant="outlined"
@@ -53,12 +57,14 @@ const EmployeeUpdateForm = (props: Props) => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleEditEmployee(event)
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('employee_last_name')}
+                  error={error.includes("employee_last_name")}
                   name="employee_last_name"
                   value={employee_last_name}
                   variant="outlined"
@@ -67,7 +73,9 @@ const EmployeeUpdateForm = (props: Props) => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleEditEmployee(event)
+                  }
                 />
               </Grid>
 
@@ -85,12 +93,14 @@ const EmployeeUpdateForm = (props: Props) => {
                     shrink: true,
                   }}
                   //  helperText={errorRegister && 'Email address has already been taken'}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleEditEmployee(event)
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('employee_address')}
+                  error={error.includes("employee_address")}
                   variant="outlined"
                   fullWidth
                   label="Address"
@@ -99,12 +109,14 @@ const EmployeeUpdateForm = (props: Props) => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleEditEmployee(event)
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('employee_position')}
+                  error={error.includes("employee_position")}
                   variant="outlined"
                   fullWidth
                   label="Position"
@@ -113,12 +125,14 @@ const EmployeeUpdateForm = (props: Props) => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleEditEmployee(event)
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('employee_contact_number')}
+                  error={error.includes("employee_contact_number")}
                   variant="outlined"
                   fullWidth
                   label="Contact Number"
@@ -127,7 +141,9 @@ const EmployeeUpdateForm = (props: Props) => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditEmployee(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleEditEmployee(event)
+                  }
                 />
               </Grid>
               <Grid item xs={6}>
@@ -137,7 +153,8 @@ const EmployeeUpdateForm = (props: Props) => {
                   color="secondary"
                   className={classes.submit}
                   onClick={handleCloseEdit}
-                >CLOSE
+                >
+                  CLOSE
                 </Button>
               </Grid>
               <Grid item xs={6}>
@@ -147,15 +164,16 @@ const EmployeeUpdateForm = (props: Props) => {
                   color="primary"
                   className={classes.submit}
                   onClick={handleUpdateEmployee}
-                >UPDATE
+                >
+                  UPDATE
                 </Button>
               </Grid>
             </Grid>
           </form>
         </div>
-      </Container >
+      </Container>
     </main>
   );
-}
+};
 
 export default EmployeeUpdateForm;

@@ -46,8 +46,8 @@ const AccountSettings = () => {
 
   const handleLogoutButton = () => {
     logout();
-    history.push('/login');
-  }
+    history.push("/login");
+  };
 
 
   const handleDrawerOpen = () => {
@@ -280,7 +280,7 @@ const AccountSettings = () => {
           handleDeleteAccount={handleDeleteAccount} />}
 
     </div>
-  )
-}
+  );
+};
 
 export default AccountSettings;
