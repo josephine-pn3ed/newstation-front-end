@@ -134,12 +134,25 @@ const AccountSettings = () => {
 
   return (
     <div className={classes.root}>
-      <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
-      <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
-      {type === "company" ? <AccountSettingsCompany editedCompany={editedCompany} handleEditCompanyInput={handleEditCompanyInput} error={error}
-        handleDeleteCompany={handleDeleteCompany} handleUpdateCompany={handleUpdateCompany} /> :
-        <AccountSettingsContent handleEditAccountInput={handleEditAccountInput} error={error} editedAccount={editedAccount}
-          handleUpdateAccount={handleUpdateAccount} handleDeleteAccount={handleDeleteAccount} />}
+      <Navbar
+        open={open}
+        handleDrawerOpen={handleDrawerOpen}
+        handleLogoutButton={handleLogoutButton} />
+      <Sidenav
+        open={open}
+        handleDrawerClose={handleDrawerClose} />
+      {type === "company" ? <AccountSettingsCompany
+        editedCompany={editedCompany}
+        handleEditCompanyInput={handleEditCompanyInput}
+        error={error}
+        handleDeleteCompany={handleDeleteCompany}
+        handleUpdateCompany={handleUpdateCompany} /> :
+        <AccountSettingsContent
+          handleEditAccountInput={handleEditAccountInput}
+          error={error}
+          editedAccount={editedAccount}
+          handleUpdateAccount={handleUpdateAccount}
+          handleDeleteAccount={handleDeleteAccount} />}
 
     </div>
   )

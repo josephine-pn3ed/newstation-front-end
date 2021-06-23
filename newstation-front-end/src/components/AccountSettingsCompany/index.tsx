@@ -24,7 +24,7 @@ const AccountSettingsCompany = (props: Props) => {
       <Container maxWidth="md" className={classes.container}>
 
         <div className={classes.paper}>
-          <h2>{company_name}'s Account Management Settings</h2>
+          {company_name && <h2>{company_name}'s Account Management Settings</h2>}
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>

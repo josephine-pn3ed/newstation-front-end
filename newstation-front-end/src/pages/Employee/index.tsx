@@ -251,11 +251,21 @@ const Employee = () => {
 
   return (
     <div className={classes.root}>
-      <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
-      <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
-      <EmployeeTable employees={employees} />
-      {closeEdit && (<EmployeeUpdateForm handleEditEmployee={handleEditEmployee} handleCloseEdit={handleCloseEdit}
-        handleUpdateEmployee={handleUpdateEmployee} error={error} editedEmployee={editedEmployee} />)}
+      <Navbar
+        open={open}
+        handleDrawerOpen={handleDrawerOpen}
+        handleLogoutButton={handleLogoutButton} />
+      <Sidenav
+        open={open}
+        handleDrawerClose={handleDrawerClose} />
+      <EmployeeTable
+        employees={employees} />
+      {closeEdit && (<EmployeeUpdateForm
+        handleEditEmployee={handleEditEmployee}
+        handleCloseEdit={handleCloseEdit}
+        handleUpdateEmployee={handleUpdateEmployee}
+        error={error}
+        editedEmployee={editedEmployee} />)}
     </div>
   )
 }

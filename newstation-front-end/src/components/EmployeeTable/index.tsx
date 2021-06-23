@@ -9,18 +9,22 @@ const EmployeeTable = (props: Props) => {
   const columns = ["Employee ID", "Name", "Email Address", "Password", "Contact Number", "Position", "Status", ""];
   const classes = useStyles();
   const history = useHistory();
-  
+  const options = {
+    selectableRows: "none"
+  }
+
   return (
     <main className={classes.content} >
       <div className={classes.appBarSpacer} />
       <Button color="secondary" variant="contained" className={classes.addEmployeeButton} onClick={() => history.push('/employee-registration-form')} >
         Add Employee
-          </Button>
+      </Button>
       <Container maxWidth="xl" className={classes.container} >
         <MUIDataTable
           title={"Employee List"}
           data={employees}
           columns={columns}
+          options={options}
         />
       </Container>
 

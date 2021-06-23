@@ -21,7 +21,7 @@ const AccountSettingsContent = (props: Props) => {
       <div className={classes.appBarSpacer} />
       <Container maxWidth="md" className={classes.container}>
         <div className={classes.paper}>
-          <h1>{employee_first_name} {employee_last_name}'s Account Management Settings</h1>
+          {employee_first_name && <h1>{employee_first_name} {employee_last_name}'s Account Management Settings</h1>}
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>
