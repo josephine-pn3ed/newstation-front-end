@@ -12,7 +12,6 @@ const EmployeeTable = (props: Props) => {
     "Password",
     "Contact Number",
     "Position",
-    "Status",
     "",
   ];
   const classes = useStyles();

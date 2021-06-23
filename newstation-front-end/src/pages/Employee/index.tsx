@@ -210,7 +210,6 @@ const Employee = () => {
       employee.push(employee_password);
       employee.push(employee_contact_number);
       employee.push(employee_position);
-      employee.push(employee_status);
 
       employee.push(actionButtons(id, employee_status));
 
@@ -235,36 +234,44 @@ const Employee = () => {
   const actionButtons = (id: string, employee_status: string) => {
     return (
       <div>
-        <Tooltip
-          color="primary"
-          title="Edit"
-          onClick={() => handleEditButton(id)}
-        >
-          <IconButton>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-
         {employee_status === "Active" ? (
-          <Tooltip
-            color="secondary"
-            title="Delete"
-            onClick={() => handleDeleteButton(id)}
-          >
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
+          <div>
+            <Tooltip
+              color="primary"
+              title="Edit"
+              onClick={() => handleEditButton(id)}
+            >
+              <IconButton>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              color="secondary"
+              title="Delete"
+              onClick={() => handleDeleteButton(id)}
+            >
+              <IconButton>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
         ) : (
-          <Tooltip
-            color="default"
-            title="Restore"
-            onClick={() => handleRestoreEmployee(id)}
-          >
-            <IconButton>
-              <RestoreIcon />
-            </IconButton>
-          </Tooltip>
+          <div>
+            <Tooltip color="diabled" title="Disabled">
+              <IconButton>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              color="primary"
+              title="Restore"
+              onClick={() => handleRestoreEmployee(id)}
+            >
+              <IconButton>
+                <RestoreIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
         )}
       </div>
     );
