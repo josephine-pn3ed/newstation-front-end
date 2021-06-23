@@ -27,9 +27,6 @@ const Administrators = () => {
   const [administratorsLoaded, setAdministratorsLoaded] =
     useState<boolean>(false);
 
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState<boolean>(false);
   const [errorRegister, setErrorRegister] = useState<boolean>(false);
 
   const [addForm, setAddForm] = useState<boolean>(false);
@@ -104,19 +101,37 @@ const Administrators = () => {
   };
 
   const handleUpdateAdministrator = async () => {
-    try {
-      const { id } = administrator;
-      const response = await axios.put("/administrator/" + id, administrator);
-      const { success } = response.data;
+    const {
+      user_first_name,
+      user_middle_name,
+      user_last_name,
+      user_contact_number,
+      user_address,
+      user_position,
+    } = administrator;
+    let errors: string[] = [];
 
-      if (!success) throw Error;
-      Swal.fire(
-        "Updated!",
-        "Administrator information updated successfully!",
-        "success"
-      );
-      getAdministrators();
-      handleCloseEdit();
+    !user_first_name && errors.push("user_first_name");
+    !user_last_name && errors.push("user_last_name");
+    !user_position && errors.push("user_position");
+
+    setError(errors);
+
+    try {
+      if (!errors.length) {
+        const { id } = administrator;
+        const response = await axios.put("/administrator/" + id, administrator);
+        const { success } = response.data;
+
+        if (!success) throw Error;
+        Swal.fire(
+          "Updated!",
+          "Administrator information updated successfully!",
+          "success"
+        );
+        getAdministrators();
+        handleCloseEdit();
+      }
     } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
     }
@@ -124,8 +139,6 @@ const Administrators = () => {
 
   const handleAdministratorRegister = async () => {
     const {
-      user_password,
-      user_confirm_password,
       user_email_address,
       user_first_name,
       user_middle_name,
@@ -138,20 +151,16 @@ const Administrators = () => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errors: string[] = [];
 
+    !user_first_name && errors.push("user_first_name");
+    !user_last_name && errors.push("user_last_name");
+    !user_email_address && errors.push("user_email_address");
+    !user_position && errors.push("user_position");
+    !validateEmail.test(user_email_address) &&
+      errors.push("user_email_address");
+
+    setError(errors);
+
     try {
-      !user_first_name && errors.push("user_first_name");
-      !user_middle_name && errors.push("user_middle_name");
-      !user_last_name && errors.push("user_last_name");
-      !user_email_address && errors.push("user_email_address");
-      !user_position && errors.push("user_position");
-      !validateEmail.test(user_email_address) &&
-        errors.push("user_email_address");
-
-      user_confirm_password !== user_password &&
-        errors.push("company_confirm_password");
-
-      setError(errors);
-
       if (!errors.length) {
         const result = await axios.post("/administrator", {
           company_id: getCompanyId(),
@@ -298,7 +307,6 @@ const Administrators = () => {
       administrator.push(user_password);
       administrator.push(user_contact_number);
       administrator.push(user_position);
-      administrator.push(user_status);
 
       administrator.push(actionButtons(id, user_status));
 
@@ -346,23 +354,20 @@ const Administrators = () => {
           </div>
         ) : (
           <div>
-            <Tooltip
-              color="disabled"
-              title="Diabled"
-            >
+            <Tooltip color="disabled" title="Diabled">
               <IconButton>
                 <EditIcon />
               </IconButton>
             </Tooltip>
-          <Tooltip
-            color="primary"
-            title="Restore"
-            onClick={() => handleRestoreAdministrator(id)}
-          >
-            <IconButton>
-              <RestoreIcon />
-            </IconButton>
-          </Tooltip>
+            <Tooltip
+              color="primary"
+              title="Restore"
+              onClick={() => handleRestoreAdministrator(id)}
+            >
+              <IconButton>
+                <RestoreIcon />
+              </IconButton>
+            </Tooltip>
           </div>
         )}
       </div>
