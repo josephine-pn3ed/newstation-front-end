@@ -19,15 +19,14 @@ const AccountSettingsCompany = (props: Props) => {
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
-      <Container maxWidth="md" className={classes.container}>
+      <Container maxWidth="md" className={classes.container} >
 
         <div className={classes.paper}>
-
           <h2> Account Management Settings</h2>
-          {<h2> <i> {getUserEmail()} </i></h2>}
-          <h4> {getUser()} ID : {getCompanyId()} </h4>
+          {<h2 > <i> {getUserEmail()} </i></h2>}
+          <label > {getUser()} ID : {getCompanyId()} </label>
           <form className={classes.form} noValidate>
-            <Grid container spacing={2}>
+            <Grid container spacing={4}>
               <Grid item xs={12}>
                 <TextField
                   error={error.includes('company_name')}
@@ -35,7 +34,7 @@ const AccountSettingsCompany = (props: Props) => {
                   value={company_name}
                   variant="outlined"
                   fullWidth
-                  label="First Name"
+                  label="Company Name"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
                 />
               </Grid>

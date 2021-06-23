@@ -7,11 +7,11 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         marginTop: theme.spacing(-5),
-        display: 'flex',
+        display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'center',
-
-
+        lineHeight: '1px',
+        fontWeight: 'normal'
     },
     avatar: {
         margin: theme.spacing(1),
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '40%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(2),
 
     },
     submit: {
@@ -34,10 +34,14 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
+
+
     },
     container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+
+
     },
 }));
 
