@@ -4,11 +4,11 @@ import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import {
   Login,
-  Register,
   Dashboard,
   Employee,
   AccountSettings,
   EmployeeRegister,
+  Administrators
 } from "./pages";
 
 function App() {
@@ -18,9 +18,6 @@ function App() {
         <PublicRoute path="/login" exact>
           <Login />
         </PublicRoute>
-        <PublicRoute path="/register" exact>
-          <Register />
-        </PublicRoute>
         <PrivateRoute path="/dashboard" exact>
           <Dashboard />
         </PrivateRoute>
@@ -28,11 +25,14 @@ function App() {
         <PrivateRoute path="/employees" exact>
           <Employee />
         </PrivateRoute>
-        <PrivateRoute path="/employee-registration-form" exact>
+        <PrivateRoute path="/employee-registration-form">
           <EmployeeRegister />
         </PrivateRoute>
-        <PrivateRoute path="/account-settings" exact>
+        <PrivateRoute path="/account-settings">
           <AccountSettings />
+        </PrivateRoute>
+        <PrivateRoute path="/administrators" exact>
+          <Administrators />
         </PrivateRoute>
         <Redirect from="/" to="/login" exact />
       </Switch>

@@ -8,9 +8,11 @@ const PrivateRoute = (props: Props) => {
 
   const routeComponent = () => {
     if (isLogin()) {
-      if (getUser() !== "company" && path === "/employees") {
-        return <Redirect to={{ pathname: "/dashboard" }} />;
-      }
+      if (getUser() !== "company") {
+        if (path === "/employees" || path === "/administrators")  {
+          return <Redirect to={{ pathname: "/dashboard" }} />;
+        }
+      } 
       return children;
     } else {
       return <Redirect to={{ pathname: "/login" }} />;

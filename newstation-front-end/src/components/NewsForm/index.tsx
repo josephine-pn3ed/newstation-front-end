@@ -62,20 +62,6 @@ const NewsForm = (props: Props) => {
                   }
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <TextField
-                  error={false}
-                  name="news_imaage"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  variant="outlined"
-                  fullWidth
-                  label="Image"
-                  type="file"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleFileChange(event)}
-                />
-              </Grid> */}
               <Grid item xs={6}>
                 <Button
                   fullWidth
@@ -96,7 +82,7 @@ const NewsForm = (props: Props) => {
                     className={classes.submit}
                     onClick={handleButtonSubmit}
                   >
-                    Submit
+                    Add
                   </Button>
                 </Grid>
               ) : (

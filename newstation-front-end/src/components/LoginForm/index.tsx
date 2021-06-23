@@ -116,13 +116,6 @@ const LoginForm = (props: Props) => {
             >
               Sign in
             </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link variant="body2" onClick={() => history.push("/register")}>
-                  Don't have an account? Sign up
-                </Link>
-              </Grid>
-            </Grid>
           </form>
         </Container>
       </main>

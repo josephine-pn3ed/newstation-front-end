@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     backgroundColor: "#e3f2fd",
   },
+  fixed: {
+    position: "fixed"
+  },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
     backgroundColor: "#6200ea",
@@ -68,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: "100vh",
     overflow: "auto",
+    marginLeft: '250px'
   },
   container: {
     paddingTop: theme.spacing(4),

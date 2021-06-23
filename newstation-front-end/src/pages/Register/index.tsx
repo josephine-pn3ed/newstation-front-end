@@ -3,9 +3,8 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import RegisterForm from "../../components/RegisterForm";
 import { State } from "./types";
-import useStyles from "../../styles/_RegisterForm";
+import useStyles from "../../styles/_AdministratorForm";
 import { logout } from "../../utils";
 
 const Register = () => {
@@ -125,18 +124,6 @@ const Register = () => {
         open={!open}
         handleDrawerOpen={handleDrawerOpen}
         handleLogoutButton={handleLogoutButton}
-      />
-      <RegisterForm
-        showPassword={showPassword}
-        showConfirmPassword={showConfirmPassword}
-        handleClickShowPassword={handleClickShowPassword}
-        handleClickShowConfirmPassword={handleClickShowConfirmPassword}
-        handleMouseDownPassword={handleMouseDownPassword}
-        handleCompanyInputChange={handleCompanyInputChange}
-        handleCompanyRegister={handleCompanyRegister}
-        error={error}
-        company={company}
-        errorRegister={errorRegister}
       />
     </div>
   );

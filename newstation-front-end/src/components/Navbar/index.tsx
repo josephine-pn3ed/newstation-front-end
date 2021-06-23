@@ -11,7 +11,6 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import useStyles from "../../styles/_Navbar";
 import { isLogin } from "../../utils";
 import { Props } from "./types";
@@ -28,7 +27,11 @@ const Navbar = (props: Props) => {
       <AppBar
         position="absolute"
         color="default"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
+        className={clsx(
+          classes.root,
+          classes.appBar,
+          open && classes.appBarShift
+        )}
       >
         <Toolbar className={classes.toolbar}>
           {isLogin() && (
@@ -54,13 +57,6 @@ const Navbar = (props: Props) => {
           >
             Newstation
           </Typography>
-          {/* {isLogin() &&
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          } */}
           {isLogin() && (
             <Button
               color="primary"
@@ -69,15 +65,6 @@ const Navbar = (props: Props) => {
               className={classes.logoutButton}
             >
               Logout
-            </Button>
-          )}
-          {!isLogin() && (
-            <Button
-              variant="outlined"
-              className={classes.signUpButton}
-              onClick={() => history.push("/register")}
-            >
-              Sign Up
             </Button>
           )}
           {!isLogin() && (

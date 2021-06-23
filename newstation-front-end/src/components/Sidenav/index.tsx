@@ -10,13 +10,14 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import useStyles from "../../styles/_Dashboard";
+import useStyles from "../../styles/_Sidenav";
 import { Props } from "./types";
 import { useHistory } from "react-router-dom";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import { AccountCircle } from "@material-ui/icons";
 import { getUser, getUserEmail } from "../../utils";
+import React from "react";
 
 const Sidenav = (props: Props) => {
   const { open, handleDrawerClose } = props;
@@ -24,7 +25,7 @@ const Sidenav = (props: Props) => {
   const history = useHistory();
 
   return (
-    <div className={classes.root}>
+    <React.Fragment>
       <CssBaseline />
       <Drawer
         variant="permanent"
@@ -54,6 +55,18 @@ const Sidenav = (props: Props) => {
             <ListItem
               button
               component="a"
+              onClick={() => history.push("/administrators")}
+            >
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Administrators" />
+            </ListItem>
+          )}
+          {getUser() === "company" && (
+            <ListItem
+              button
+              component="a"
               onClick={() => history.push("/employees")}
             >
               <ListItemIcon>
@@ -75,7 +88,7 @@ const Sidenav = (props: Props) => {
         </List>
         <Divider />
       </Drawer>
-    </div>
+    </React.Fragment>
   );
 };
 

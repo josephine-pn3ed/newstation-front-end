@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField, Grid, Container, Button } from "@material-ui/core";
 import { Props } from "./types";
-import useStyles from "../../styles/_RegisterForm";
+import useStyles from "../../styles/_AdministratorForm";
 
 const EmployeeUpdateForm = (props: Props) => {
   const classes = useStyles();

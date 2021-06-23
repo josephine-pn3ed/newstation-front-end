@@ -4,8 +4,8 @@ import { useHistory } from "react-router-dom";
 import useStyles from "../../styles/_Employee";
 import { Props } from "./types";
 
-const EmployeeTable = (props: Props) => {
-  const { employees } = props;
+const AdministratorsTable = (props: Props) => {
+  const { administrators, handleFormLoaded, formLoaded } = props;
   const columns = [
     "Name",
     "Email Address",
@@ -21,24 +21,26 @@ const EmployeeTable = (props: Props) => {
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
-      <Button
-        color="secondary"
-        variant="contained"
-        className={classes.addEmployeeButton}
-        onClick={() => history.push("/employee-registration-form")}
-      >
-        Add Employee
-      </Button>
+      {!formLoaded && (
+        <Button
+          color="secondary"
+          variant="contained"
+          className={classes.addEmployeeButton}
+          onClick={() => handleFormLoaded(true)}
+        >
+          Add Administrator
+        </Button>
+      )}
       <Container maxWidth="xl" className={classes.container}>
         <MUIDataTable
-          title={"Employee List"}
-          data={employees}
+          title={"Administrators List"}
+          data={administrators}
           columns={columns}
-          options={{selectableRows: "none"}}
+          options={{ selectableRows: "none" }}
         />
       </Container>
     </main>
   );
 };
 
-export default EmployeeTable;
+export default AdministratorsTable;

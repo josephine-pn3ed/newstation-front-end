@@ -199,7 +199,6 @@ const Employee = () => {
 
       const employee: any[] = [];
 
-      employee.push(id);
       employee.push(
         employee_first_name +
           " " +
@@ -284,7 +283,7 @@ const Employee = () => {
       />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
       {!employeesLoaded ? (
-        <div style={{ margin: "400px 700px" }}>
+        <div style={{ margin: "400px 800px" }}>
           <Loader type="ThreeDots" color="#00BFFF" height={100} width={100} />
         </div>
       ) : (

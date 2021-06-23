@@ -218,7 +218,7 @@ const Dashboard = () => {
       />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
       {!newsLoaded ? (
-        <div style={{ margin: "400px 700px" }}>
+        <div style={{ margin: "400px 800px" }}>
           <Loader type="ThreeDots" color="#00BFFF" height={100} width={100} />
         </div>
       ) : (
