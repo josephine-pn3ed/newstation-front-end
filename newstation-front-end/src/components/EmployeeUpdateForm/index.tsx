@@ -145,7 +145,7 @@ const EmployeeUpdateForm = (props: Props) => {
             <Button
               fullWidth
               variant="contained"
-              color="primary"
+              color="secondary"
               className={classes.submit}
               onClick={handleCloseEdit}
             >CLOSE
