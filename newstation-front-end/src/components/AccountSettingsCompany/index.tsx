@@ -8,7 +8,7 @@ import {
 import useStyles from '../../styles/_AccountSettings';
 import { useHistory } from 'react-router-dom';
 import { Props } from './types';
-import { getUser } from '../../utils';
+import { getUserEmail } from '../../utils';
 
 const AccountSettingsCompany = (props: Props) => {
   const classes = useStyles();
@@ -16,15 +16,15 @@ const AccountSettingsCompany = (props: Props) => {
   const { handleEditCompanyInput, handleUpdateCompany, handleDeleteCompany, editedCompany, error } = props;
   const { company_name, company_email_address,
     company_password, company_address, company_contact_number } = editedCompany
-
-
+  const company = getUserEmail();
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
       <Container maxWidth="md" className={classes.container}>
 
         <div className={classes.paper}>
-          {company_name && <h2>{company_name}'s Account Management Settings</h2>}
+          {<h2> <i> {company} </i></h2>}
+          <h2> Account Management Settings</h2>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>

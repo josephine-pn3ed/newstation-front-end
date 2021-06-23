@@ -112,13 +112,14 @@ const AccountSettings = () => {
         reverseButtons: true
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const { id } = editedAccount
-          const result = await axios.put('/employee/' + id, editedAccount)
           Swal.fire(
-            'Deleted!',
+            'Updated!',
             'Account Updated!',
             'success'
           )
+          const id = getEmployeeId();
+          const result = await axios.put('/employee/' + id, editedAccount)
+
         } else if (
           result.dismiss === Swal.DismissReason.cancel
         ) {
@@ -148,13 +149,17 @@ const AccountSettings = () => {
         reverseButtons: true
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const { id } = editedAccount
-          const result = await axios.put('/company/' + id, editedAccount)
           Swal.fire(
-            'Deleted!',
+            'Updated!',
             'Account Updated!',
             'success'
           )
+          const id = getCompanyId();
+          console.log(id)
+          console.log(editedCompany)
+          const result = await axios.put('/company/' + id, editedCompany)
+
+
         } else if (
           result.dismiss === Swal.DismissReason.cancel
         ) {
@@ -185,9 +190,8 @@ const AccountSettings = () => {
         reverseButtons: true
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const { id } = editedAccount
+          const id = getEmployeeId();
           const result = await axios.delete('/employee/' + id);
-
           Swal.fire(
             'Deleted!',
             'Account Deleted!',
@@ -225,7 +229,7 @@ const AccountSettings = () => {
         reverseButtons: true
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const { id } = editedCompany
+          const id = getCompanyId();
           const result = await axios.delete('/company/' + id);
 
           Swal.fire(
