@@ -1,9 +1,6 @@
-import {
-  Route,
-  Redirect,
-} from "react-router-dom";
-import { Props } from './types';
-import { getUser, isLogin } from '../../utils';
+import { Route, Redirect } from "react-router-dom";
+import { Props } from "./types";
+import { getUser, isLogin } from "../../utils";
 
 const PrivateRoute = (props: Props) => {
   const { children, ...rest } = props;
@@ -11,22 +8,16 @@ const PrivateRoute = (props: Props) => {
 
   const routeComponent = () => {
     if (isLogin()) {
-      if ((getUser() !== 'company') && (path === '/employees')) {
-        return (<Redirect to={{ pathname: "/dashboard" }} />)
+      if (getUser() !== "company" && path === "/employees") {
+        return <Redirect to={{ pathname: "/dashboard" }} />;
       }
-      return (children)
+      return children;
     } else {
-      return (<Redirect to={{ pathname: "/login" }} />)
+      return <Redirect to={{ pathname: "/login" }} />;
     }
-  }
+  };
 
-  return (
-    <Route
-      {...rest}
-      render={routeComponent}
-    />
-  )
-
-}
+  return <Route {...rest} render={routeComponent} />;
+};
 
 export default PrivateRoute;

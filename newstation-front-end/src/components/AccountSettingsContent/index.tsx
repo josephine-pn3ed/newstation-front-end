@@ -1,9 +1,8 @@
-import { Container } from "@material-ui/core"
-import useStyles from '../../styles/_Dashboard';
+import { Container } from "@material-ui/core";
+import useStyles from "../../styles/_Dashboard";
 
 const AccountSettingsContent = () => {
   const classes = useStyles();
-
 
   return (
     <main className={classes.content}>
@@ -12,7 +11,7 @@ const AccountSettingsContent = () => {
         {/* code here */}
       </Container>
     </main>
-  )
-}
+  );
+};
 
 export default AccountSettingsContent;

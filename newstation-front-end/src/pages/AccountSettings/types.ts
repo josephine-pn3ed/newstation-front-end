@@ -1,6 +1,6 @@
 export interface Props {
-    open: boolean;
-    handleDrawerOpen: () => void;
-    handleDrawerClose: () => void;
-    handleLogoutButton: () => void;
+  open: boolean;
+  handleDrawerOpen: () => void;
+  handleDrawerClose: () => void;
+  handleLogoutButton: () => void;
 }

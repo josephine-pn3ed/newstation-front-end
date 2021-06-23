@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import Navbar from '../../components/Navbar';
-import Sidenav from '../../components/Sidenav';
-import AccountSettingsContent from '../../components/AccountSettingsContent';
-import useStyles from '../../styles/_Dashboard';
-import { logout } from '../../utils';
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import Sidenav from "../../components/Sidenav";
+import AccountSettingsContent from "../../components/AccountSettingsContent";
+import useStyles from "../../styles/_Dashboard";
+import { logout } from "../../utils";
 
 const AccountSettings = () => {
   const classes = useStyles();
@@ -14,8 +14,8 @@ const AccountSettings = () => {
 
   const handleLogoutButton = () => {
     logout();
-    history.push('/login');
-  }
+    history.push("/login");
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -27,11 +27,15 @@ const AccountSettings = () => {
 
   return (
     <div className={classes.root}>
-      <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
+      <Navbar
+        open={open}
+        handleDrawerOpen={handleDrawerOpen}
+        handleLogoutButton={handleLogoutButton}
+      />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
       <AccountSettingsContent />
     </div>
-  )
-}
+  );
+};
 
 export default AccountSettings;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   CssBaseline,
   TextField,
@@ -11,12 +11,12 @@ import {
   InputLabel,
   InputAdornment,
   FormControl,
-  Button
-} from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
-import useStyles from '../../styles/_RegisterForm';
-import { Props } from './types';
+  Button,
+} from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import useStyles from "../../styles/_RegisterForm";
+import { Props } from "./types";
 
 const RegisterForm = (props: Props) => {
   const classes = useStyles();
@@ -32,7 +32,7 @@ const RegisterForm = (props: Props) => {
     handleClickShowConfirmPassword,
     company,
     error,
-    errorRegister
+    errorRegister,
   } = props;
 
   const { company_password, company_confirm_password } = company;
@@ -43,66 +43,83 @@ const RegisterForm = (props: Props) => {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Typography component="h1" variant="h5" align="center" >
+          <Typography component="h1" variant="h5" align="center">
             Register
           </Typography>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('company_name')}
+                  error={error.includes("company_name")}
                   name="company_name"
                   variant="outlined"
                   fullWidth
                   label="Company Name"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCompanyInputChange(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleCompanyInputChange(event)
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('company_address')}
+                  error={error.includes("company_address")}
                   variant="outlined"
                   fullWidth
                   label="Company Address"
                   name="company_address"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCompanyInputChange(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleCompanyInputChange(event)
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('company_contact_number')}
+                  error={error.includes("company_contact_number")}
                   variant="outlined"
                   fullWidth
                   label="Company Contact Number"
                   name="company_contact_number"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCompanyInputChange(event)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleCompanyInputChange(event)
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={error.includes('company_email_address') || errorRegister}
+                  error={
+                    error.includes("company_email_address") || errorRegister
+                  }
                   variant="outlined"
                   fullWidth
                   label="Email Address"
                   name="company_email_address"
                   autoComplete="email"
                   type="email"
-                  helperText={errorRegister && 'Email address has already been taken'}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCompanyInputChange(event)}
+                  helperText={
+                    errorRegister && "Email address has already been taken"
+                  }
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleCompanyInputChange(event)
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControl
                   variant="outlined"
                   className={classes.password_field}
-                  error={error.includes('company_password')}>
-                  <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                  error={error.includes("company_password")}
+                >
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Password
+                  </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-password"
                     name="company_password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     value={company_password}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCompanyInputChange(event)}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      handleCompanyInputChange(event)
+                    }
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -123,14 +140,19 @@ const RegisterForm = (props: Props) => {
                 <FormControl
                   variant="outlined"
                   className={classes.password_field}
-                  error={error.includes('company_confirm_password')}>
-                  <InputLabel htmlFor="outlined-adornment-confirm-password">Confirm Password</InputLabel>
+                  error={error.includes("company_confirm_password")}
+                >
+                  <InputLabel htmlFor="outlined-adornment-confirm-password">
+                    Confirm Password
+                  </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-confirm-password"
-                    type={showConfirmPassword ? 'text' : 'password'}
+                    type={showConfirmPassword ? "text" : "password"}
                     value={company_confirm_password}
                     name="company_confirm_password"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCompanyInputChange(event)}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      handleCompanyInputChange(event)
+                    }
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -139,7 +161,11 @@ const RegisterForm = (props: Props) => {
                           onMouseDown={handleMouseDownPassword}
                           edge="end"
                         >
-                          {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                          {showConfirmPassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     }
@@ -159,7 +185,7 @@ const RegisterForm = (props: Props) => {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link variant="body2" onClick={() => history.push('/login')}>
+                <Link variant="body2" onClick={() => history.push("/login")}>
                   Already have an account? Sign in
                 </Link>
               </Grid>
@@ -167,8 +193,8 @@ const RegisterForm = (props: Props) => {
           </form>
         </Container>
       </main>
-    </Container >
+    </Container>
   );
-}
+};
 
 export default RegisterForm;
