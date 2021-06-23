@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -28,9 +27,8 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto",
+    marginTop: "90px",
+    marginRight: "20px"
   },
   container: {
     paddingTop: theme.spacing(4),

@@ -3,6 +3,7 @@ export interface Props {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleButtonSubmit: () => void;
   handleButtonUpdate: (id: string) => void;
+  addForm: boolean;
   news: News;
 }
 
