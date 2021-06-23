@@ -2,6 +2,7 @@ import axios from 'axios';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import RestoreIcon from '@material-ui/icons/Restore';
+import Loader from "react-loader-spinner";
 import Swal from 'sweetalert2';
 import { useEffect, useState } from 'react';
 import { Tooltip, IconButton } from "@material-ui/core";
@@ -39,6 +40,8 @@ const Employee = () => {
     created_at: "",
     updated_at: ""
   })
+
+  const [employeesLoaded, setEmployeesLoaded] = useState<boolean>(false);
 
   const handleLogoutButton = () => {
     logout();
@@ -170,6 +173,7 @@ const Employee = () => {
   }
 
   const getEmployees = async () => {
+    setEmployeesLoaded(false);
     try {
       const result = await axios.get('/employees/' + getCompanyId());
       const { data } = result;
@@ -215,6 +219,7 @@ const Employee = () => {
     })
 
     setEmployees(employees);
+    setEmployeesLoaded(true);
   }
 
   const actionButtons = (id: string, employee_status: string) => {
@@ -252,7 +257,17 @@ const Employee = () => {
     <div className={classes.root}>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
+      {!employeesLoaded ?
+        <div style={{ margin: '400px 700px' }}>
+          <Loader
+            type="ThreeDots"
+            color="#00BFFF"
+            height={100}
+            width={100}
+          />
+        </div> : 
       <EmployeeTable employees={employees} />
+      }
       {closeEdit && (<EmployeeUpdateForm handleEditEmployee={handleEditEmployee} handleCloseEdit={handleCloseEdit}
         handleUpdateEmployee={handleUpdateEmployee} error={error} editedEmployee={editedEmployee} />)}
     </div>

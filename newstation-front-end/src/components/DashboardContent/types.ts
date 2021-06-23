@@ -4,7 +4,7 @@ export interface Props {
     handleButtonDelete: (id: string) => void;
     company: string;
     max_width: any;
-    news: News[]
+    news: News[];
 }
 
 type Status = "Active" | "Inactive";

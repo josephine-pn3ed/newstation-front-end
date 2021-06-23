@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Loader from "react-loader-spinner";
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
@@ -32,6 +33,8 @@ const Dashboard = () => {
     created_at: '',
     updated_at: ''
   })
+
+  const [newsLoaded, setNewsLoaded] = useState<boolean>(false);
 
   const [retrievedNews, setRetrievedNews] = useState<State[]>([]);
 
@@ -102,8 +105,8 @@ const Dashboard = () => {
         text: "This news will be deleted.",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor:  "#3085d6",
-        cancelButtonColor:  "#d33",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, cancel!',
         reverseButtons: true
@@ -189,14 +192,15 @@ const Dashboard = () => {
   }
 
   const getNews = async () => {
+    setNewsLoaded(false);
     try {
       const response = await axios.get('/news/' + getCompanyId());
       const { success, company, news } = response.data;
 
       if (!success) throw Error;
-
       setRetrievedNews(news)
       setCompany(company.company_name);
+      setNewsLoaded(true);
     } catch (error) {
       Swal.fire('Oops...', 'Something went wrong!', 'error')
     }
@@ -210,14 +214,24 @@ const Dashboard = () => {
     <div className={classes.root}>
       <Navbar open={open} handleDrawerOpen={handleDrawerOpen} handleLogoutButton={handleLogoutButton} />
       <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
-      <DashboardContent
-        handleCloseAddForm={handleCloseAddForm}
-        handleUpdateForm={handleUpdateForm}
-        handleButtonDelete={handleButtonDelete}
-        news={retrievedNews}
-        company={company}
-        max_width={closeAddForm ? "lg" : "xl"}
-      />
+      {!newsLoaded ?
+        <div style={{ margin: '400px 700px' }}>
+          <Loader
+            type="ThreeDots"
+            color="#00BFFF"
+            height={100}
+            width={100}
+          />
+        </div> :
+        <DashboardContent
+          handleCloseAddForm={handleCloseAddForm}
+          handleUpdateForm={handleUpdateForm}
+          handleButtonDelete={handleButtonDelete}
+          news={retrievedNews}
+          company={company}
+          max_width={closeAddForm ? "lg" : "xl"}
+        />
+      }
       {closeAddForm &&
         (<NewsForm
           handleCloseAddForm={handleCloseAddForm}

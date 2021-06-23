@@ -9,7 +9,7 @@ function App() {
 
   return (
     <Router>
-      <div>
+      {/* <div> */}
         <Switch>
           <PublicRoute path="/login" exact >
             <Login />
@@ -32,7 +32,7 @@ function App() {
           </PrivateRoute>
           <Redirect from="/" to="/login" exact />
         </Switch>
-      </div>
+      {/* </div> */}
     </Router>
   );
 }
