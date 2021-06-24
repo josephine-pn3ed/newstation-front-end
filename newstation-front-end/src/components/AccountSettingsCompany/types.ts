@@ -4,6 +4,10 @@ export interface Props {
     handleDeleteCompany: () => void;
     editedCompany: Company,
     error: string[],
+    handleOpenEdit: () => void,
+    handleCloseEdit: () => void,
+    openEdit: boolean,
+    handleInputPasswordCompany: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
 type Status = "Active" | "Inactive";
@@ -16,4 +20,6 @@ interface Company {
     company_email_address: string,
     company_password: string,
     company_status: Status,
+    new_password: string,
+    checkPassword: string,
 }

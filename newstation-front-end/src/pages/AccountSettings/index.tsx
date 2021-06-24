@@ -10,28 +10,33 @@ import { State, Company } from './types';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+
 const AccountSettings = () => {
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(true);
   const [error, setError] = useState<string[]>([]);
   const [errorRegister, setErrorRegister] = useState<boolean>(false);
+  const [openEdit, setOpenEdit] = useState<boolean>(false)
+
 
   let type: string;
   (getUser() === 'company' ? type = 'company' : type = 'employee')
 
   const [editedAccount, setEditedAccount] = useState<State>({
     id: "",
-    employee_first_name: "",
-    employee_middle_name: "",
-    employee_last_name: "",
-    employee_email_address: "",
-    employee_password: "",
-    employee_address: "",
-    employee_position: "",
-    employee_contact_number: "",
-    employee_image: "",
-    employee_status: "Active",
+    user_first_name: "",
+    user_middle_name: "",
+    user_last_name: "",
+    user_email_address: "",
+    user_password: "",
+    user_address: "",
+    user_position: "",
+    user_contact_number: "",
+    user_image: "",
+    user_status: "Active",
+    new_password: "",
+    checkPassword: "",
     updated_at: ""
   })
 
@@ -43,6 +48,8 @@ const AccountSettings = () => {
     company_email_address: "",
     company_password: "",
     company_status: "Active",
+    new_password: "",
+    checkPassword: "",
   })
 
   const handleLogoutButton = () => {
@@ -59,6 +66,13 @@ const AccountSettings = () => {
     setOpen(false);
   };
 
+  const handleOpenEdit = () => {
+    setOpenEdit(true)
+  }
+  const handleCloseEdit = () => {
+    setOpenEdit(false)
+  }
+
   const handleEditAccountInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setEditedAccount({ ...editedAccount, [name]: value })
@@ -71,6 +85,17 @@ const AccountSettings = () => {
 
   }
 
+  const handleInputPasswordAccount = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setEditedAccount({ ...editedAccount, checkPassword: value })
+  }
+
+  const handleInputPasswordCompany = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setEditedCompany({ ...editedCompany, checkPassword: value })
+  }
+
+
   const getAccount = async () => {
     type == 'company' ? getAccountCompany() : getAccountEmployee()
   }
@@ -79,8 +104,8 @@ const AccountSettings = () => {
     try {
       const id = getEmployeeId();
       const response = await axios.get("/employee/" + id);
-      const { data } = response;
-      setEditedAccount(data)
+      const { result } = response.data;
+      setEditedAccount(result)
     }
     catch (error) {
       return { "message": "Error Retrieving Employee!" };
@@ -101,6 +126,7 @@ const AccountSettings = () => {
 
   const handleUpdateAccount = async () => {
     try {
+      const { new_password } = editedAccount
       Swal.fire({
         title: 'Are you sure?',
         text: "This Employee will be Updated!.",
@@ -113,13 +139,18 @@ const AccountSettings = () => {
         reverseButtons: true
       }).then(async (result) => {
         if (result.isConfirmed) {
+          const id = getEmployeeId();
+          console.log(editedAccount, new_password)
+          const result = await axios.put('/employee/' + id, { ...editedAccount, user_password: new_password, new_password: "", checkPassword: "" })
+          console.log(result)
+          handleCloseEdit();
+          getAccount();
           Swal.fire(
             'Updated!',
             'Account Updated!',
             'success'
           )
-          const id = getEmployeeId();
-          const result = await axios.put('/employee/' + id, editedAccount)
+
 
         } else if (
           result.dismiss === Swal.DismissReason.cancel
@@ -138,6 +169,7 @@ const AccountSettings = () => {
 
   const handleUpdateCompany = async () => {
     try {
+      const { new_password } = editedCompany
       Swal.fire({
         title: 'Are you sure?',
         text: "This Company will be Updated!",
@@ -158,8 +190,9 @@ const AccountSettings = () => {
           const id = getCompanyId();
           console.log(id)
           console.log(editedCompany)
-          const result = await axios.put('/company/' + id, editedCompany)
-          console.log(result)
+          const result = await axios.put('/company/' + id, { ...editedCompany, user_password: new_password, new_password: "", checkPassword: "" })
+          handleCloseEdit()
+
 
         } else if (
           result.dismiss === Swal.DismissReason.cancel
@@ -254,10 +287,12 @@ const AccountSettings = () => {
       return { "message": "Error Delete!" };
     }
   }
+
   useEffect(() => {
     getAccount();
   }, [])
 
+  console.log(editedAccount)
   return (
     <div className={classes.root}>
       <Navbar
@@ -273,13 +308,22 @@ const AccountSettings = () => {
         error={error}
         handleDeleteCompany={handleDeleteCompany}
         handleUpdateCompany={handleUpdateCompany}
+        handleOpenEdit={handleOpenEdit}
+        handleCloseEdit={handleCloseEdit}
+        openEdit={openEdit}
+        handleInputPasswordCompany={handleInputPasswordCompany}
       /> :
         <AccountSettingsContent
           handleEditAccountInput={handleEditAccountInput}
           error={error}
           editedAccount={editedAccount}
           handleUpdateAccount={handleUpdateAccount}
-          handleDeleteAccount={handleDeleteAccount} />}
+          handleDeleteAccount={handleDeleteAccount}
+          handleOpenEdit={handleOpenEdit}
+          handleCloseEdit={handleCloseEdit}
+          openEdit={openEdit}
+          handleInputPasswordAccount={handleInputPasswordAccount}
+        />}
 
     </div>
   );

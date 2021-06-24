@@ -2,27 +2,29 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStylesEmployee = makeStyles((theme) => ({
     root: {
-        minWidth: 100,
+        minWidth: 75,
+
 
     },
     title: {
-        fontSize: 40,
+        fontSize: 25,
     },
     pos: {
         marginBottom: 0,
     },
     paper: {
-        marginTop: theme.spacing(10),
+        marginTop: theme.spacing(20),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         fontWeight: 'normal',
         position: 'absolute',
-
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
+        maxHeight: '95vh',
         boxShadow: theme.shadows[10],
         padding: theme.spacing(2, 4, 3),
+
 
 
     },
@@ -36,7 +38,7 @@ const useStylesEmployee = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
-        height: '100vh',
+        height: '110vh',
         overflow: 'auto',
     },
     container: {
@@ -46,6 +48,7 @@ const useStylesEmployee = makeStyles((theme) => ({
     form: {
         width: '60%', // Fix IE 11 issue.
         marginTop: theme.spacing(2),
+
 
     },
     submit: {

@@ -18,17 +18,11 @@ import { useState } from 'react';
 const AccountSettingsCompany = (props: Props) => {
   const classesCompany = useStylesCompany();
   const history = useHistory();
-  const [openEdit, setOpenEdit] = useState<boolean>(false)
-  const { handleEditCompanyInput, handleUpdateCompany, handleDeleteCompany, editedCompany, error } = props;
+  const { handleEditCompanyInput, handleUpdateCompany, handleDeleteCompany, editedCompany, error, handleOpenEdit, handleCloseEdit, openEdit, handleInputPasswordCompany } = props;
   const { company_name, company_email_address,
-    company_password, company_address, company_contact_number } = editedCompany
+    company_password, company_address, company_contact_number, checkPassword } = editedCompany
 
-  const handleOpenEdit = () => {
-    setOpenEdit(true)
-  }
-  const handleCloseEdit = () => {
-    setOpenEdit(false)
-  }
+
 
   return (
 
@@ -71,9 +65,7 @@ const AccountSettingsCompany = (props: Props) => {
               <Typography className={classesCompany.pos} color="textSecondary">
                 Contact Number
               </Typography>
-              <Typography variant="h5" component="h2">
-                {company_password}
-              </Typography>
+              <TextField value={company_password} type="password" />
               <Typography className={classesCompany.pos} color="textSecondary">
                 Password
               </Typography>

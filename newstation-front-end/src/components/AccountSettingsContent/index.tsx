@@ -18,18 +18,12 @@ import { useState } from 'react';
 const AccountSettingsContent = (props: Props) => {
   const classesEmployees = useStyles();
   const history = useHistory();
-  const [openEdit, setOpenEdit] = useState<boolean>(false)
-  const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount, error } = props;
-  const { employee_first_name, employee_middle_name, employee_last_name, id, employee_email_address,
-    employee_password, employee_address, employee_position, employee_contact_number } = editedAccount
-  const employee = getUserEmail();
-  const handleOpenEdit = () => {
-    setOpenEdit(true)
-  }
-  const handleCloseEdit = () => {
-    setOpenEdit(false)
-  }
+  const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount, error, handleOpenEdit, handleCloseEdit, openEdit, handleInputPasswordAccount } = props;
+  const { user_first_name, user_middle_name, user_last_name, id, user_email_address,
+    user_password, user_address, user_position, user_contact_number, new_password, checkPassword } = editedAccount
 
+
+  //(checkPassword === user_password && setAllowChange(true))
 
   return (
     <main className={classesEmployees.content}>
@@ -39,10 +33,10 @@ const AccountSettingsContent = (props: Props) => {
           <Card className={classesEmployees.root} variant="outlined">
             <CardContent>
               <Typography className={classesEmployees.title} color="textSecondary" gutterBottom>
-                Employee Account Information
+                Account Information
               </Typography>
               <Typography variant="h2" component="h2">
-                {employee_first_name} {employee_middle_name} {employee_last_name}
+                {user_first_name} {user_middle_name} {user_last_name}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Complete Name
@@ -54,37 +48,35 @@ const AccountSettingsContent = (props: Props) => {
                 Employee ID
               </Typography>
               <Typography variant="h5" component="h2">
-                {employee_address}
+                {user_address}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Address
               </Typography>
               <Typography variant="h5" component="h2">
-                {employee_email_address}
+                {getUserEmail()}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Email Address
               </Typography>
               <Typography variant="h5" component="h2">
-                {employee_contact_number}
+                {user_contact_number}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Contact Number
               </Typography>
-              <Typography variant="h5" component="h2">
-                {employee_password}
-              </Typography>
+              <TextField value={user_password} type="password" />
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Password
               </Typography>
               <Typography variant="h5" component="h2">
-                {employee_position}
+                {user_position}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Position
               </Typography>
             </CardContent>
-            {employee_first_name && (<CardActions>
+            {user_first_name && (<CardActions>
               <Button size="large" color="primary" variant="contained" onClick={handleOpenEdit}>EDIT ACCOUNT</Button>
               <Button size="large" color="secondary" variant="contained" onClick={handleDeleteAccount}>DELETE ACCOUNT</Button>
             </CardActions>)}
@@ -92,18 +84,18 @@ const AccountSettingsContent = (props: Props) => {
         )
         }
 
-        {(openEdit && employee_first_name) && (<div className={classesEmployees.paperCenter}>
+        {(openEdit && user_first_name) && (<div className={classesEmployees.paperCenter}>
           <Container maxWidth='sm' className={classesEmployees.paper}>
             <Typography className={classesEmployees.title} variant="h5" component="h2"> Account Management Settings</Typography>
             {<h3> <i> {getUserEmail()} </i></h3>}
             <label>{getUser()} ID : {getEmployeeId()} </label>
             <form className={classesEmployees.form} noValidate>
-              <Grid container spacing={2}>
+              <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('employee_first_name')}
-                    name="employee_first_name"
-                    value={employee_first_name}
+                    error={error.includes('user_first_name')}
+                    name="user_first_name"
+                    value={user_first_name}
                     variant="outlined"
                     fullWidth
                     label="First Name"
@@ -112,9 +104,9 @@ const AccountSettingsContent = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('employee_middle_name')}
-                    name="employee_middle_name"
-                    value={employee_middle_name}
+                    error={error.includes('user_middle_name')}
+                    name="user_middle_name"
+                    value={user_middle_name}
                     variant="outlined"
                     fullWidth
                     label="Middle Name"
@@ -124,9 +116,9 @@ const AccountSettingsContent = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('employee_last_name')}
-                    name="employee_last_name"
-                    value={employee_last_name}
+                    error={error.includes('user_last_name')}
+                    name="user_last_name"
+                    value={user_last_name}
                     variant="outlined"
                     fullWidth
                     label="Last Name"
@@ -135,66 +127,79 @@ const AccountSettingsContent = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    //error={error.includes('employee_email_address') || errorRegister}
+                    //error={error.includes('user_email_address') || errorRegister}
                     variant="outlined"
                     fullWidth
                     label="Email Address"
-                    name="employee_email_address"
+                    name="user_email_address"
                     autoComplete="email"
                     type="email"
-                    value={employee_email_address}
+                    value={user_email_address}
                     // helperText={errorRegister && 'Email address has already been taken'}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('employee_password')}
-                    name="employee_password"
-                    value={employee_password}
+                    error={checkPassword !== user_password}
+                    name="user_password"
+                    value={checkPassword}
                     variant="outlined"
                     fullWidth
-
-                    label="Password"
+                    helperText={(checkPassword !== user_password) && 'Please Confirm latest Password to change!'}
+                    label="Confirm Password"
+                    type="password"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordAccount(event)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={!new_password}
+                    variant="outlined"
+                    fullWidth
+                    label="New Password"
+                    name="new_password"
+                    value={new_password}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('employee_address')}
+                    error={error.includes('user_address')}
                     variant="outlined"
                     fullWidth
                     label="Address"
-                    name="employee_address"
-                    value={employee_address}
+                    name="user_address"
+                    value={user_address}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('employee_position')}
+                    error={error.includes('user_position')}
                     variant="outlined"
                     fullWidth
                     label="Position"
-                    name="employee_position"
-                    value={employee_position}
+                    name="user_position"
+                    value={user_position}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('employee_contact_number')}
+                    error={error.includes('user_contact_number')}
                     variant="outlined"
                     fullWidth
                     label="Contact Number"
-                    name="employee_contact_number"
-                    value={employee_contact_number}
+                    name="user_contact_number"
+                    value={user_contact_number}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
                   />
                 </Grid>
               </Grid>
               <Button
                 fullWidth
+                disabled={checkPassword !== user_password}
                 variant="contained"
                 color="primary"
                 className={classesEmployees.submit}
@@ -206,6 +211,7 @@ const AccountSettingsContent = (props: Props) => {
                 fullWidth
                 variant="contained"
                 color="secondary"
+                disabled={checkPassword !== user_password}
                 className={classesEmployees.submit}
                 onClick={handleDeleteAccount}
               >
@@ -220,6 +226,7 @@ const AccountSettingsContent = (props: Props) => {
               >
                 BACK
               </Button>
+
             </form>
           </Container>
         </div>)
