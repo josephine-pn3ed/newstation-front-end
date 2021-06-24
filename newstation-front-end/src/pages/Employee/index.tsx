@@ -103,10 +103,7 @@ const Employees = () => {
   const handleUpdateEmployee = async () => {
     const {
       user_first_name,
-      user_middle_name,
       user_last_name,
-      user_contact_number,
-      user_address,
       user_position,
     } = employee;
     let errors: string[] = [];
@@ -274,7 +271,7 @@ const Employees = () => {
     try {
       const response = await axios.get("/employees/" + getCompanyId());
       const { result, success } = response.data;
-      console.log(response)
+      
       if (!success) throw Error;
       employeesToPushToHooks(result);
     } catch (error) {
@@ -299,7 +296,6 @@ const Employees = () => {
         user_status,
       } = value;
 
-      console.log(value);
       const employee: any[] = [];
 
       employee.push(

@@ -63,7 +63,7 @@ const Sidenav = (props: Props) => {
               <ListItemText primary="Administrators" />
             </ListItem>
           )}
-          {getUser() === "company" && (
+          {(getUser() === "company" || getUser() === "administrator") && (
             <ListItem
               button
               component="a"

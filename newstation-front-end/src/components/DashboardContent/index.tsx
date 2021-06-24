@@ -30,7 +30,7 @@ const DashboardContent = (props: Props) => {
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
-      {getUser() === "company" && addForm && (
+      {(getUser() === "company" || getUser() === "administrator") && addForm && (
         <Button
           color="secondary"
           className={classes.addNewsButton}
@@ -61,7 +61,7 @@ const DashboardContent = (props: Props) => {
                   <p style={{ whiteSpace: "pre-line" }}>{value.news_body}</p>
                 </Typography>
               </CardContent>
-              {getUser() === "company" && (
+              {(getUser() === "company" || getUser() === "administrator") && (
                 <CardActions disableSpacing>
                   <Tooltip
                     color="primary"
