@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#e3f2fd'
     },
     paper: {
-        marginTop: theme.spacing(-5),
+        marginTop: theme.spacing(0),
         display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -39,6 +39,17 @@ const useStyles = makeStyles((theme) => ({
     container: {
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
+    },
+    pos: {
+        marginBottom: 0,
+    },
+    employeeCard: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
     },
 }));
 
