@@ -22,6 +22,8 @@ const Dashboard = () => {
 
   const [open, setOpen] = useState<boolean>(true);
 
+  const [addForm, setAddForm] = useState<boolean>(true);
+
   const [news, setNews] = useState<State>({
     id: "",
     company_id: "",
@@ -66,9 +68,11 @@ const Dashboard = () => {
       updated_at: "",
     });
     setCloseAddForm(open);
+    setAddForm(!open);
   };
 
   const handleUpdateForm = async (newsId: string) => {
+    setAddForm(false)
     try {
       const newsById = await axios.get("/news-company/" + newsId);
       const { result, success } = newsById.data;
@@ -96,6 +100,7 @@ const Dashboard = () => {
         created_at: created_at,
         updated_at: updated_at,
       });
+      setAddForm(false);
     } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
     }
@@ -228,6 +233,7 @@ const Dashboard = () => {
           handleCloseAddForm={handleCloseAddForm}
           handleUpdateForm={handleUpdateForm}
           handleButtonDelete={handleButtonDelete}
+          addForm={addForm}
           news={retrievedNews}
           company={company}
           max_width={closeAddForm ? "lg" : "xl"}
@@ -239,6 +245,7 @@ const Dashboard = () => {
           handleInputChange={handleInputChange}
           handleButtonSubmit={handleButtonSubmit}
           handleButtonUpdate={handleButtonUpdate}
+          addForm={addForm}
           news={news}
         />
       )}

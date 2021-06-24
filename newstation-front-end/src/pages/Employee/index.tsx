@@ -9,39 +9,65 @@ import { Tooltip, IconButton } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Sidenav from "../../components/Sidenav";
-import EmployeeTable from "../../components/EmployeeTable";
+import EmployeesTable from "../../components/EmployeesTable";
 import useStyles from "../../styles/_Employee";
 import { logout, getCompanyId } from "../../utils";
-import { State } from "./types";
-import EmployeeUpdateForm from "../../components/EmployeeUpdateForm";
+import { Employee } from "./types";
+import EmployeesForm from "../../components/EmployeesForm";
 
-const Employee = () => {
+const Employees = () => {
   const classes = useStyles();
   const history = useHistory();
 
   const [open, setOpen] = useState<boolean>(true);
   const [employees, setEmployees] = useState<string[][]>([]);
-  const [closeEdit, setCloseEdit] = useState<boolean>(false);
+  const [formLoaded, setFormLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
-  const [editedEmployee, setEditedEmployee] = useState<State>({
+
+  const [employeesLoaded, setEmployeesLoaded] =
+    useState<boolean>(false);
+
+  const [errorRegister, setErrorRegister] = useState<boolean>(false);
+
+  const [addForm, setAddForm] = useState<boolean>(false);
+
+  const [employee, setEmployee] = useState<Employee>({
     id: "",
     company_id: "",
-    employee_first_name: "",
-    employee_middle_name: "",
-    employee_last_name: "",
-    employee_email_address: "",
-    employee_password: "",
-    employee_confirm_password: "",
-    employee_address: "",
-    employee_position: "",
-    employee_contact_number: "",
-    employee_image: "",
-    employee_status: "Active",
+    user_first_name: "",
+    user_middle_name: "",
+    user_last_name: "",
+    user_email_address: "",
+    user_password: "",
+    user_confirm_password: "",
+    user_address: "",
+    user_position: "",
+    user_contact_number: "",
+    user_status: "Active",
     created_at: "",
     updated_at: "",
   });
 
-  const [employeesLoaded, setEmployeesLoaded] = useState<boolean>(false);
+  const handleFormLoaded = (open: boolean) => {
+    setEmployee({
+      id: "",
+      company_id: "",
+      user_first_name: "",
+      user_middle_name: "",
+      user_last_name: "",
+      user_email_address: "",
+      user_password: "",
+      user_confirm_password: "",
+      user_address: "",
+      user_position: "",
+      user_contact_number: "",
+      user_status: "Active",
+      created_at: "",
+      updated_at: "",
+    });
+    setAddForm(true);
+    setFormLoaded(open);
+  };
 
   const handleLogoutButton = () => {
     logout();
@@ -56,43 +82,110 @@ const Employee = () => {
     setOpen(false);
   };
 
-  const handleEditEmployee = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setEditedEmployee({ ...editedEmployee, [name]: value });
-  };
-
   const handleCloseEdit = () => {
-    setCloseEdit(false);
+    setFormLoaded(false);
   };
 
   const handleEditButton = async (id: string) => {
     try {
-      const result = await axios.get("/employee/" + id);
-      const { data } = result;
+      const response = await axios.get("/employee/" + id);
+      const { result, success } = response.data;
 
-      setEditedEmployee(data);
-      setCloseEdit(true);
+      if (!success) throw Error;
+      setEmployee(result);
+      setFormLoaded(true);
+      setAddForm(false);
     } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
     }
   };
 
   const handleUpdateEmployee = async () => {
-    try {
-      const { id } = editedEmployee;
-      const response = await axios.put("/employee/" + id, editedEmployee);
-      const { success } = response.data;
+    const {
+      user_first_name,
+      user_middle_name,
+      user_last_name,
+      user_contact_number,
+      user_address,
+      user_position,
+    } = employee;
+    let errors: string[] = [];
 
-      if (!success) throw Error;
-      Swal.fire(
-        "Updated!",
-        "Employee information updated successfully!",
-        "success"
-      );
-      getEmployees();
-      handleCloseEdit();
+    !user_first_name && errors.push("user_first_name");
+    !user_last_name && errors.push("user_last_name");
+    !user_position && errors.push("user_position");
+
+    setError(errors);
+
+    try {
+      if (!errors.length) {
+        const { id } = employee;
+        const response = await axios.put("/employee/" + id, employee);
+        const { success } = response.data;
+
+        if (!success) throw Error;
+        Swal.fire(
+          "Updated!",
+          "Employee information updated successfully!",
+          "success"
+        );
+        getEmployees();
+        handleCloseEdit();
+      }
     } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
+    }
+  };
+
+  const handleEmployeeRegister = async () => {
+    const {
+      user_email_address,
+      user_first_name,
+      user_middle_name,
+      user_last_name,
+      user_contact_number,
+      user_address,
+      user_position,
+    } = employee;
+    const validateEmail =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let errors: string[] = [];
+
+    !user_first_name && errors.push("user_first_name");
+    !user_last_name && errors.push("user_last_name");
+    !user_email_address && errors.push("user_email_address");
+    !user_position && errors.push("user_position");
+    !validateEmail.test(user_email_address) &&
+      errors.push("user_email_address");
+
+    setError(errors);
+
+    try {
+      if (!errors.length) {
+        const result = await axios.post("/employee", {
+          company_id: getCompanyId(),
+          user_email_address: user_email_address.toLowerCase(),
+          user_first_name: user_first_name,
+          user_middle_name: user_middle_name,
+          user_last_name: user_last_name,
+          user_position: user_position,
+          user_contact_number: user_contact_number,
+          user_address: user_address,
+        });
+
+        const { success, message } = result.data;
+
+        if (!success) throw Error;
+        if (message === "Employee added successfully!") {
+          Swal.fire("Added!", "Employee added successfully!", "success");
+          setFormLoaded(false);
+          getEmployees();
+        } else {
+          setErrorRegister(true);
+        }
+      }
+    } catch (error) {
+      Swal.fire("An error occurred while registering an employee!");
     }
   };
 
@@ -130,6 +223,14 @@ const Employee = () => {
     } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
     }
+  };
+
+  const handleEmployeeInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value, name } = event.target;
+
+    setEmployee({ ...employee, [name]: value });
   };
 
   const handleRestoreEmployee = (id: string) => {
@@ -171,50 +272,48 @@ const Employee = () => {
   const getEmployees = async () => {
     setEmployeesLoaded(false);
     try {
-      const result = await axios.get("/employees/" + getCompanyId());
-      const { data } = result;
-
-      employeesToPushToHooks(data);
+      const response = await axios.get("/employees/" + getCompanyId());
+      const { result, success } = response.data;
+      console.log(response)
+      if (!success) throw Error;
+      employeesToPushToHooks(result);
     } catch (error) {
       Swal.fire("There is an error while getting employees!");
     }
   };
 
-  const employeesToPushToHooks = (data: State[]) => {
+  const employeesToPushToHooks = (data: Employee[]) => {
     const active_employees: string[][] = [];
     const inactive_employees: string[][] = [];
 
-    data.map((value: State) => {
+    data.map((value: Employee) => {
       const {
         id,
-        employee_first_name,
-        employee_middle_name,
-        employee_last_name,
-        employee_email_address,
-        employee_password,
-        employee_contact_number,
-        employee_position,
-        employee_status,
+        user_first_name,
+        user_middle_name,
+        user_last_name,
+        user_email_address,
+        user_password,
+        user_contact_number,
+        user_position,
+        user_status,
       } = value;
 
+      console.log(value);
       const employee: any[] = [];
 
       employee.push(
-        employee_first_name +
-        " " +
-        employee_middle_name +
-        " " +
-        employee_last_name
+        user_first_name + " " + user_middle_name + " " + user_last_name
       );
-      employee.push(employee_email_address);
-      employee.push(employee_password);
-      employee.push(employee_contact_number);
-      employee.push(employee_position);
+      employee.push(user_email_address);
+      employee.push(user_password);
+      employee.push(user_contact_number);
+      employee.push(user_position);
 
-      employee.push(actionButtons(id, employee_status));
+      employee.push(actionButtons(id, user_status));
 
-      employee_status === "Active" && active_employees.push(employee);
-      employee_status === "Inactive" && inactive_employees.push(employee);
+      user_status === "Active" && active_employees.push(employee);
+      user_status === "Inactive" && inactive_employees.push(employee);
     });
 
     const employees: string[][] = [];
@@ -257,7 +356,7 @@ const Employee = () => {
           </div>
         ) : (
           <div>
-            <Tooltip color="diabled" title="Disabled">
+            <Tooltip color="disabled" title="Diabled">
               <IconButton>
                 <EditIcon />
               </IconButton>
@@ -294,19 +393,26 @@ const Employee = () => {
           <Loader type="ThreeDots" color="#00BFFF" height={100} width={100} />
         </div>
       ) : (
-        <EmployeeTable employees={employees} />
+        <EmployeesTable
+          employees={employees}
+          handleFormLoaded={handleFormLoaded}
+          formLoaded={formLoaded}
+        />
       )}
-      {closeEdit && (
-        <EmployeeUpdateForm
-          handleEditEmployee={handleEditEmployee}
-          handleCloseEdit={handleCloseEdit}
+      {formLoaded && (
+        <EmployeesForm
+          handleEmployeeInputChange={handleEmployeeInputChange}
+          handleEmployeeRegister={handleEmployeeRegister}
           handleUpdateEmployee={handleUpdateEmployee}
+          handleFormLoaded={handleFormLoaded}
           error={error}
-          editedEmployee={editedEmployee}
+          addForm={addForm}
+          employee={employee}
+          errorRegister={errorRegister}
         />
       )}
     </div>
   );
 };
 
-export default Employee;
+export default Employees;

@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import { Props, News } from "./types";
-import { getUser, getUserEmail } from "../../utils";
+import { getUser } from "../../utils";
 
 const DashboardContent = (props: Props) => {
   const classes = useStyles();
@@ -21,6 +21,7 @@ const DashboardContent = (props: Props) => {
     handleCloseAddForm,
     handleUpdateForm,
     handleButtonDelete,
+    addForm,
     max_width,
     news,
     company,
@@ -29,7 +30,7 @@ const DashboardContent = (props: Props) => {
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
-      {getUser() === "company" && (
+      {getUser() === "company" && addForm && (
         <Button
           color="secondary"
           className={classes.addNewsButton}
@@ -56,7 +57,7 @@ const DashboardContent = (props: Props) => {
                 <Typography variant="body2" color="textPrimary" component="p">
                   <h3>{value.news_topic}</h3>
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="textPrimary" component="p">
                   <p style={{ whiteSpace: "pre-line" }}>{value.news_body}</p>
                 </Typography>
               </CardContent>

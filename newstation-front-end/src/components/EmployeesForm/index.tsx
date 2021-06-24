@@ -1,19 +1,19 @@
 import React from "react";
 import { TextField, Paper, Grid, Container, Button } from "@material-ui/core";
 import { Props } from "./types";
-import useStyles from "../../styles/_AdministratorForm";
+import useStyles from "../../styles/_EmployeeForm";
 
-const AdministratorRegistrationForm = (props: Props) => {
+const EmployeeRegistrationForm = (props: Props) => {
   const classes = useStyles();
 
   const {
-    handleAdministratorInputChange,
-    handleAdministratorRegister,
+    handleEmployeeInputChange,
+    handleEmployeeRegister,
     handleFormLoaded,
-    handleUpdateAdministrator,
+    handleUpdateEmployee,
     error,
     errorRegister,
-    administrator,
+    employee,
     addForm,
   } = props;
 
@@ -25,7 +25,7 @@ const AdministratorRegistrationForm = (props: Props) => {
     user_email_address,
     user_contact_number,
     user_position,
-  } = administrator;
+  } = employee;
 
   return (
     <Paper elevation={3} className={classes.content}>
@@ -35,9 +35,9 @@ const AdministratorRegistrationForm = (props: Props) => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 {addForm ? (
-                  <h2>Add Administrator</h2>
+                  <h2>Add Employee</h2>
                 ) : (
-                  <h2>Update Administrator</h2>
+                  <h2>Update Employee</h2>
                 )}
               </Grid>
             </Grid>
@@ -52,7 +52,7 @@ const AdministratorRegistrationForm = (props: Props) => {
                     label="First Name"
                     value={user_first_name}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleAdministratorInputChange(event)
+                      handleEmployeeInputChange(event)
                     }
                   />
                 </Grid>
@@ -65,7 +65,7 @@ const AdministratorRegistrationForm = (props: Props) => {
                     label="Middle Name"
                     value={user_middle_name}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleAdministratorInputChange(event)
+                      handleEmployeeInputChange(event)
                     }
                   />
                 </Grid>
@@ -78,7 +78,7 @@ const AdministratorRegistrationForm = (props: Props) => {
                     label="Last Name"
                     value={user_last_name}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleAdministratorInputChange(event)
+                      handleEmployeeInputChange(event)
                     }
                   />
                 </Grid>
@@ -99,7 +99,7 @@ const AdministratorRegistrationForm = (props: Props) => {
                         errorRegister && "Email address has already been taken"
                       }
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        handleAdministratorInputChange(event)
+                        handleEmployeeInputChange(event)
                       }
                     />
                   </Grid>
@@ -113,7 +113,7 @@ const AdministratorRegistrationForm = (props: Props) => {
                     name="user_address"
                     value={user_address}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleAdministratorInputChange(event)
+                      handleEmployeeInputChange(event)
                     }
                   />
                 </Grid>
@@ -126,7 +126,7 @@ const AdministratorRegistrationForm = (props: Props) => {
                     name="user_position"
                     value={user_position}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleAdministratorInputChange(event)
+                      handleEmployeeInputChange(event)
                     }
                   />
                 </Grid>
@@ -139,7 +139,7 @@ const AdministratorRegistrationForm = (props: Props) => {
                     name="user_contact_number"
                     value={user_contact_number}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleAdministratorInputChange(event)
+                      handleEmployeeInputChange(event)
                     }
                   />
                 </Grid>
@@ -161,7 +161,7 @@ const AdministratorRegistrationForm = (props: Props) => {
                       variant="contained"
                       color="primary"
                       className={classes.submit}
-                      onClick={handleAdministratorRegister}
+                      onClick={handleEmployeeRegister}
                     >
                       Add
                     </Button>
@@ -173,7 +173,7 @@ const AdministratorRegistrationForm = (props: Props) => {
                       variant="contained"
                       color="primary"
                       className={classes.submit}
-                      onClick={handleUpdateAdministrator}
+                      onClick={handleUpdateEmployee}
                     >
                       Update
                     </Button>
@@ -188,4 +188,4 @@ const AdministratorRegistrationForm = (props: Props) => {
   );
 };
 
-export default AdministratorRegistrationForm;
+export default EmployeeRegistrationForm;
