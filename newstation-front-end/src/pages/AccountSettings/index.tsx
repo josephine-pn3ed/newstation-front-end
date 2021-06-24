@@ -16,6 +16,7 @@ const AccountSettings = () => {
   const [open, setOpen] = useState<boolean>(true);
   const [error, setError] = useState<string[]>([]);
   const [errorRegister, setErrorRegister] = useState<boolean>(false);
+
   let type: string;
   (getUser() === 'company' ? type = 'company' : type = 'employee')
 
@@ -158,7 +159,7 @@ const AccountSettings = () => {
           console.log(id)
           console.log(editedCompany)
           const result = await axios.put('/company/' + id, editedCompany)
-
+          console.log(result)
 
         } else if (
           result.dismiss === Swal.DismissReason.cancel
@@ -271,7 +272,8 @@ const AccountSettings = () => {
         handleEditCompanyInput={handleEditCompanyInput}
         error={error}
         handleDeleteCompany={handleDeleteCompany}
-        handleUpdateCompany={handleUpdateCompany} /> :
+        handleUpdateCompany={handleUpdateCompany}
+      /> :
         <AccountSettingsContent
           handleEditAccountInput={handleEditAccountInput}
           error={error}

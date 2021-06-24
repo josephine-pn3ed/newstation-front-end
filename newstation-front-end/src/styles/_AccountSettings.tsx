@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'center',
-        lineHeight: '1px',
         fontWeight: 'normal'
     },
     avatar: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '40%', // Fix IE 11 issue.
+        width: '50%', // Fix IE 11 issue.
         marginTop: theme.spacing(2),
 
     },
@@ -40,8 +39,6 @@ const useStyles = makeStyles((theme) => ({
     container: {
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
-
-
     },
 }));
 

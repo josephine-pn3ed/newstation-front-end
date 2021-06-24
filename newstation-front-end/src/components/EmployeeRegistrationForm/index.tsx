@@ -20,8 +20,10 @@ const EmployeeRegistrationForm = (props: Props) => {
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
           <form className={classes.form} noValidate>
+
             <Grid container spacing={2}>
               <Grid item xs={12}>
+                <h1>EMPLOYEE REGISTRATION</h1>
                 <TextField
                   error={error.includes("employee_first_name")}
                   name="employee_first_name"
