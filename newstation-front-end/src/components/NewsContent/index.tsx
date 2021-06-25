@@ -34,7 +34,7 @@ const NewsContent = (props: Props) => {
       {(getUser() === "company" || getUser() === "administrator") &&
         !closeAddForm && (
           <Button
-            color="secondary"
+            color="primary"
             className={classes.addNewsButton}
             variant="contained"
             onClick={() => handleCloseAddForm(true)}
@@ -44,54 +44,61 @@ const NewsContent = (props: Props) => {
         )}
       <Container maxWidth={max_width} className={classes.container}>
         {news.map((value: News) => {
-          return (
-            <Card className={classes.card}>
-              <CardHeader
-                avatar={
-                  <Avatar aria-label="user" className={classes.avatar}>
-                    {value.user_first_name.slice(0, 1)}
-                  </Avatar>
-                }
-                title={
-                  !value.user_middle_name && !value.user_last_name
-                    ? value.user_first_name
-                    : !value.user_middle_name ?
-                      value.user_first_name + " " + value.user_last_name :
-                      value.user_first_name + " " + value.user_middle_name + " " + value.user_last_name 
-
-                }
-                subheader={value.updated_at}
-              />
-              <CardContent>
-                <Typography variant="body2" color="textPrimary" component="p">
-                  <h3>{value.news_topic}</h3>
-                </Typography>
-                <Typography variant="body2" color="textPrimary" component="p">
-                  <p style={{ whiteSpace: "pre-line" }}>{value.news_body}</p>
-                </Typography>
-              </CardContent>
-              {(getUser() === "company" || (getUser() === "administrator" && getUserId() === value.user_id)) && (
-                <CardActions disableSpacing>
-                  <Tooltip
-                    color="primary"
-                    title="Edit"
-                    aria-label="edit"
-                    onClick={() => handleUpdateForm(value.id)}
-                  >
-                    <EditIcon />
-                  </Tooltip>
-                  <Tooltip
-                    color="secondary"
-                    title="Delete"
-                    aria-label="delete"
-                    onClick={() => handleButtonDelete(value.id)}
-                  >
-                    <DeleteIcon />
-                  </Tooltip>
-                </CardActions>
-              )}
-            </Card>
-          );
+          if (value.news_topic) {
+            return (
+              <Card className={classes.card}>
+                <CardHeader
+                  avatar={
+                    <Avatar aria-label="user" className={classes.avatar}>
+                      {value.user_first_name.slice(0, 1)}
+                    </Avatar>
+                  }
+                  title={
+                    !value.user_middle_name && !value.user_last_name
+                      ? value.user_first_name
+                      : !value.user_middle_name
+                      ? value.user_first_name + " " + value.user_last_name
+                      : value.user_first_name +
+                        " " +
+                        value.user_middle_name +
+                        " " +
+                        value.user_last_name
+                  }
+                  subheader={value.updated_at}
+                />
+                <CardContent>
+                  <Typography variant="body2" color="textPrimary" component="p">
+                    <h3>{value.news_topic}</h3>
+                  </Typography>
+                  <Typography variant="body2" color="textPrimary" component="p">
+                    <p style={{ whiteSpace: "pre-line" }}>{value.news_body}</p>
+                  </Typography>
+                </CardContent>
+                {(getUser() === "company" ||
+                  (getUser() === "administrator" &&
+                    getUserId() === value.user_id)) && (
+                  <CardActions disableSpacing>
+                    <Tooltip
+                      color="primary"
+                      title="Edit"
+                      aria-label="edit"
+                      onClick={() => handleUpdateForm(value.id)}
+                    >
+                      <EditIcon />
+                    </Tooltip>
+                    <Tooltip
+                      color="secondary"
+                      title="Delete"
+                      aria-label="delete"
+                      onClick={() => handleButtonDelete(value.id)}
+                    >
+                      <DeleteIcon />
+                    </Tooltip>
+                  </CardActions>
+                )}
+              </Card>
+            );
+          }
         })}
       </Container>
     </main>

@@ -15,14 +15,13 @@ const AdministratorsTable = (props: Props) => {
     "",
   ];
   const classes = useStyles();
-  const history = useHistory();
 
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
       {!formLoaded && (
         <Button
-          color="secondary"
+          color="primary"
           variant="contained"
           className={classes.addEmployeeButton}
           onClick={() => handleFormLoaded(true)}
