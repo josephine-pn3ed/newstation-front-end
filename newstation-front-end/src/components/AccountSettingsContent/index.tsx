@@ -78,8 +78,7 @@ const AccountSettingsContent = (props: Props) => {
               </Typography>
               {user_address && <Typography className={classesEmployees.pos} color="textSecondary">
                 Address
-              </Typography>
-              }
+              </Typography>}
               <br />
               <Typography variant="h5" component="h2">
                 {getUserEmail()}
