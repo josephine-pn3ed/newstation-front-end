@@ -111,7 +111,7 @@ const AccountSettings = () => {
       setEditedAccount(result)
     }
     catch (error) {
-      return { "message": "Error Retrieving Employee!" };
+      Swal.fire("Oops...", "Something went wrong!", "error");
     }
   }
 
@@ -124,7 +124,7 @@ const AccountSettings = () => {
       console.log(result, "company info")
     }
     catch (error) {
-      return { "message": "Error Retrieving Company!" };
+      Swal.fire("Oops...", "Something went wrong!", "error");
     }
   }
 
@@ -167,7 +167,7 @@ const AccountSettings = () => {
         }
       })
     } catch (error) {
-      return { "message": "Error Update!" };
+      Swal.fire("Oops...", "Something went wrong!", "error");
     }
   }
 
@@ -210,7 +210,7 @@ const AccountSettings = () => {
       })
 
     } catch (error) {
-      return { "message": "Error Update!" };
+      Swal.fire("Oops...", "Something went wrong!", "error");
     }
   }
 
@@ -249,7 +249,7 @@ const AccountSettings = () => {
         }
       })
     } catch (error) {
-      return { "message": "Error Delete!" };
+      Swal.fire("Oops...", "Something went wrong!", "error");
     }
   }
 
@@ -288,7 +288,7 @@ const AccountSettings = () => {
         }
       })
     } catch (error) {
-      return { "message": "Error Delete!" };
+      Swal.fire("Oops...", "Something went wrong!", "error");
     }
   }
 

@@ -66,7 +66,7 @@ const AccountSettingsContent = (props: Props) => {
               <Typography className={classesEmployees.title} color="primary" gutterBottom>
                 Account Information
               </Typography>
-              <Typography variant="h2" component="h2">
+              <Typography color="secondary" variant="h2" component="h2">
                 {user_first_name} {user_middle_name} {user_last_name}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">

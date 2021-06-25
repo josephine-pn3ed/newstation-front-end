@@ -64,7 +64,7 @@ const AccountSettingsCompany = (props: Props) => {
               <Typography className={classesCompany.title} color="primary" gutterBottom>
                 Account Information
               </Typography>
-              <Typography variant="h2" component="h2">
+              <Typography color="secondary" variant="h2" component="h2">
                 {company_name}
               </Typography>
               <Typography className={classesCompany.pos} color="textSecondary">
