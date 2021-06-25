@@ -23,12 +23,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
     padding: theme.spacing(1)
   },
-<<<<<<< HEAD
-  password_field: {
-    width: '100%'
-  },
-=======
->>>>>>> 4e6983b8e6ced4a0a2abf8ba38b670d6efb9eb4e
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,

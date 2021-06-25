@@ -71,7 +71,7 @@ const AccountSettings = () => {
   }
   const handleCloseEdit = () => {
     setOpenEdit(false)
-    setEditedAccount({ ...editedAccount, checkPassword: "" })
+    setEditedAccount({ ...editedAccount, checkPassword: "", new_password: "" })
   }
 
   const handleEditAccountInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,6 +97,8 @@ const AccountSettings = () => {
   }
 
 
+
+
   const getAccount = async () => {
     type == 'company' ? getAccountCompany() : getAccountEmployee()
   }
@@ -119,6 +121,7 @@ const AccountSettings = () => {
       const response = await axios.get("/company/" + id);
       const { result } = response.data
       setEditedCompany(result)
+      console.log(result, "company info")
     }
     catch (error) {
       return { "message": "Error Retrieving Company!" };
@@ -293,8 +296,6 @@ const AccountSettings = () => {
   useEffect(() => {
     getAccount();
   }, [])
-
-  console.log(editedAccount)
   return (
     <div className={classes.root}>
       <Navbar

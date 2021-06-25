@@ -25,7 +25,6 @@ import { useState } from 'react';
 
 const AccountSettingsContent = (props: Props) => {
   const classesEmployees = useStyles();
-  const history = useHistory();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showCurrent, setShowCurrent] = useState<boolean>(false);
   const [changePassword, setChangePassword] = useState<boolean>(false)
@@ -40,6 +39,11 @@ const AccountSettingsContent = (props: Props) => {
   const handleOpenPassword = () => {
     setChangePassword(!changePassword);
     handleCloseEdit();
+  }
+
+  const handleClosePassword = () => {
+    handleUpdateAccount();
+    setChangePassword(!changePassword);
   }
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -93,7 +97,7 @@ const AccountSettingsContent = (props: Props) => {
                 Contact Number
               </Typography>
               <TextField value={user_password} type="password" />
-              <Button size="small" color="default" variant="contained" onClick={handleOpenPassword}>Change Password</Button>
+              <Button size="small" color="inherit" variant="contained" onClick={handleOpenPassword}>Change Password</Button>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Password
               </Typography>
@@ -112,93 +116,98 @@ const AccountSettingsContent = (props: Props) => {
         )
         }
         {(changePassword && user_password) && (
-          <Container maxWidth="md" className={classesEmployees.paperPassword} >
-            <Grid item xs={12}>
-              <Typography className={classesEmployees.title} variant="h4" component="h2"> Change Password</Typography>
-              <FormControl
-                variant="outlined"
-                error={checkPassword !== user_password}
-                fullWidth
-              >
-                <InputLabel htmlFor="outlined-adornment-password">
-                  Confirm Current Password
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  name="user_password"
-                  type={showCurrent ? "text" : "password"}
-                  value={checkPassword}
-                  disabled={checkPassword === user_password}
-                  label="Confirm Current Password"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordAccount(event)
-                  }
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowCurrent}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showCurrent ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  labelWidth={75}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl
-                variant="outlined"
-                error={!new_password || checkPassword !== user_password}
-                disabled={checkPassword !== user_password}
-                fullWidth
-              >
-                <InputLabel htmlFor="outlined-adornment-password">
-                  New Password
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  name="new_password"
-                  type={showPassword ? "text" : "password"}
-                  value={new_password}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)
-                  }
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  labelWidth={75}
-                />
-                <Button
-                  fullWidth
-                  disabled={(checkPassword !== (user_password))}
-                  variant="contained"
-                  color="primary"
-                  className={classesEmployees.submit}
-                  onClick={handleUpdateAccount}
-                >
-                  Update Password
-                </Button>
-                <Button
-                  fullWidth
+          <Container maxWidth="sm" className={classesEmployees.paperPassword} >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography className={classesEmployees.title} align='center' color="primary" gutterBottom> Change Password</Typography>
+                <FormControl
                   variant="outlined"
-                  color="inherit"
-                  className={classesEmployees.submit}
-                  onClick={handleOpenPassword}
+                  error={checkPassword !== user_password}
+                  fullWidth
                 >
-                  BACK
-                </Button>
-              </FormControl>
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Confirm Current Password
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    name="user_password"
+                    type={showCurrent ? "text" : "password"}
+                    value={checkPassword}
+                    disabled={checkPassword === user_password}
+                    label="Confirm Current Password"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordAccount(event)
+                    }
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowCurrent}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showCurrent ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    labelWidth={75}
+                  />
+                  {checkPassword !== user_password && <FormHelperText>Please verify password before updating. </FormHelperText>}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl
+                  variant="outlined"
+                  error={(!new_password || checkPassword !== user_password) && checkPassword === user_password}
+                  disabled={checkPassword !== user_password}
+                  fullWidth
+                >
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    New Password
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    name="new_password"
+                    type={showPassword ? "text" : "password"}
+                    value={new_password}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)
+                    }
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    labelWidth={75}
+                  />
+                  {checkPassword !== user_password ? <FormHelperText> Available once password is verified </FormHelperText>
+                    : <FormHelperText> Please Enter Valid Password </FormHelperText>}
+                  <Button
+                    fullWidth
+                    disabled={(checkPassword !== (user_password))}
+                    variant="contained"
+                    color="primary"
+                    className={classesEmployees.submit}
+                    onClick={handleClosePassword}
+                  >
+                    Update Password
+                  </Button>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    color="inherit"
+                    className={classesEmployees.submit}
+                    onClick={handleOpenPassword}
+                  >
+                    BACK
+                  </Button>
+                </FormControl>
+              </Grid>
             </Grid>
           </Container>
         )}
@@ -291,6 +300,7 @@ const AccountSettingsContent = (props: Props) => {
                       }
                       labelWidth={75}
                     />
+                    {checkPassword !== user_password && <FormHelperText>Please verify password before updating. </FormHelperText>}
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>

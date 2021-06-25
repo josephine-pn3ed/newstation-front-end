@@ -3,7 +3,13 @@ import {
   Link,
   Grid,
   Container,
-  Button
+  Button,
+  FormControl,
+  InputLabel,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  FormHelperText,
 } from '@material-ui/core';
 import useStylesCompany from '../../styles/_CompanyCard'
 import { useHistory } from 'react-router-dom';
@@ -13,6 +19,9 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { useState } from 'react';
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+
 
 const AccountSettingsCompany = (props: Props) => {
   const classesCompany = useStylesCompany();
@@ -20,25 +29,46 @@ const AccountSettingsCompany = (props: Props) => {
   const { handleEditCompanyInput, handleUpdateCompany, handleDeleteCompany, editedCompany, error, handleOpenEdit, handleCloseEdit, openEdit, handleInputPasswordCompany } = props;
   const { company_name, company_email_address,
     company_password, company_address, company_contact_number, checkPassword, new_password } = editedCompany
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showCurrent, setShowCurrent] = useState<boolean>(false);
+  const [changePassword, setChangePassword] = useState<boolean>(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleClickShowCurrent = () => {
+    setShowCurrent(!showCurrent);
+  };
 
+  const handleOpenPassword = () => {
+    setChangePassword(!changePassword);
+    handleCloseEdit();
+  }
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const handleClosePassword = () => {
+    handleUpdateCompany();
+    setChangePassword(!changePassword);
+  }
 
 
   return (
-
-    (<main className={classesCompany.content}>
+    <main className={classesCompany.content}>
       <div className={classesCompany.appBarSpacer} />
       <Container maxWidth="lg" className={classesCompany.container} >
         {(!openEdit) && (
           <Card className={classesCompany.root} variant="outlined">
             <CardContent>
               <Typography className={classesCompany.title} color="primary" gutterBottom>
-                Company Account Information
+                Account Information
               </Typography>
               <Typography variant="h2" component="h2">
                 {company_name}
               </Typography>
               <Typography className={classesCompany.pos} color="textSecondary">
-                Company
+                Complete Name
               </Typography>
               <Typography variant="h5" component="h2">
                 {getCompanyId()}
@@ -49,11 +79,11 @@ const AccountSettingsCompany = (props: Props) => {
               <Typography variant="h5" component="h2">
                 {company_address}
               </Typography>
-              <Typography className={classesCompany.pos} color="textSecondary">
+              {company_address && <Typography className={classesCompany.pos} color="textSecondary">
                 Address
-              </Typography>
+              </Typography>}
               <Typography variant="h5" component="h2">
-                {company_email_address}
+                {getUserEmail()}
               </Typography>
               <Typography className={classesCompany.pos} color="textSecondary">
                 Email Address
@@ -61,137 +91,240 @@ const AccountSettingsCompany = (props: Props) => {
               <Typography variant="h5" component="h2">
                 {company_contact_number}
               </Typography>
-              <Typography className={classesCompany.pos} color="textSecondary">
+              {company_contact_number && <Typography className={classesCompany.pos} color="textSecondary">
                 Contact Number
-              </Typography>
+              </Typography>}
               <TextField value={company_password} type="password" />
+              <Button size="small" color="default" variant="contained" onClick={handleOpenPassword}>Change Password</Button>
               <Typography className={classesCompany.pos} color="textSecondary">
                 Password
               </Typography>
-            </CardContent>
-            {company_name && <CardActions>
-              <Button size="large" color="primary" variant="contained" onClick={handleOpenEdit}>EDIT ACCOUNT</Button>
-              <Button size="large" color="secondary" variant="contained" onClick={handleDeleteCompany}>DELETE ACCOUNT</Button>
-            </CardActions>}
 
+            </CardContent>
+            {company_name && (<CardActions>
+              <Button size="large" color="primary" variant="contained" onClick={handleOpenEdit}>EDIT ACCOUNT DETAILS</Button>
+              <Button size="large" color="secondary" variant="contained" onClick={handleDeleteCompany}>DELETE ACCOUNT</Button>
+            </CardActions>)}
           </Card>
         )
         }
-        {(openEdit && company_name) && (<div className={classesCompany.paperCenter}><Container maxWidth='sm' className={classesCompany.paper}>
-          <Typography className={classesCompany.title} variant="h5" component="h2"> Account Management Settings</Typography>
-          {<h2 > <i> {getUserEmail()} </i></h2>}
-          <label > {getUser()} ID : {getCompanyId()} </label>
-          <form className={classesCompany.form} noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  error={error.includes('company_name')}
-                  name="company_name"
-                  value={company_name}
-                  variant="outlined"
-                  fullWidth
-                  label="Company Name"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  //error={error.includes('employee_email_address') || errorRegister}
-                  variant="outlined"
-                  fullWidth
-                  label="Email Address"
-                  name="company_email_address"
-                  autoComplete="email"
-                  type="email"
-                  value={company_email_address}
-                  // helperText={errorRegister && 'Email address has already been taken'}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={checkPassword !== company_password}
+        {(changePassword && company_password) && (
+          <Container maxWidth="md" className={classesCompany.paperPassword} >
+            <Grid item xs={12}>
+              <Typography className={classesCompany.title} align='center' color="primary" gutterBottom> Change Password</Typography>
+              <FormControl
+                variant="outlined"
+                error={checkPassword !== company_password}
+                fullWidth
+              >
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Confirm Current Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
                   name="company_password"
+                  type={showCurrent ? "text" : "password"}
                   value={checkPassword}
-                  variant="outlined"
-                  fullWidth
-                  helperText={(checkPassword !== company_password) && 'Verify Password before Applying Updates!'}
-                  label="Confirm Password"
-                  type="password"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordCompany(event)}
+                  disabled={checkPassword === company_password}
+                  label="Confirm Current Password"
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordCompany(event)
+                  }
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowCurrent}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showCurrent ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={75}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={!new_password}
-                  disabled={checkPassword !== company_password}
-                  variant="outlined"
-                  fullWidth
-                  label="New Password"
-                  name="new_password"
-                  value={new_password}
-                  helperText={(checkPassword !== company_password) && 'Please verify latest password!'}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={error.includes('company_address')}
-                  variant="outlined"
-                  fullWidth
-                  label="Address"
-                  name="company_address"
-                  value={company_address}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={error.includes('company_contact_number')}
-                  variant="outlined"
-                  fullWidth
-                  label="Contact Number"
-                  name="company_contact_number"
-                  value={company_contact_number}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
-                />
-              </Grid>
+                {checkPassword !== company_password && <FormHelperText>Please verify password before updating. </FormHelperText>}
+              </FormControl>
             </Grid>
-            <Button
-              fullWidth
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                error={!new_password || checkPassword !== company_password}
+                disabled={checkPassword !== company_password}
+                fullWidth
+              >
+                <InputLabel htmlFor="outlined-adornment-password">
+                  New Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  name="new_password"
+                  type={showPassword ? "text" : "password"}
+                  value={new_password}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)
+                  }
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={75}
+                />
+                {checkPassword !== company_password ? <FormHelperText> Available once password is verified </FormHelperText>
+                  : <FormHelperText> Please Enter Valid Password </FormHelperText>}
+                <Button
+                  fullWidth
+                  disabled={(checkPassword !== (company_password))}
+                  variant="contained"
+                  color="primary"
+                  className={classesCompany.submit}
+                  onClick={handleClosePassword}
+                >
+                  Update Password
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  color="inherit"
+                  className={classesCompany.submit}
+                  onClick={handleOpenPassword}
+                >
+                  BACK
+                </Button>
+              </FormControl>
+            </Grid>
+          </Container>
+        )}
 
-              size='small'
-              variant="contained"
-              color="primary"
-              className={classesCompany.submit}
-              onClick={handleUpdateCompany}
-            >
-              Update User Information
-            </Button>
-            <Button
-              fullWidth
-              size='medium'
-              variant="outlined"
-              color="inherit"
-              className={classesCompany.submit}
-              onClick={handleCloseEdit}
-            >
-              BACK
-            </Button>
-          </form>
-        </Container>
-        </div>
-        )
+        {(openEdit && company_name) && (<div className={classesCompany.paperCenter}>
+          <Container maxWidth='sm' className={classesCompany.paper}>
+            <Typography className={classesCompany.title} variant="h5" component="h2"> Account Management Settings</Typography>
+            {<h3> <i> {getUserEmail()} </i></h3>}
+            <label>{getUser()} ID : {getCompanyId()} </label>
+            <form className={classesCompany.form} noValidate>
+              <Grid container spacing={1}>
+                <Grid item xs={12}>
+                  <TextField
+                    error={error.includes('company_name')}
+                    name="company_name"
+                    value={company_name}
+                    variant="outlined"
+                    fullWidth
+                    label="Company Name"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    //error={error.includes('company_email_address') || errorRegister}
+                    variant="outlined"
+                    fullWidth
+                    label="Email Address"
+                    name="company_email_address"
+                    autoComplete="email"
+                    type="email"
+                    value={company_email_address}
+                    // helperText={errorRegister && 'Email address has already been taken'}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl
+                    variant="outlined"
+                    error={checkPassword !== company_password}
+                    fullWidth
+                  >
+
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Confirm Current Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      name="company_password"
+                      type={showCurrent ? "text" : "password"}
+                      value={checkPassword}
+                      // disabled={checkPassword === company_password}
+                      label="Confirm Current Password"
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordCompany(event)
+                      }
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowCurrent}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showCurrent ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      labelWidth={75}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={error.includes('company_address')}
+                    variant="outlined"
+                    fullWidth
+                    label="Address"
+                    name="company_address"
+                    value={company_address}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    error={error.includes('company_contact_number')}
+                    variant="outlined"
+                    fullWidth
+                    label="Contact Number"
+                    name="company_contact_number"
+                    value={company_contact_number}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                fullWidth
+                disabled={(checkPassword !== (company_password))}
+                variant="contained"
+                color="primary"
+                className={classesCompany.submit}
+                onClick={handleUpdateCompany}
+              >
+                Update User Information
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="inherit"
+                className={classesCompany.submit}
+                onClick={handleCloseEdit}
+              >
+                BACK
+              </Button>
+
+            </form>
+          </Container>
+        </div>)
         }
 
 
-
       </Container>
-    </main>
-
-
-    )
+    </main >
   )
 }
+
 
 export default AccountSettingsCompany;
