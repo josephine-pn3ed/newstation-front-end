@@ -3,7 +3,14 @@ import {
   Link,
   Grid,
   Container,
-  Button
+  Button,
+  FormControl,
+  InputLabel,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  FormHelperText,
+
 } from '@material-ui/core';
 import useStyles from '../../styles/_EmployeeCard'
 import { useHistory } from 'react-router-dom';
@@ -13,17 +20,37 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useState } from 'react';
 
 const AccountSettingsContent = (props: Props) => {
   const classesEmployees = useStyles();
   const history = useHistory();
-  const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount, error, handleOpenEdit, handleCloseEdit, openEdit, handleInputPasswordAccount } = props;
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showCurrent, setShowCurrent] = useState<boolean>(false);
+  const [changePassword, setChangePassword] = useState<boolean>(false)
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleClickShowCurrent = () => {
+    setShowCurrent(!showCurrent);
+  };
+
+  const handleOpenPassword = () => {
+    setChangePassword(!changePassword);
+    handleCloseEdit();
+  }
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount, error,
+    handleOpenEdit, handleCloseEdit, openEdit, handleInputPasswordAccount } = props;
+
   const { user_first_name, user_middle_name, user_last_name, id, user_email_address,
     user_password, user_address, user_position, user_contact_number, new_password, checkPassword } = editedAccount
-
-
-  //(checkPassword === user_password && setAllowChange(true))
 
   return (
     <main className={classesEmployees.content}>
@@ -32,7 +59,7 @@ const AccountSettingsContent = (props: Props) => {
         {(!openEdit) && (
           <Card className={classesEmployees.root} variant="outlined">
             <CardContent>
-              <Typography className={classesEmployees.title} color="textSecondary" gutterBottom>
+              <Typography className={classesEmployees.title} color="primary" gutterBottom>
                 Account Information
               </Typography>
               <Typography variant="h2" component="h2">
@@ -66,6 +93,7 @@ const AccountSettingsContent = (props: Props) => {
                 Contact Number
               </Typography>
               <TextField value={user_password} type="password" />
+              <Button size="small" color="default" variant="contained" onClick={handleOpenPassword}>Change Password</Button>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Password
               </Typography>
@@ -73,16 +101,107 @@ const AccountSettingsContent = (props: Props) => {
                 {user_position}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">
-                Position
+                Job Title
               </Typography>
             </CardContent>
             {user_first_name && (<CardActions>
-              <Button size="large" color="primary" variant="contained" onClick={handleOpenEdit}>EDIT ACCOUNT</Button>
+              <Button size="large" color="primary" variant="contained" onClick={handleOpenEdit}>EDIT ACCOUNT DETAILS</Button>
               <Button size="large" color="secondary" variant="contained" onClick={handleDeleteAccount}>DELETE ACCOUNT</Button>
             </CardActions>)}
           </Card>
         )
         }
+        {(changePassword && user_password) && (
+          <Container maxWidth="md" className={classesEmployees.paperPassword} >
+            <Grid item xs={12}>
+              <Typography className={classesEmployees.title} variant="h4" component="h2"> Change Password</Typography>
+              <FormControl
+                variant="outlined"
+                error={checkPassword !== user_password}
+                fullWidth
+              >
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Confirm Current Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  name="user_password"
+                  type={showCurrent ? "text" : "password"}
+                  value={checkPassword}
+                  disabled={checkPassword === user_password}
+                  label="Confirm Current Password"
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordAccount(event)
+                  }
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowCurrent}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showCurrent ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={75}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                error={!new_password || checkPassword !== user_password}
+                disabled={checkPassword !== user_password}
+                fullWidth
+              >
+                <InputLabel htmlFor="outlined-adornment-password">
+                  New Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  name="new_password"
+                  type={showPassword ? "text" : "password"}
+                  value={new_password}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)
+                  }
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={75}
+                />
+                <Button
+                  fullWidth
+                  disabled={(checkPassword !== (user_password))}
+                  variant="contained"
+                  color="primary"
+                  className={classesEmployees.submit}
+                  onClick={handleUpdateAccount}
+                >
+                  Update Password
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  color="inherit"
+                  className={classesEmployees.submit}
+                  onClick={handleOpenPassword}
+                >
+                  BACK
+                </Button>
+              </FormControl>
+            </Grid>
+          </Container>
+        )}
 
         {(openEdit && user_first_name) && (<div className={classesEmployees.paperCenter}>
           <Container maxWidth='sm' className={classesEmployees.paper}>
@@ -140,28 +259,39 @@ const AccountSettingsContent = (props: Props) => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <FormControl
+                    variant="outlined"
                     error={checkPassword !== user_password}
-                    name="user_password"
-                    value={checkPassword}
-                    variant="outlined"
                     fullWidth
-                    helperText={(checkPassword !== user_password) && 'Please Confirm latest Password to change!'}
-                    label="Confirm Password"
-                    type="password"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordAccount(event)}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    error={!new_password}
-                    variant="outlined"
-                    fullWidth
-                    label="New Password"
-                    name="new_password"
-                    value={new_password}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
-                  />
+                  >
+
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Confirm Current Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      name="user_password"
+                      type={showCurrent ? "text" : "password"}
+                      value={checkPassword}
+                      // disabled={checkPassword === user_password}
+                      label="Confirm Current Password"
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordAccount(event)
+                      }
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowCurrent}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showCurrent ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      labelWidth={75}
+                    />
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -179,7 +309,7 @@ const AccountSettingsContent = (props: Props) => {
                     error={error.includes('user_position')}
                     variant="outlined"
                     fullWidth
-                    label="Position"
+                    label="Job Title"
                     name="user_position"
                     value={user_position}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
@@ -199,23 +329,13 @@ const AccountSettingsContent = (props: Props) => {
               </Grid>
               <Button
                 fullWidth
-                disabled={checkPassword !== user_password}
+                disabled={(checkPassword !== (user_password))}
                 variant="contained"
                 color="primary"
                 className={classesEmployees.submit}
                 onClick={handleUpdateAccount}
               >
                 Update User Information
-              </Button>
-              <Button
-                fullWidth
-                variant="contained"
-                color="secondary"
-                disabled={checkPassword !== user_password}
-                className={classesEmployees.submit}
-                onClick={handleDeleteAccount}
-              >
-                Delete Account
               </Button>
               <Button
                 fullWidth
@@ -231,6 +351,8 @@ const AccountSettingsContent = (props: Props) => {
           </Container>
         </div>)
         }
+
+
       </Container>
     </main >
 

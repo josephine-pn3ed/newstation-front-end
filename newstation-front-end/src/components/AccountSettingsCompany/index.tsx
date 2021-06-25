@@ -13,14 +13,13 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { useState } from 'react';
 
 const AccountSettingsCompany = (props: Props) => {
   const classesCompany = useStylesCompany();
   const history = useHistory();
   const { handleEditCompanyInput, handleUpdateCompany, handleDeleteCompany, editedCompany, error, handleOpenEdit, handleCloseEdit, openEdit, handleInputPasswordCompany } = props;
   const { company_name, company_email_address,
-    company_password, company_address, company_contact_number, checkPassword } = editedCompany
+    company_password, company_address, company_contact_number, checkPassword, new_password } = editedCompany
 
 
 
@@ -32,7 +31,7 @@ const AccountSettingsCompany = (props: Props) => {
         {(!openEdit) && (
           <Card className={classesCompany.root} variant="outlined">
             <CardContent>
-              <Typography className={classesCompany.title} color="textSecondary" gutterBottom>
+              <Typography className={classesCompany.title} color="primary" gutterBottom>
                 Company Account Information
               </Typography>
               <Typography variant="h2" component="h2">
@@ -83,7 +82,7 @@ const AccountSettingsCompany = (props: Props) => {
           {<h2 > <i> {getUserEmail()} </i></h2>}
           <label > {getUser()} ID : {getCompanyId()} </label>
           <form className={classesCompany.form} noValidate>
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   error={error.includes('company_name')}
@@ -111,23 +110,38 @@ const AccountSettingsCompany = (props: Props) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  error={checkPassword !== company_password}
+                  name="company_password"
+                  value={checkPassword}
+                  variant="outlined"
+                  fullWidth
+                  helperText={(checkPassword !== company_password) && 'Verify Password before Applying Updates!'}
+                  label="Confirm Password"
+                  type="password"
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordCompany(event)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  error={!new_password}
+                  disabled={checkPassword !== company_password}
+                  variant="outlined"
+                  fullWidth
+                  label="New Password"
+                  name="new_password"
+                  value={new_password}
+                  helperText={(checkPassword !== company_password) && 'Please verify latest password!'}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
                   error={error.includes('company_address')}
                   variant="outlined"
                   fullWidth
                   label="Address"
                   name="company_address"
                   value={company_address}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={error.includes('company_password')}
-                  variant="outlined"
-                  fullWidth
-                  label="Password"
-                  name="company_password"
-                  value={company_password}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
                 />
               </Grid>
@@ -153,15 +167,6 @@ const AccountSettingsCompany = (props: Props) => {
               onClick={handleUpdateCompany}
             >
               Update User Information
-            </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              color="secondary"
-              className={classesCompany.submit}
-              onClick={handleDeleteCompany}
-            >
-              Delete Account
             </Button>
             <Button
               fullWidth

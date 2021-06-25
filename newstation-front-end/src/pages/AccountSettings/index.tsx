@@ -71,6 +71,7 @@ const AccountSettings = () => {
   }
   const handleCloseEdit = () => {
     setOpenEdit(false)
+    setEditedAccount({ ...editedAccount, checkPassword: "" })
   }
 
   const handleEditAccountInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,8 +144,9 @@ const AccountSettings = () => {
           console.log(editedAccount, new_password)
           const result = await axios.put('/employee/' + id, { ...editedAccount, user_password: new_password, new_password: "", checkPassword: "" })
           console.log(result)
-          handleCloseEdit();
+
           getAccount();
+          handleCloseEdit();
           Swal.fire(
             'Updated!',
             'Account Updated!',
