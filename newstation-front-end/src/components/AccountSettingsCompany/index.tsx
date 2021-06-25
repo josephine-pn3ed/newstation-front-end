@@ -102,7 +102,6 @@ const AccountSettingsCompany = (props: Props) => {
             </CardContent>
             {company_name && (<CardActions>
               <Button size="large" color="primary" variant="contained" onClick={handleOpenEdit}>EDIT ACCOUNT DETAILS</Button>
-              <Button size="large" color="secondary" variant="contained" onClick={handleDeleteCompany}>DELETE ACCOUNT</Button>
             </CardActions>)}
           </Card>
         )
