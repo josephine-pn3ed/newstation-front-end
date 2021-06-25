@@ -68,37 +68,36 @@ const AccountSettingsCompany = (props: Props) => {
                 {company_name}
               </Typography>
               <Typography className={classesCompany.pos} color="textSecondary">
-                Complete Name
+                Company Name
               </Typography>
-              <Typography variant="h5" component="h2">
-                {getCompanyId()}
-              </Typography>
-              <Typography className={classesCompany.pos} color="textSecondary">
-                Company ID
-              </Typography>
+              <br />
               <Typography variant="h5" component="h2">
                 {company_address}
               </Typography>
               {company_address && <Typography className={classesCompany.pos} color="textSecondary">
                 Address
               </Typography>}
+              <br />
               <Typography variant="h5" component="h2">
                 {getUserEmail()}
               </Typography>
               <Typography className={classesCompany.pos} color="textSecondary">
                 Email Address
               </Typography>
+              <br />
               <Typography variant="h5" component="h2">
                 {company_contact_number}
               </Typography>
               {company_contact_number && <Typography className={classesCompany.pos} color="textSecondary">
                 Contact Number
               </Typography>}
+              <br />
               <TextField value={company_password} type="password" />
               <Button size="small" color="default" variant="contained" onClick={handleOpenPassword}>Change Password</Button>
               <Typography className={classesCompany.pos} color="textSecondary">
                 Password
               </Typography>
+              <br />
 
             </CardContent>
             {company_name && (<CardActions>
@@ -146,6 +145,7 @@ const AccountSettingsCompany = (props: Props) => {
                 {checkPassword !== company_password && <FormHelperText>Please verify password before updating. </FormHelperText>}
               </FormControl>
             </Grid>
+            <Grid item xs={12} />
             <Grid item xs={12}>
               <FormControl
                 variant="outlined"
@@ -207,7 +207,6 @@ const AccountSettingsCompany = (props: Props) => {
           <Container maxWidth='sm' className={classesCompany.paper}>
             <Typography className={classesCompany.title} variant="h5" component="h2"> Account Management Settings</Typography>
             {<h3> <i> {getUserEmail()} </i></h3>}
-            <label>{getUser()} ID : {getCompanyId()} </label>
             <form className={classesCompany.form} noValidate>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
@@ -221,7 +220,6 @@ const AccountSettingsCompany = (props: Props) => {
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
                   />
                 </Grid>
-
                 <Grid item xs={12}>
                   <TextField
                     //error={error.includes('company_email_address') || errorRegister}

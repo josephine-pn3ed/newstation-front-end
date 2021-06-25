@@ -72,41 +72,43 @@ const AccountSettingsContent = (props: Props) => {
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Complete Name
               </Typography>
-              <Typography variant="h5" component="h2">
-                {getUserId()}
-              </Typography>
-              <Typography className={classesEmployees.pos} color="textSecondary">
-                Employee ID
-              </Typography>
+              <br />
               <Typography variant="h5" component="h2">
                 {user_address}
               </Typography>
-              <Typography className={classesEmployees.pos} color="textSecondary">
+              {user_address && <Typography className={classesEmployees.pos} color="textSecondary">
                 Address
               </Typography>
+              }
+              <br />
               <Typography variant="h5" component="h2">
                 {getUserEmail()}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Email Address
               </Typography>
+              <br />
               <Typography variant="h5" component="h2">
                 {user_contact_number}
               </Typography>
-              <Typography className={classesEmployees.pos} color="textSecondary">
+              {user_contact_number && <Typography className={classesEmployees.pos} color="textSecondary">
                 Contact Number
               </Typography>
+              }
+              <br />
               <TextField value={user_password} type="password" />
               <Button size="small" color="inherit" variant="contained" onClick={handleOpenPassword}>Change Password</Button>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Password
               </Typography>
+              <br />
               <Typography variant="h5" component="h2">
                 {user_position}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Job Title
               </Typography>
+              <br />
             </CardContent>
             {user_first_name && (<CardActions>
               <Button size="large" color="primary" variant="contained" onClick={handleOpenEdit}>EDIT ACCOUNT DETAILS</Button>
