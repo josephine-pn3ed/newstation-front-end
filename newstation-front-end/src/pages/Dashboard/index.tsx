@@ -78,8 +78,9 @@ const Dashboard = () => {
   const handleUpdateForm = async (newsId: string) => {
     setAddForm(false);
     try {
-      const newsById = await axios.get("/news-company/" + newsId);
-      const { result, success } = newsById.data;
+      const response = await axios.get("/news-company/" + newsId);
+      console.log("result", newsId)
+      const { result, success } = response.data;
       const {
         id,
         company_id,
@@ -133,7 +134,9 @@ const Dashboard = () => {
         reverseButtons: true,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.delete("/news/" + id);
+          const response = await axios.delete("/news/" + id);
+
+          console.log(response, id)
 
           Swal.fire("Deleted!", "News has been deleted.", "success");
 
@@ -155,8 +158,9 @@ const Dashboard = () => {
     !news_body && errors.push("news_body");
 
     setError(errors);
+    console.log(errors)
 
-    if (errors.length) {
+    if (!errors.length) {
       try {
         const result = await axios.put("/news/" + id, {
           news_topic: news_topic,
