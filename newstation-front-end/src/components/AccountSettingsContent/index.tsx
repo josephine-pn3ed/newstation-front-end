@@ -217,7 +217,6 @@ const AccountSettingsContent = (props: Props) => {
           <Container maxWidth='sm' className={classesEmployees.paper}>
             <Typography className={classesEmployees.title} variant="h5" component="h2"> Account Management Settings</Typography>
             {<h3> <i> {getUserEmail()} </i></h3>}
-            <label>{getUser()} ID : {getUserId()} </label>
             <form className={classesEmployees.form} noValidate>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
@@ -251,20 +250,6 @@ const AccountSettingsContent = (props: Props) => {
                     variant="outlined"
                     fullWidth
                     label="Last Name"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    //error={error.includes('user_email_address') || errorRegister}
-                    variant="outlined"
-                    fullWidth
-                    label="Email Address"
-                    name="user_email_address"
-                    autoComplete="email"
-                    type="email"
-                    value={user_email_address}
-                    // helperText={errorRegister && 'Email address has already been taken'}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
                   />
                 </Grid>

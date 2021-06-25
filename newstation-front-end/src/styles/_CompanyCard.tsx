@@ -25,8 +25,9 @@ const useStylesEmployee = makeStyles((theme) => ({
         padding: theme.spacing(2, 4, 3),
     },
     paperPassword: {
-        marginTop: theme.spacing(-20),
+        marginTop: theme.spacing(-30),
         marginBottom: theme.spacing(5),
+        width: "500px",
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

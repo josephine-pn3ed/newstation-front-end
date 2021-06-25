@@ -143,19 +143,18 @@ const AccountSettings = () => {
         reverseButtons: true
       }).then(async (result) => {
         if (result.isConfirmed) {
+          handleCloseEdit();
           const id = getUserId();
           console.log(editedAccount, new_password)
-          const result = await axios.put('/employee/' + id, { ...editedAccount, user_password: new_password, new_password: "", checkPassword: "" })
+          const result = await axios.put('/employee/' + id, { ...editedAccount, user_password: new_password, checkPassword: "" })
           console.log(result)
 
-          getAccount();
-          handleCloseEdit();
           Swal.fire(
             'Updated!',
             'Account Updated!',
             'success'
           )
-
+          getAccount();
 
         } else if (
           result.dismiss === Swal.DismissReason.cancel
@@ -296,6 +295,7 @@ const AccountSettings = () => {
   useEffect(() => {
     getAccount();
   }, [])
+
   return (
     <div className={classes.root}>
       <Navbar
