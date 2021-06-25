@@ -5,7 +5,7 @@ import Sidenav from '../../components/Sidenav';
 import AccountSettingsContent from '../../components/AccountSettingsContent';
 import AccountSettingsCompany from '../../components/AccountSettingsCompany';
 import useStyles from '../../styles/_Dashboard';
-import { logout, getUser, getCompanyId, getEmployeeId } from '../../utils';
+import { logout, getUser, getCompanyId, getUserId } from '../../utils';
 import { State, Company } from './types';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -103,7 +103,7 @@ const AccountSettings = () => {
 
   const getAccountEmployee = async () => {
     try {
-      const id = getEmployeeId();
+      const id = getUserId();
       const response = await axios.get("/employee/" + id);
       const { result } = response.data;
       setEditedAccount(result)
@@ -140,7 +140,7 @@ const AccountSettings = () => {
         reverseButtons: true
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const id = getEmployeeId();
+          const id = getUserId();
           console.log(editedAccount, new_password)
           const result = await axios.put('/employee/' + id, { ...editedAccount, user_password: new_password, new_password: "", checkPassword: "" })
           console.log(result)
@@ -226,7 +226,7 @@ const AccountSettings = () => {
         reverseButtons: true
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const id = getEmployeeId();
+          const id = getUserId();
           const result = await axios.delete('/employee/' + id);
           Swal.fire(
             'Deleted!',

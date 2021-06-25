@@ -63,7 +63,7 @@ const Sidenav = (props: Props) => {
               <ListItemText primary="Administrators" />
             </ListItem>
           )}
-          {getUser() === "company" && (
+          {(getUser() === "company" || getUser() === "administrator") && (
             <ListItem
               button
               component="a"
@@ -83,7 +83,7 @@ const Sidenav = (props: Props) => {
             <ListItemIcon>
               <AccountCircle />
             </ListItemIcon>
-            <ListItemText primary={getUserEmail()} />
+            <ListItemText primary="My Account" />
           </ListItem>
         </List>
         <Divider />

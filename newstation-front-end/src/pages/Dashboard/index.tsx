@@ -5,18 +5,16 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Sidenav from "../../components/Sidenav";
-import DashboardContent from "../../components/DashboardContent";
+import NewsContent from "../../components/NewsContent";
 import NewsForm from "../../components/NewsForm";
 import useStyles from "../../styles/_Dashboard";
-import { logout, getCompanyId } from "../../utils";
+import { logout, getCompanyId, getUserId } from "../../utils";
 import { State } from "./types";
 
 const Dashboard = () => {
   const classes = useStyles();
 
   const history = useHistory();
-
-  const [company, setCompany] = useState<string>("");
 
   const [closeAddForm, setCloseAddForm] = useState<boolean>(false);
 
@@ -26,8 +24,11 @@ const Dashboard = () => {
 
   const [news, setNews] = useState<State>({
     id: "",
-    company_id: "",
     company_name: "",
+    user_id: "",
+    user_first_name: "",
+    user_middle_name: "",
+    user_last_name: "",
     news_topic: "",
     news_body: "",
     news_image: null,
@@ -58,8 +59,11 @@ const Dashboard = () => {
   const handleCloseAddForm = (open: boolean) => {
     setNews({
       id: "",
-      company_id: "",
       company_name: "",
+      user_id: "",
+      user_first_name: "",
+      user_middle_name: "",
+      user_last_name: "",
       news_topic: "",
       news_body: "",
       news_image: null,
@@ -68,11 +72,11 @@ const Dashboard = () => {
       updated_at: "",
     });
     setCloseAddForm(open);
-    setAddForm(!open);
+    setAddForm(true);
   };
 
   const handleUpdateForm = async (newsId: string) => {
-    setAddForm(false)
+    setAddForm(false);
     try {
       const newsById = await axios.get("/news-company/" + newsId);
       const { result, success } = newsById.data;
@@ -91,8 +95,11 @@ const Dashboard = () => {
       setCloseAddForm(true);
       setNews({
         id: id,
-        company_id: company_id,
         company_name: "",
+        user_id: "",
+        user_first_name: "",
+        user_middle_name: "",
+        user_last_name: "",
         news_topic: news_topic,
         news_body: news_body,
         news_image: news_image,
@@ -143,25 +150,28 @@ const Dashboard = () => {
   const handleButtonUpdate = async (id: string) => {
     const { news_topic, news_body } = news;
     let errors: string[] = [];
-    try {
-      !news_topic && errors.push("news_topic");
-      !news_body && errors.push("news_body");
 
-      setError(errors);
+    !news_topic && errors.push("news_topic");
+    !news_body && errors.push("news_body");
 
-      const result = await axios.put("/news/" + id, {
-        news_topic: news_topic,
-        news_body: news_body,
-      });
+    setError(errors);
 
-      const { success } = result.data;
+    if (errors.length) {
+      try {
+        const result = await axios.put("/news/" + id, {
+          news_topic: news_topic,
+          news_body: news_body,
+        });
 
-      if (!success) throw Error;
-      Swal.fire("Updated!", "News updated successfully!", "success");
-      handleCloseAddForm(false);
-      getNews();
-    } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+        const { success } = result.data;
+
+        if (!success) throw Error;
+        Swal.fire("Updated!", "News updated successfully!", "success");
+        handleCloseAddForm(false);
+        getNews();
+      } catch (error) {
+        Swal.fire("Oops...", "Something went wrong!", "error");
+      }
     }
   };
 
@@ -169,18 +179,18 @@ const Dashboard = () => {
     const { news_topic, news_body } = news;
     let errors: string[] = [];
 
+    !news_topic && errors.push("news_topic");
+    !news_body && errors.push("news_body");
+
+    setError(errors);
+
     try {
-      !news_topic && errors.push("news_topic");
-      !news_body && errors.push("news_body");
-
-      setError(errors);
-
       if (!errors.length) {
         const result = await axios.post("/news", {
           news_topic: news_topic,
           news_body: news_body,
-          news_image: null,
           company_id: getCompanyId(),
+          user_id: getUserId(),
         });
 
         const { success } = result.data;
@@ -197,13 +207,15 @@ const Dashboard = () => {
 
   const getNews = async () => {
     setNewsLoaded(false);
+
     try {
       const response = await axios.get("/news/" + getCompanyId());
-      const { success, company, news } = response.data;
+      const { success, news } = response.data;
 
+      console.log(response)
       if (!success) throw Error;
+      console.log(news)
       setRetrievedNews(news);
-      setCompany(company.company_name);
       setNewsLoaded(true);
     } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
@@ -229,13 +241,12 @@ const Dashboard = () => {
           <Loader type="ThreeDots" color="#00BFFF" height={100} width={100} />
         </div>
       ) : (
-        <DashboardContent
+        <NewsContent
           handleCloseAddForm={handleCloseAddForm}
           handleUpdateForm={handleUpdateForm}
           handleButtonDelete={handleButtonDelete}
-          addForm={addForm}
+          closeAddForm={closeAddForm}
           news={retrievedNews}
-          company={company}
           max_width={closeAddForm ? "lg" : "xl"}
         />
       )}

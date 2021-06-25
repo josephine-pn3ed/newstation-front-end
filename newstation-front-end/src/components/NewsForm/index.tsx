@@ -18,7 +18,7 @@ const NewsForm = (props: Props) => {
 
   return (
     <Paper elevation={3} className={classes.content}>
-      <main>
+      {/* <main> */}
         <Container component="main" maxWidth="xs">
           <div>
             <Grid container spacing={2}>
@@ -106,7 +106,7 @@ const NewsForm = (props: Props) => {
             </form>
           </div>
         </Container>
-      </main>
+      {/* </main> */}
     </Paper>
   );
 };

@@ -15,7 +15,7 @@ import {
 import useStyles from '../../styles/_EmployeeCard'
 import { useHistory } from 'react-router-dom';
 import { Props } from './types';
-import { getUserEmail, getUser, getEmployeeId } from '../../utils';
+import { getUserEmail, getUser, getUserId } from '../../utils';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -69,7 +69,7 @@ const AccountSettingsContent = (props: Props) => {
                 Complete Name
               </Typography>
               <Typography variant="h5" component="h2">
-                {getEmployeeId()}
+                {getUserId()}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">
                 Employee ID
@@ -207,7 +207,7 @@ const AccountSettingsContent = (props: Props) => {
           <Container maxWidth='sm' className={classesEmployees.paper}>
             <Typography className={classesEmployees.title} variant="h5" component="h2"> Account Management Settings</Typography>
             {<h3> <i> {getUserEmail()} </i></h3>}
-            <label>{getUser()} ID : {getEmployeeId()} </label>
+            <label>{getUser()} ID : {getUserId()} </label>
             <form className={classesEmployees.form} noValidate>
               <Grid container spacing={1}>
                 <Grid item xs={12}>

@@ -67,16 +67,6 @@ const Navbar = (props: Props) => {
               Logout
             </Button>
           )}
-          {!isLogin() && (
-            <Button
-              color="primary"
-              variant="contained"
-              className={classes.loginButton}
-              onClick={() => history.push("/login")}
-            >
-              Login
-            </Button>
-          )}
         </Toolbar>
       </AppBar>
     </React.Fragment>

@@ -7,14 +7,14 @@ export const login = (
     localStorage.setItem("user_email", email);
     localStorage.setItem("company_id", company_id);
     localStorage.setItem("user", user);
-    localStorage.setItem("employee_id", id);
+    localStorage.setItem("user_id", id);
 };
 
 export const logout = () => {
     localStorage.removeItem("user_email");
     localStorage.removeItem("company_id");
     localStorage.removeItem("user");
-    localStorage.removeItem("employee_id");
+    localStorage.removeItem("user_id");
 };
 
 export const isLogin = () => {
@@ -32,8 +32,8 @@ export const getCompanyId = () => {
     return localStorage.getItem("company_id");
 };
 
-export const getEmployeeId = () => {
-    return localStorage.getItem("employee_id");
+export const getUserId = () => {
+    return localStorage.getItem("user_id");
 };
 
 export const removeCompanyId = () => {
