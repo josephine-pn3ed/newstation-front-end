@@ -106,7 +106,7 @@ const AccountSettingsCompany = (props: Props) => {
           </Card>
         )
         }
-        {(changePassword && company_password) && (
+        {(changePassword) && (
           <Container maxWidth="md" className={classesCompany.paperPassword} >
             <Grid item xs={12}>
               <Typography className={classesCompany.title} align='center' color="primary" gutterBottom> Change Password</Typography>
@@ -145,6 +145,7 @@ const AccountSettingsCompany = (props: Props) => {
               </FormControl>
             </Grid>
             <Grid item xs={12} />
+            <br />
             <Grid item xs={12}>
               <FormControl
                 variant="outlined"

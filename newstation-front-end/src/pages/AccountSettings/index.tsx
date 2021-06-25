@@ -67,11 +67,13 @@ const AccountSettings = () => {
   };
 
   const handleOpenEdit = () => {
-    setOpenEdit(true)
+    setOpenEdit(!openEdit)
   }
   const handleCloseEdit = () => {
-    setOpenEdit(false)
     setEditedAccount({ ...editedAccount, checkPassword: "", new_password: "" })
+    setEditedCompany({ ...editedCompany, checkPassword: "", new_password: "" })
+    setOpenEdit(false)
+    getAccount();
   }
 
   const handleEditAccountInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,7 +145,6 @@ const AccountSettings = () => {
         reverseButtons: true
       }).then(async (result) => {
         if (result.isConfirmed) {
-          handleCloseEdit();
           const id = getUserId();
           console.log(editedAccount, new_password)
           const result = await axios.put('/employee/' + id, { ...editedAccount, user_password: new_password, checkPassword: "" })
@@ -154,8 +155,8 @@ const AccountSettings = () => {
             'Account Updated!',
             'success'
           )
+          setOpenEdit(false)
           getAccount();
-
         } else if (
           result.dismiss === Swal.DismissReason.cancel
         ) {
@@ -194,10 +195,9 @@ const AccountSettings = () => {
           const id = getCompanyId();
           console.log(id)
           console.log(editedCompany)
-          const result = await axios.put('/company/' + id, { ...editedCompany, user_password: new_password, new_password: "", checkPassword: "" })
-          handleCloseEdit()
-
-
+          const result = await axios.put('/company/' + id, { ...editedCompany, company_password: new_password, checkPassword: "" })
+          setOpenEdit(false)
+          getAccount();
         } else if (
           result.dismiss === Swal.DismissReason.cancel
         ) {

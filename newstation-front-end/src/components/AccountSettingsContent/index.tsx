@@ -38,7 +38,7 @@ const AccountSettingsContent = (props: Props) => {
 
   const handleOpenPassword = () => {
     setChangePassword(!changePassword);
-    handleCloseEdit();
+    // handleOpenEdit();
   }
 
   const handleClosePassword = () => {
