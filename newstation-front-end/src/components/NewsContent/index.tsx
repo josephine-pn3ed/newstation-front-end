@@ -13,33 +13,35 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import { Props, News } from "./types";
-import { getUser } from "../../utils";
+import { getUser, getUserId } from "../../utils";
 
-const DashboardContent = (props: Props) => {
+const NewsContent = (props: Props) => {
   const classes = useStyles();
   const {
     handleCloseAddForm,
     handleUpdateForm,
     handleButtonDelete,
-    addForm,
+    closeAddForm,
     max_width,
     news,
-    company,
   } = props;
+
+  console.log(news);
 
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
-      {(getUser() === "company" || getUser() === "administrator") && addForm && (
-        <Button
-          color="secondary"
-          className={classes.addNewsButton}
-          variant="contained"
-          onClick={() => handleCloseAddForm(true)}
-        >
-          Add News
-        </Button>
-      )}
+      {(getUser() === "company" || getUser() === "administrator") &&
+        !closeAddForm && (
+          <Button
+            color="secondary"
+            className={classes.addNewsButton}
+            variant="contained"
+            onClick={() => handleCloseAddForm(true)}
+          >
+            Add News
+          </Button>
+        )}
       <Container maxWidth={max_width} className={classes.container}>
         {news.map((value: News) => {
           return (
@@ -47,10 +49,17 @@ const DashboardContent = (props: Props) => {
               <CardHeader
                 avatar={
                   <Avatar aria-label="user" className={classes.avatar}>
-                    {company?.slice(0, 1)}
+                    {value.user_first_name.slice(0, 1)}
                   </Avatar>
                 }
-                title={company}
+                title={
+                  !value.user_middle_name && !value.user_last_name
+                    ? value.user_first_name
+                    : !value.user_middle_name ?
+                      value.user_first_name + " " + value.user_last_name :
+                      value.user_first_name + " " + value.user_middle_name + " " + value.user_last_name 
+
+                }
                 subheader={value.updated_at}
               />
               <CardContent>
@@ -61,7 +70,7 @@ const DashboardContent = (props: Props) => {
                   <p style={{ whiteSpace: "pre-line" }}>{value.news_body}</p>
                 </Typography>
               </CardContent>
-              {(getUser() === "company" || getUser() === "administrator") && (
+              {(getUser() === "company" || (getUser() === "administrator" && getUserId() === value.user_id)) && (
                 <CardActions disableSpacing>
                   <Tooltip
                     color="primary"
@@ -89,4 +98,4 @@ const DashboardContent = (props: Props) => {
   );
 };
 
-export default DashboardContent;
+export default NewsContent;

@@ -83,7 +83,7 @@ const Sidenav = (props: Props) => {
             <ListItemIcon>
               <AccountCircle />
             </ListItemIcon>
-            <ListItemText primary={getUserEmail()} />
+            <ListItemText primary="My Account" />
           </ListItem>
         </List>
         <Divider />

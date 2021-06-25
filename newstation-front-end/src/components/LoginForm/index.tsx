@@ -38,11 +38,11 @@ const LoginForm = (props: Props) => {
   const { password } = credentials;
 
   return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-    <Paper elevation={10}>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Paper elevation={10}>
           <Container maxWidth="lg" className={classes.container}>
             <Typography component="h1" variant="h5" align="center">
               Login
@@ -119,9 +119,9 @@ const LoginForm = (props: Props) => {
               </Button>
             </form>
           </Container>
-    </Paper>
-        </main>
-      </Container>
+        </Paper>
+      </main>
+    </Container>
   );
 };
 
