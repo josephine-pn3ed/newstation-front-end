@@ -18,95 +18,89 @@ const NewsForm = (props: Props) => {
 
   return (
     <Paper elevation={3} className={classes.content}>
-      {/* <main> */}
-        <Container component="main" maxWidth="xs">
-          <div>
+      <Container component="main" maxWidth="xs">
+        <div>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              {addForm ? <h2>Add News</h2> : <h2>Update News</h2>}
+            </Grid>
+          </Grid>
+          <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                {addForm ? (
-                  <h2>Add News</h2>
-                ) : (
-                  <h2>Update News</h2>
-                )}
+                <TextField
+                  error={false}
+                  name="news_topic"
+                  variant="outlined"
+                  fullWidth
+                  label="Topic"
+                  value={news_topic}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(event)
+                  }
+                />
               </Grid>
-            </Grid>
-            <form className={classes.form} noValidate>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    error={false}
-                    name="news_topic"
-                    variant="outlined"
-                    fullWidth
-                    label="Topic"
-                    value={news_topic}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleInputChange(event)
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="outlined-multiline-static"
-                    label="Message"
-                    name="news_body"
-                    multiline
-                    rows={20}
-                    variant="outlined"
-                    className={classes.multiline}
-                    value={news_body}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleInputChange(event)
-                    }
-                  />
-                </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="outlined-multiline-static"
+                  label="Message"
+                  name="news_body"
+                  multiline
+                  rows={20}
+                  variant="outlined"
+                  className={classes.multiline}
+                  value={news_body}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(event)
+                  }
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  className={classes.submit}
+                  onClick={() => handleCloseAddForm(false)}
+                >
+                  Close
+                </Button>
+              </Grid>
+              {!id ? (
                 <Grid item xs={6}>
                   <Button
                     fullWidth
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                     className={classes.submit}
-                    onClick={() => handleCloseAddForm(false)}
+                    onClick={handleButtonSubmit}
                   >
-                    Close
+                    Add
                   </Button>
                 </Grid>
-                {!id ? (
-                  <Grid item xs={6}>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      className={classes.submit}
-                      onClick={handleButtonSubmit}
-                    >
-                      Add
-                    </Button>
-                  </Grid>
-                ) : (
-                  <Grid item xs={6}>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      className={classes.submit}
-                      onClick={() => handleButtonUpdate(id)}
-                    >
-                      Update
-                    </Button>
-                  </Grid>
-                )}
-              </Grid>
-            </form>
-          </div>
-        </Container>
-      {/* </main> */}
+              ) : (
+                <Grid item xs={6}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => handleButtonUpdate(id)}
+                  >
+                    Update
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+          </form>
+        </div>
+      </Container>
     </Paper>
   );
 };

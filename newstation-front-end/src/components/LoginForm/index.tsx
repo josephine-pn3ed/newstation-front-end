@@ -14,14 +14,12 @@ import {
   Button,
   ListItemText,
 } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { Props } from "./types";
 import useStyles from "../../styles/_LoginForm";
 
 const LoginForm = (props: Props) => {
   const classes = useStyles();
-  const history = useHistory();
 
   const {
     showPassword,

@@ -101,14 +101,7 @@ const Administrators = () => {
   };
 
   const handleUpdateAdministrator = async () => {
-    const {
-      user_first_name,
-      user_middle_name,
-      user_last_name,
-      user_contact_number,
-      user_address,
-      user_position,
-    } = administrator;
+    const { user_first_name, user_last_name, user_position } = administrator;
     let errors: string[] = [];
 
     !user_first_name && errors.push("user_first_name");
@@ -286,7 +279,7 @@ const Administrators = () => {
     const active_administrators: string[][] = [];
     const inactive_administrators: string[][] = [];
 
-    data.map((value: Administrator) => {
+    data.forEach((value: Administrator) => {
       const {
         id,
         user_first_name,
@@ -317,11 +310,11 @@ const Administrators = () => {
 
     const administrators: string[][] = [];
 
-    active_administrators.map((value: string[]) => {
+    active_administrators.forEach((value: string[]) => {
       administrators.push(value);
     });
 
-    inactive_administrators.map((value: string[]) => {
+    inactive_administrators.forEach((value: string[]) => {
       administrators.push(value);
     });
 
@@ -377,6 +370,7 @@ const Administrators = () => {
 
   useEffect(() => {
     getAdministrators();
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -1,27 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import Navbar from '../../components/Navbar';
-import Sidenav from '../../components/Sidenav';
-import AccountSettingsContent from '../../components/AccountSettingsContent';
-import AccountSettingsCompany from '../../components/AccountSettingsCompany';
-import useStyles from '../../styles/_Dashboard';
-import { logout, getUser, getCompanyId, getUserId } from '../../utils';
-import { State, Company } from './types';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import Sidenav from "../../components/Sidenav";
+import AccountSettingsContent from "../../components/AccountSettingsContent";
+import AccountSettingsCompany from "../../components/AccountSettingsCompany";
+import useStyles from "../../styles/_Dashboard";
+import { logout, getUser, getCompanyId, getUserId } from "../../utils";
+import { State, Company } from "./types";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const AccountSettings = () => {
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(true);
   const [error, setError] = useState<string[]>([]);
-  const [errorRegister, setErrorRegister] = useState<boolean>(false);
-  const [openEdit, setOpenEdit] = useState<boolean>(false)
-
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
 
   let type: string;
-  (getUser() === 'company' ? type = 'company' : type = 'employee')
+  getUser() === "company" ? (type = "company") : (type = "employee");
 
   const [editedAccount, setEditedAccount] = useState<State>({
     id: "",
@@ -37,8 +34,8 @@ const AccountSettings = () => {
     user_status: "Active",
     new_password: "",
     checkPassword: "",
-    updated_at: ""
-  })
+    updated_at: "",
+  });
 
   const [editedCompany, setEditedCompany] = useState<Company>({
     id: "",
@@ -50,13 +47,12 @@ const AccountSettings = () => {
     company_status: "Active",
     new_password: "",
     checkPassword: "",
-  })
+  });
 
   const handleLogoutButton = () => {
     logout();
     history.push("/login");
   };
-
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -67,82 +63,82 @@ const AccountSettings = () => {
   };
 
   const handleOpenEdit = () => {
-    setOpenEdit(!openEdit)
-  }
+    setOpenEdit(!openEdit);
+  };
   const handleCloseEdit = () => {
-    setEditedAccount({ ...editedAccount, checkPassword: "", new_password: "" })
-    setEditedCompany({ ...editedCompany, checkPassword: "", new_password: "" })
-    setOpenEdit(false)
+    setEditedAccount({ ...editedAccount, checkPassword: "", new_password: "" });
+    setEditedCompany({ ...editedCompany, checkPassword: "", new_password: "" });
+    setOpenEdit(false);
     getAccount();
-  }
+  };
 
-  const handleEditAccountInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEditAccountInput = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { name, value } = event.target;
-    setEditedAccount({ ...editedAccount, [name]: value })
+    setEditedAccount({ ...editedAccount, [name]: value });
+  };
 
-  }
-
-  const handleEditCompanyInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEditCompanyInput = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { name, value } = event.target;
-    setEditedCompany({ ...editedCompany, [name]: value })
+    setEditedCompany({ ...editedCompany, [name]: value });
+  };
 
-  }
-
-  const handleInputPasswordAccount = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputPasswordAccount = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = event.target;
-    setEditedAccount({ ...editedAccount, checkPassword: value })
-  }
+    setEditedAccount({ ...editedAccount, checkPassword: value });
+  };
 
-  const handleInputPasswordCompany = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputPasswordCompany = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = event.target;
-    setEditedCompany({ ...editedCompany, checkPassword: value })
-  }
-
-
-
+    setEditedCompany({ ...editedCompany, checkPassword: value });
+  };
 
   const getAccount = async () => {
-    type == 'company' ? getAccountCompany() : getAccountEmployee()
-  }
+    type === "company" ? getAccountCompany() : getAccountEmployee();
+  };
 
   const getAccountEmployee = async () => {
     try {
       const id = getUserId();
       const response = await axios.get("/employee/" + id);
       const { result } = response.data;
-      setEditedAccount(result)
-    }
-    catch (error) {
+      setEditedAccount(result);
+    } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
     }
-  }
+  };
 
   const getAccountCompany = async () => {
     try {
       const id = getCompanyId();
       const response = await axios.get("/company/" + id);
-      const { result } = response.data
-      setEditedCompany(result)
-
-    }
-    catch (error) {
+      const { result } = response.data;
+      setEditedCompany(result);
+    } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
     }
-  }
+  };
 
   const handleUpdateAccount = async () => {
     try {
-      const { new_password } = editedAccount
+      const { new_password } = editedAccount;
       Swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: "This Employee will be Updated!.",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: 'Yes, update it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
+        confirmButtonText: "Yes, update it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getUserId();
@@ -154,73 +150,55 @@ const AccountSettings = () => {
           )
           setOpenEdit(false)
           getAccount();
-        } else if (
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          Swal.fire(
-            'Cancelled',
-            'Cancelled Account Update',
-            'error'
-          )
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire("Cancelled", "Cancelled Account Update", "error");
         }
-      })
+      });
     } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
     }
-  }
+  };
 
   const handleUpdateCompany = async () => {
     try {
-      const { new_password } = editedCompany
+      const { new_password } = editedCompany;
       Swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: "This Company will be Updated!",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: 'Yes, update it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
+        confirmButtonText: "Yes, update it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            'Updated!',
-            'Account Updated!',
-            'success'
-          )
           const id = getCompanyId();
           await axios.put('/company/' + id, { ...editedCompany, company_password: new_password, checkPassword: "" })
           setOpenEdit(false)
           getAccount();
-        } else if (
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          Swal.fire(
-            'Cancelled',
-            'Cancelled Account Update',
-            'error'
-          )
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire("Cancelled", "Cancelled Account Update", "error");
         }
-      })
-
+      });
     } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
     }
-  }
+  };
 
   const handleDeleteAccount = async () => {
     try {
       Swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: "Your account will be deleted.",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getUserId();
@@ -232,60 +210,44 @@ const AccountSettings = () => {
           )
 
           logout();
-          history.push('/login');
-        } else if (
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          Swal.fire(
-            'Cancelled',
-            'Cancelled Account Deletion',
-            'error'
-          )
+          history.push("/login");
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire("Cancelled", "Cancelled Account Deletion", "error");
         }
-      })
+      });
     } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
     }
-  }
+  };
 
   const handleDeleteCompany = async () => {
     try {
       Swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: "This Company will be deleted.",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getCompanyId();
           await axios.delete('/company/' + id);
 
-          Swal.fire(
-            'Deleted!',
-            'Account Deleted!',
-            'success'
-          )
+          Swal.fire("Deleted!", "Account Deleted!", "success");
           logout();
-          history.push('/login');
-        } else if (
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          Swal.fire(
-            'Cancelled',
-            'Cancelled Account Deletion',
-            'error'
-          )
+          history.push("/login");
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire("Cancelled", "Cancelled Account Deletion", "error");
         }
-      })
+      });
     } catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
     }
-  }
+  };
 
   useEffect(() => {
     getAccount();
@@ -296,21 +258,22 @@ const AccountSettings = () => {
       <Navbar
         open={open}
         handleDrawerOpen={handleDrawerOpen}
-        handleLogoutButton={handleLogoutButton} />
-      <Sidenav
-        open={open}
-        handleDrawerClose={handleDrawerClose} />
-      {type === "company" ? <AccountSettingsCompany
-        editedCompany={editedCompany}
-        handleEditCompanyInput={handleEditCompanyInput}
-        error={error}
-        handleDeleteCompany={handleDeleteCompany}
-        handleUpdateCompany={handleUpdateCompany}
-        handleOpenEdit={handleOpenEdit}
-        handleCloseEdit={handleCloseEdit}
-        openEdit={openEdit}
-        handleInputPasswordCompany={handleInputPasswordCompany}
-      /> :
+        handleLogoutButton={handleLogoutButton}
+      />
+      <Sidenav open={open} handleDrawerClose={handleDrawerClose} />
+      {type === "company" ? (
+        <AccountSettingsCompany
+          editedCompany={editedCompany}
+          handleEditCompanyInput={handleEditCompanyInput}
+          error={error}
+          handleDeleteCompany={handleDeleteCompany}
+          handleUpdateCompany={handleUpdateCompany}
+          handleOpenEdit={handleOpenEdit}
+          handleCloseEdit={handleCloseEdit}
+          openEdit={openEdit}
+          handleInputPasswordCompany={handleInputPasswordCompany}
+        />
+      ) : (
         <AccountSettingsContent
           handleEditAccountInput={handleEditAccountInput}
           error={error}
@@ -321,8 +284,8 @@ const AccountSettings = () => {
           handleCloseEdit={handleCloseEdit}
           openEdit={openEdit}
           handleInputPasswordAccount={handleInputPasswordAccount}
-        />}
-
+        />
+      )}
     </div>
   );
 };

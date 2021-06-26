@@ -283,7 +283,7 @@ const Employees = () => {
     const active_employees: string[][] = [];
     const inactive_employees: string[][] = [];
 
-    data.map((value: Employee) => {
+    data.forEach((value: Employee) => {
       const {
         id,
         user_first_name,
@@ -314,11 +314,11 @@ const Employees = () => {
 
     const employees: string[][] = [];
 
-    active_employees.map((value: string[]) => {
+    active_employees.forEach((value: string[]) => {
       employees.push(value);
     });
 
-    inactive_employees.map((value: string[]) => {
+    inactive_employees.forEach((value: string[]) => {
       employees.push(value);
     });
 
@@ -374,6 +374,7 @@ const Employees = () => {
 
   useEffect(() => {
     getEmployees();
+    // eslint-disable-next-line
   }, []);
 
   return (
