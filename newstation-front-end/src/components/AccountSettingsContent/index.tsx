@@ -53,7 +53,7 @@ const AccountSettingsContent = (props: Props) => {
   const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount, error,
     handleOpenEdit, handleCloseEdit, openEdit, handleInputPasswordAccount } = props;
 
-  const { user_first_name, user_middle_name, user_last_name, id, user_email_address,
+  const { user_first_name, user_middle_name, user_last_name,
     user_password, user_address, user_position, user_contact_number, new_password, checkPassword } = editedAccount
 
   return (
@@ -80,12 +80,6 @@ const AccountSettingsContent = (props: Props) => {
                 Address
               </Typography>}
               <br />
-              <Typography variant="h5" component="h2">
-                {getUserEmail()}
-              </Typography>
-              <Typography className={classesEmployees.pos} color="textSecondary">
-                Email Address
-              </Typography>
               <br />
               <Typography variant="h5" component="h2">
                 {user_contact_number}
@@ -216,7 +210,6 @@ const AccountSettingsContent = (props: Props) => {
         {(openEdit && user_first_name) && (<div className={classesEmployees.paperCenter}>
           <Container maxWidth='sm' className={classesEmployees.paper}>
             <Typography className={classesEmployees.title} variant="h5" component="h2"> Account Management Settings</Typography>
-            {<h3> <i> {getUserEmail()} </i></h3>}
             <form className={classesEmployees.form} noValidate>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
@@ -268,10 +261,8 @@ const AccountSettingsContent = (props: Props) => {
                       name="user_password"
                       type={showCurrent ? "text" : "password"}
                       value={checkPassword}
-                      // disabled={checkPassword === user_password}
                       label="Confirm Current Password"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordAccount(event)
-                      }
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordAccount(event)}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
