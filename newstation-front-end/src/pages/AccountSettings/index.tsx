@@ -291,8 +291,6 @@ const AccountSettings = () => {
     getAccount();
   }, [])
 
-  console.log(editedAccount)
-
   return (
     <div className={classes.root}>
       <Navbar
