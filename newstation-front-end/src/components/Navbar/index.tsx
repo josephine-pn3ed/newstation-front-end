@@ -1,13 +1,11 @@
 import React from "react";
 import clsx from "clsx";
-import { useHistory } from "react-router-dom";
 import {
   CssBaseline,
   Button,
   AppBar,
   Typography,
   IconButton,
-  Badge,
   Toolbar,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -19,7 +17,6 @@ const Navbar = (props: Props) => {
   const { open, handleDrawerOpen, handleLogoutButton } = props;
 
   const classes = useStyles();
-  const history = useHistory();
 
   return (
     <React.Fragment>

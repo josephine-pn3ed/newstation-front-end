@@ -16,7 +16,7 @@ import { useHistory } from "react-router-dom";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import { AccountCircle } from "@material-ui/icons";
-import { getUser, getUserEmail } from "../../utils";
+import { getUser } from "../../utils";
 import React from "react";
 
 const Sidenav = (props: Props) => {

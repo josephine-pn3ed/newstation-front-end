@@ -5,6 +5,7 @@ export interface Props {
   handleButtonUpdate: (id: string) => void;
   addForm: boolean;
   news: News;
+  error: string[];
 }
 
 type Status = "Active" | "Inactive";

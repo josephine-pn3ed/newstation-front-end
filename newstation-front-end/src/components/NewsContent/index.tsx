@@ -17,6 +17,7 @@ import { getUser, getUserId } from "../../utils";
 
 const NewsContent = (props: Props) => {
   const classes = useStyles();
+  
   const {
     handleCloseAddForm,
     handleUpdateForm,
@@ -25,8 +26,6 @@ const NewsContent = (props: Props) => {
     max_width,
     news,
   } = props;
-
-  console.log(news);
 
   return (
     <main className={classes.content}>
@@ -43,10 +42,10 @@ const NewsContent = (props: Props) => {
           </Button>
         )}
       <Container maxWidth={max_width} className={classes.container}>
-        {news.map((value: News) => {
+        {news.map((value: News, key: any) => {
           if (value.news_topic) {
             return (
-              <Card className={classes.card}>
+              <Card key={key} className={classes.card}>
                 <CardHeader
                   avatar={
                     <Avatar aria-label="user" className={classes.avatar}>
@@ -67,11 +66,12 @@ const NewsContent = (props: Props) => {
                   subheader={value.updated_at}
                 />
                 <CardContent>
-                  <Typography variant="body2" color="textPrimary" component="p">
-                    <h3>{value.news_topic}</h3>
+                  <Typography variant="body1" color="textPrimary" component="p">
+                    {value.news_topic}
                   </Typography>
-                  <Typography variant="body2" color="textPrimary" component="p">
-                    <p style={{ whiteSpace: "pre-line" }}>{value.news_body}</p>
+                  <br />
+                  <Typography variant="body2" color="textSecondary" component="p" style={{ whiteSpace: "pre-line" }}>
+                    {value.news_body}
                   </Typography>
                 </CardContent>
                 {(getUser() === "company" ||

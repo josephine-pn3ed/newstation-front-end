@@ -82,7 +82,6 @@ const Dashboard = () => {
       const { result, success } = response.data;
       const {
         id,
-        company_id,
         news_topic,
         news_body,
         news_image,
@@ -133,7 +132,7 @@ const Dashboard = () => {
         reverseButtons: true,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const response = await axios.delete("/news/" + id);
+          await axios.delete("/news/" + id);
 
           Swal.fire("Deleted!", "News has been deleted.", "success");
 
@@ -221,6 +220,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getNews();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -252,6 +252,7 @@ const Dashboard = () => {
           handleButtonSubmit={handleButtonSubmit}
           handleButtonUpdate={handleButtonUpdate}
           addForm={addForm}
+          error={error}
           news={news}
         />
       )}

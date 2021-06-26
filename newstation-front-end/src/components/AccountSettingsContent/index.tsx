@@ -1,6 +1,5 @@
 import {
   TextField,
-  Link,
   Grid,
   Container,
   Button,
@@ -13,7 +12,6 @@ import {
 
 } from '@material-ui/core';
 import useStyles from '../../styles/_EmployeeCard'
-import { useHistory } from 'react-router-dom';
 import { Props } from './types';
 import { getUserEmail, getUser, getUserId } from '../../utils';
 import Card from '@material-ui/core/Card';
@@ -53,7 +51,7 @@ const AccountSettingsContent = (props: Props) => {
   const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount, error,
     handleOpenEdit, handleCloseEdit, openEdit, handleInputPasswordAccount } = props;
 
-  const { user_first_name, user_middle_name, user_last_name, id, user_email_address,
+  const { user_first_name, user_middle_name, user_last_name, user_email_address,
     user_password, user_address, user_position, user_contact_number, new_password, checkPassword } = editedAccount
 
   return (
@@ -66,7 +64,7 @@ const AccountSettingsContent = (props: Props) => {
               <Typography className={classesEmployees.title} color="primary" gutterBottom>
                 Account Information
               </Typography>
-              <Typography color="secondary" variant="h2" component="h2">
+              <Typography variant="h2" component="h2">
                 {user_first_name} {user_middle_name} {user_last_name}
               </Typography>
               <Typography className={classesEmployees.pos} color="textSecondary">
@@ -217,6 +215,7 @@ const AccountSettingsContent = (props: Props) => {
           <Container maxWidth='sm' className={classesEmployees.paper}>
             <Typography className={classesEmployees.title} variant="h5" component="h2"> Account Management Settings</Typography>
             {<h3> <i> {getUserEmail()} </i></h3>}
+            <label>{getUser()} ID : {getUserId()} </label>
             <form className={classesEmployees.form} noValidate>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
@@ -250,6 +249,20 @@ const AccountSettingsContent = (props: Props) => {
                     variant="outlined"
                     fullWidth
                     label="Last Name"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    //error={error.includes('user_email_address') || errorRegister}
+                    variant="outlined"
+                    fullWidth
+                    label="Email Address"
+                    name="user_email_address"
+                    autoComplete="email"
+                    type="email"
+                    value={user_email_address}
+                    // helperText={errorRegister && 'Email address has already been taken'}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
                   />
                 </Grid>
