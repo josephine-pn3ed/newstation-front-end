@@ -244,20 +244,7 @@ const AccountSettingsContent = (props: Props) => {
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    //error={error.includes('user_email_address') || errorRegister}
-                    variant="outlined"
-                    fullWidth
-                    label="Email Address"
-                    name="user_email_address"
-                    autoComplete="email"
-                    type="email"
-                    value={user_email_address}
-                    // helperText={errorRegister && 'Email address has already been taken'}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditAccountInput(event)}
-                  />
-                </Grid>
+
                 <Grid item xs={12}>
                   <FormControl
                     variant="outlined"

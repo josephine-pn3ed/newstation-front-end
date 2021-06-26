@@ -272,43 +272,6 @@ const AccountSettingsCompany = (props: Props) => {
           </Container>
         )}
 
-<<<<<<< HEAD
-        {(openEdit && company_name) && (<div className={classesCompany.paperCenter}>
-          <Container maxWidth='sm' className={classesCompany.paper}>
-            <Typography className={classesCompany.title} variant="h5" component="h2"> Account Management Settings</Typography>
-            {<h3> <i> {getUserEmail()} </i></h3>}
-            <form className={classesCompany.form} noValidate>
-              <Grid container spacing={1}>
-                <Grid item xs={12}>
-                  <TextField
-                    error={!company_name}
-                    name="company_name"
-                    value={company_name}
-                    variant="outlined"
-                    fullWidth
-                    label="Company Name"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl
-                    variant="outlined"
-                    error={checkPassword !== company_password}
-                    fullWidth
-                  >
-
-                    <InputLabel htmlFor="outlined-adornment-password">
-                      Confirm Current Password
-                    </InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      name="company_password"
-                      type={showCurrent ? "text" : "password"}
-                      value={checkPassword}
-                      // disabled={checkPassword === company_password}
-                      label="Confirm Current Password"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordCompany(event)
-=======
         {openEdit && company_name && (
           <div className={classesCompany.paperCenter}>
             <Container maxWidth="sm" className={classesCompany.paper}>
@@ -320,12 +283,7 @@ const AccountSettingsCompany = (props: Props) => {
                 {" "}
                 Account Management Settings
               </Typography>
-              {
-                <h3>
-                  {" "}
-                  <i> {getUserEmail()} </i>
-                </h3>
-              }
+
               <form className={classesCompany.form} noValidate>
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
@@ -338,7 +296,6 @@ const AccountSettingsCompany = (props: Props) => {
                       label="Company Name"
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleEditCompanyInput(event)
->>>>>>> 1b8bacab3b524af7a0133f15725e369eb8c20673
                       }
                     />
                   </Grid>
@@ -357,32 +314,6 @@ const AccountSettingsCompany = (props: Props) => {
                         handleEditCompanyInput(event)
                       }
                     />
-<<<<<<< HEAD
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    error={!company_address}
-                    variant="outlined"
-                    fullWidth
-                    label="Address"
-                    name="company_address"
-                    value={company_address}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <TextField
-                    error={!company_contact_number}
-                    variant="outlined"
-                    fullWidth
-                    label="Contact Number"
-                    name="company_contact_number"
-                    value={company_contact_number}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
-                  />
-=======
                   </Grid>
                   <Grid item xs={12}>
                     <FormControl
@@ -446,7 +377,6 @@ const AccountSettingsCompany = (props: Props) => {
                       }
                     />
                   </Grid>
->>>>>>> 1b8bacab3b524af7a0133f15725e369eb8c20673
                 </Grid>
                 <Button
                   fullWidth
