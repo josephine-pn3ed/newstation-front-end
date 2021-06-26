@@ -38,15 +38,16 @@ const AccountSettingsCompany = (props: Props) => {
   const handleClickShowCurrent = () => {
     setShowCurrent(!showCurrent);
   };
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
 
   const handleOpenPassword = () => {
     setChangePassword(!changePassword);
     handleCloseEdit();
   }
 
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
 
   const handleClosePassword = () => {
     handleUpdateCompany();
@@ -77,13 +78,6 @@ const AccountSettingsCompany = (props: Props) => {
               {company_address && <Typography className={classesCompany.pos} color="textSecondary">
                 Address
               </Typography>}
-              <br />
-              <Typography variant="h5" component="h2">
-                {getUserEmail()}
-              </Typography>
-              <Typography className={classesCompany.pos} color="textSecondary">
-                Email Address
-              </Typography>
               <br />
               <Typography variant="h5" component="h2">
                 {company_contact_number}
@@ -217,20 +211,6 @@ const AccountSettingsCompany = (props: Props) => {
                     variant="outlined"
                     fullWidth
                     label="Company Name"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    //error={error.includes('company_email_address') || errorRegister}
-                    variant="outlined"
-                    fullWidth
-                    label="Email Address"
-                    name="company_email_address"
-                    autoComplete="email"
-                    type="email"
-                    value={company_email_address}
-                    // helperText={errorRegister && 'Email address has already been taken'}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)}
                   />
                 </Grid>

@@ -277,7 +277,6 @@ const Administrators = () => {
 
       if (!success) throw Error;
       administratorsToPushToHooks(result);
-      console.log("Admin Data", result)
     } catch (error) {
       Swal.fire("There is an error while getting administrators!");
     }
@@ -300,7 +299,6 @@ const Administrators = () => {
         user_status,
       } = value;
 
-      console.log(value);
       const administrator: any[] = [];
 
       administrator.push(

@@ -123,7 +123,7 @@ const AccountSettings = () => {
       const response = await axios.get("/company/" + id);
       const { result } = response.data
       setEditedCompany(result)
-      console.log(result, "company info")
+
     }
     catch (error) {
       Swal.fire("Oops...", "Something went wrong!", "error");
@@ -146,10 +146,7 @@ const AccountSettings = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getUserId();
-          console.log(editedAccount, new_password)
           const result = await axios.put('/employee/' + id, { ...editedAccount, user_password: new_password, checkPassword: "" })
-          console.log(result)
-
           Swal.fire(
             'Updated!',
             'Account Updated!',
@@ -193,8 +190,6 @@ const AccountSettings = () => {
             'success'
           )
           const id = getCompanyId();
-          console.log(id)
-          console.log(editedCompany)
           const result = await axios.put('/company/' + id, { ...editedCompany, company_password: new_password, checkPassword: "" })
           setOpenEdit(false)
           getAccount();
@@ -295,6 +290,8 @@ const AccountSettings = () => {
   useEffect(() => {
     getAccount();
   }, [])
+
+  console.log(editedAccount)
 
   return (
     <div className={classes.root}>

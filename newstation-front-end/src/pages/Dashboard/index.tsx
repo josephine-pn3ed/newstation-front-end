@@ -79,7 +79,6 @@ const Dashboard = () => {
     setAddForm(false);
     try {
       const response = await axios.get("/news-company/" + newsId);
-      console.log("result", newsId)
       const { result, success } = response.data;
       const {
         id,
@@ -136,8 +135,6 @@ const Dashboard = () => {
         if (result.isConfirmed) {
           const response = await axios.delete("/news/" + id);
 
-          console.log(response, id)
-
           Swal.fire("Deleted!", "News has been deleted.", "success");
 
           getNews();
@@ -158,7 +155,6 @@ const Dashboard = () => {
     !news_body && errors.push("news_body");
 
     setError(errors);
-    console.log(errors)
 
     if (!errors.length) {
       try {
@@ -215,10 +211,7 @@ const Dashboard = () => {
     try {
       const response = await axios.get("/news/" + getCompanyId());
       const { success, news } = response.data;
-
-      console.log(response)
       if (!success) throw Error;
-      console.log(news)
       setRetrievedNews(news);
       setNewsLoaded(true);
     } catch (error) {
@@ -229,8 +222,6 @@ const Dashboard = () => {
   useEffect(() => {
     getNews();
   }, []);
-
-  console.log(retrievedNews)
 
   return (
     <div className={classes.root}>
