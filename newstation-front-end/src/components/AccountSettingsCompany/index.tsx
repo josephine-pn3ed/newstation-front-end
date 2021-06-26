@@ -205,7 +205,7 @@ const AccountSettingsCompany = (props: Props) => {
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('company_name')}
+                    error={!company_name}
                     name="company_name"
                     value={company_name}
                     variant="outlined"
@@ -251,7 +251,7 @@ const AccountSettingsCompany = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('company_address')}
+                    error={!company_address}
                     variant="outlined"
                     fullWidth
                     label="Address"
@@ -263,7 +263,7 @@ const AccountSettingsCompany = (props: Props) => {
 
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('company_contact_number')}
+                    error={!company_contact_number}
                     variant="outlined"
                     fullWidth
                     label="Contact Number"

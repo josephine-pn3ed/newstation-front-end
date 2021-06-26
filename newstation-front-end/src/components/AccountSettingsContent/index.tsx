@@ -221,7 +221,7 @@ const AccountSettingsContent = (props: Props) => {
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('user_first_name')}
+                    error={!user_first_name}
                     name="user_first_name"
                     value={user_first_name}
                     variant="outlined"
@@ -232,7 +232,7 @@ const AccountSettingsContent = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('user_middle_name')}
+                    error={!user_middle_name}
                     name="user_middle_name"
                     value={user_middle_name}
                     variant="outlined"
@@ -244,7 +244,7 @@ const AccountSettingsContent = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('user_last_name')}
+                    error={!user_last_name}
                     name="user_last_name"
                     value={user_last_name}
                     variant="outlined"
@@ -291,7 +291,7 @@ const AccountSettingsContent = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('user_address')}
+                    error={!user_address}
                     variant="outlined"
                     fullWidth
                     label="Address"
@@ -302,7 +302,7 @@ const AccountSettingsContent = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('user_position')}
+                    error={!user_position}
                     variant="outlined"
                     fullWidth
                     label="Job Title"
@@ -313,7 +313,7 @@ const AccountSettingsContent = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes('user_contact_number')}
+                    error={!user_contact_number}
                     variant="outlined"
                     fullWidth
                     label="Contact Number"

@@ -146,7 +146,7 @@ const AccountSettings = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getUserId();
-          const result = await axios.put('/employee/' + id, { ...editedAccount, user_password: new_password, checkPassword: "" })
+          await axios.put('/employee/' + id, { ...editedAccount, user_password: new_password, checkPassword: "" })
           Swal.fire(
             'Updated!',
             'Account Updated!',
@@ -190,7 +190,7 @@ const AccountSettings = () => {
             'success'
           )
           const id = getCompanyId();
-          const result = await axios.put('/company/' + id, { ...editedCompany, company_password: new_password, checkPassword: "" })
+          await axios.put('/company/' + id, { ...editedCompany, company_password: new_password, checkPassword: "" })
           setOpenEdit(false)
           getAccount();
         } else if (
@@ -224,7 +224,7 @@ const AccountSettings = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getUserId();
-          const result = await axios.delete('/employee/' + id);
+          await axios.delete('/employee/' + id);
           Swal.fire(
             'Deleted!',
             'Account Deleted!',
@@ -263,7 +263,7 @@ const AccountSettings = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getCompanyId();
-          const result = await axios.delete('/company/' + id);
+          await axios.delete('/company/' + id);
 
           Swal.fire(
             'Deleted!',
