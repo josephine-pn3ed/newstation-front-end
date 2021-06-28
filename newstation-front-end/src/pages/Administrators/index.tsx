@@ -348,7 +348,7 @@ const Administrators = () => {
           </div>
         ) : (
           <div>
-            <Tooltip color="disabled" title="Diabled">
+            <Tooltip color="default" title="Disabled">
               <IconButton>
                 <EditIcon />
               </IconButton>

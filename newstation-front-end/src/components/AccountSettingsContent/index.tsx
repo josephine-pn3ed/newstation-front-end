@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import useStyles from '../../styles/_EmployeeCard'
 import { Props } from './types';
-import { getUserEmail, getUser, getUserId } from '../../utils';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -48,7 +47,7 @@ const AccountSettingsContent = (props: Props) => {
     event.preventDefault();
   };
 
-  const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount, error,
+  const { handleEditAccountInput, handleUpdateAccount, handleDeleteAccount, editedAccount,
     handleOpenEdit, handleCloseEdit, openEdit, handleInputPasswordAccount } = props;
 
   const { user_first_name, user_middle_name, user_last_name,

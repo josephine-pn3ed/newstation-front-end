@@ -99,6 +99,7 @@ const NewsContent = (props: Props) => {
               </Card>
             );
           }
+          return null;
         })}
       </Container>
     </main>

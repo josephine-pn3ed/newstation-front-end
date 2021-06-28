@@ -27,7 +27,6 @@ const AccountSettingsCompany = (props: Props) => {
     handleUpdateCompany,
     handleDeleteCompany,
     editedCompany,
-    error,
     handleOpenEdit,
     handleCloseEdit,
     openEdit,
@@ -288,7 +287,7 @@ const AccountSettingsCompany = (props: Props) => {
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <TextField
-                      error={error.includes("company_name")}
+                      error={!company_name}
                       name="company_name"
                       value={company_name}
                       variant="outlined"
@@ -301,7 +300,7 @@ const AccountSettingsCompany = (props: Props) => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      //error={error.includes('company_email_address') || errorRegister}
+                      error={!company_email_address}
                       variant="outlined"
                       fullWidth
                       label="Email Address"
@@ -309,7 +308,6 @@ const AccountSettingsCompany = (props: Props) => {
                       autoComplete="email"
                       type="email"
                       value={company_email_address}
-                      // helperText={errorRegister && 'Email address has already been taken'}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleEditCompanyInput(event)
                       }
@@ -329,7 +327,6 @@ const AccountSettingsCompany = (props: Props) => {
                         name="company_password"
                         type={showCurrent ? "text" : "password"}
                         value={checkPassword}
-                        // disabled={checkPassword === company_password}
                         label="Confirm Current Password"
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>
@@ -352,7 +349,7 @@ const AccountSettingsCompany = (props: Props) => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      error={error.includes("company_address")}
+                      error={!company_address}
                       variant="outlined"
                       fullWidth
                       label="Address"
@@ -366,7 +363,7 @@ const AccountSettingsCompany = (props: Props) => {
 
                   <Grid item xs={12}>
                     <TextField
-                      error={error.includes("company_contact_number")}
+                      error={!company_contact_number}
                       variant="outlined"
                       fullWidth
                       label="Contact Number"

@@ -14,7 +14,6 @@ const AccountSettings = () => {
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(true);
-  const [error, setError] = useState<string[]>([]);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
 
   let type: string;
@@ -251,6 +250,7 @@ const AccountSettings = () => {
 
   useEffect(() => {
     getAccount();
+    // eslint-disable-next-line
   }, [])
 
   return (
@@ -265,7 +265,6 @@ const AccountSettings = () => {
         <AccountSettingsCompany
           editedCompany={editedCompany}
           handleEditCompanyInput={handleEditCompanyInput}
-          error={error}
           handleDeleteCompany={handleDeleteCompany}
           handleUpdateCompany={handleUpdateCompany}
           handleOpenEdit={handleOpenEdit}
@@ -276,7 +275,6 @@ const AccountSettings = () => {
       ) : (
         <AccountSettingsContent
           handleEditAccountInput={handleEditAccountInput}
-          error={error}
           editedAccount={editedAccount}
           handleUpdateAccount={handleUpdateAccount}
           handleDeleteAccount={handleDeleteAccount}

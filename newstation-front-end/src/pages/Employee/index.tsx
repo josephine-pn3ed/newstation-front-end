@@ -352,7 +352,7 @@ const Employees = () => {
           </div>
         ) : (
           <div>
-            <Tooltip color="disabled" title="Diabled">
+            <Tooltip color="default" title="Diabled">
               <IconButton>
                 <EditIcon />
               </IconButton>

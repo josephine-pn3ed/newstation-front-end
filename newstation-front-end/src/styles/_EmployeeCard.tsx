@@ -50,17 +50,15 @@ const useStylesEmployee = makeStyles((theme) => ({
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
+        margin: theme.spacing(3),
     },
     container: {
-        paddingTop: theme.spacing(10),
-        paddingBottom: theme.spacing(2),
+        padding: theme.spacing(3),
         maxWidth: 1000,
     },
     form: {
         width: '60%', // Fix IE 11 issue.
         marginTop: theme.spacing(2),
-
-
     },
     submit: {
         margin: theme.spacing(1, 0, 1),
