@@ -118,7 +118,7 @@ const Dashboard = () => {
     setNews({ ...news, [name]: value });
   };
 
-  const handleButtonDelete = async (id: string) => {
+  const handleButtonDelete = (id: string) => {
     try {
       Swal.fire({
         title: "Are you sure?",

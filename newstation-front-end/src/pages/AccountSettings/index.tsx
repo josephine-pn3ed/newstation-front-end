@@ -99,7 +99,7 @@ const AccountSettings = () => {
     setEditedCompany({ ...editedCompany, checkPassword: value });
   };
 
-  const getAccount = async () => {
+  const getAccount = () => {
     type === "company" ? getAccountCompany() : getAccountEmployee();
   };
 
@@ -125,7 +125,7 @@ const AccountSettings = () => {
     }
   };
 
-  const handleUpdateAccount = async () => {
+  const handleUpdateAccount = () => {
     try {
       const { new_password } = editedAccount;
       Swal.fire({
@@ -158,7 +158,7 @@ const AccountSettings = () => {
     }
   };
 
-  const handleUpdateCompany = async () => {
+  const handleUpdateCompany = () => {
     try {
       const { new_password } = editedCompany;
       Swal.fire({
@@ -186,7 +186,7 @@ const AccountSettings = () => {
     }
   };
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = () => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -219,7 +219,7 @@ const AccountSettings = () => {
     }
   };
 
-  const handleDeleteCompany = async () => {
+  const handleDeleteCompany = () => {
     try {
       Swal.fire({
         title: "Are you sure?",
