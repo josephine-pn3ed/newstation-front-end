@@ -182,7 +182,7 @@ const Employees = () => {
         }
       }
     } catch (error) {
-      Swal.fire("An error occurred while registering an employee!");
+      Swal.fire("Oops...", "Something went wrong!", "error");
     }
   };
 
@@ -275,7 +275,7 @@ const Employees = () => {
       if (!success) throw Error;
       employeesToPushToHooks(result);
     } catch (error) {
-      Swal.fire("There is an error while getting employees!");
+      Swal.fire("Oops...", "Something went wrong!", "error");
     }
   };
 

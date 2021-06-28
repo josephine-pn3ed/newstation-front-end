@@ -242,7 +242,6 @@ const Dashboard = () => {
           handleButtonDelete={handleButtonDelete}
           closeAddForm={closeAddForm}
           news={retrievedNews}
-          max_width={closeAddForm ? "lg" : "xl"}
         />
       )}
       {closeAddForm && (

@@ -3,7 +3,6 @@ export interface Props {
   handleUpdateForm: (id: string) => void;
   handleButtonDelete: (id: string) => void;
   closeAddForm: boolean;
-  max_width: any;
   news: News[];
 }
 

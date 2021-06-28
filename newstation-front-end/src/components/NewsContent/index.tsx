@@ -17,13 +17,12 @@ import { getUser, getUserId } from "../../utils";
 
 const NewsContent = (props: Props) => {
   const classes = useStyles();
-  
+
   const {
     handleCloseAddForm,
     handleUpdateForm,
     handleButtonDelete,
     closeAddForm,
-    max_width,
     news,
   } = props;
 
@@ -41,7 +40,10 @@ const NewsContent = (props: Props) => {
             Add News
           </Button>
         )}
-      <Container maxWidth={max_width} className={classes.container}>
+      <Container
+        maxWidth={closeAddForm ? "lg" : "xl"}
+        className={classes.container}
+      >
         {news.map((value: News, key: any) => {
           if (value.news_topic) {
             return (
@@ -70,7 +72,12 @@ const NewsContent = (props: Props) => {
                     {value.news_topic}
                   </Typography>
                   <br />
-                  <Typography variant="body2" color="textSecondary" component="p" style={{ whiteSpace: "pre-line" }}>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
                     {value.news_body}
                   </Typography>
                 </CardContent>

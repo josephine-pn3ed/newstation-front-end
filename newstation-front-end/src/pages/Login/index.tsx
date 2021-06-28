@@ -79,7 +79,7 @@ const Login = () => {
         }
       }
     } catch (error) {
-      Swal.fire("An error occurred while logging in!");
+      Swal.fire("Oops...", "Something went wrong!", "error");
     }
   };
 

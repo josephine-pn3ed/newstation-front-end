@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import {
@@ -7,7 +7,7 @@ import {
   Dashboard,
   Employee,
   AccountSettings,
-  Administrators
+  Administrators,
 } from "./pages";
 
 function App() {
@@ -30,7 +30,12 @@ function App() {
         <PrivateRoute path="/administrators">
           <Administrators />
         </PrivateRoute>
-        <Redirect from="/" to="/login" exact />
+        <Route path="/">
+          <div style={{ textAlign: "center" }}>
+            <h1 style={{ fontSize: "150px" }}>404</h1>
+            <h1>Page Not Found</h1>
+          </div>
+        </Route>
       </Switch>
     </Router>
   );
