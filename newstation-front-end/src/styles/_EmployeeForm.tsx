@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     marginTop: "90px",
     marginRight: "20px",
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(15),
   },
   container: {
     paddingTop: theme.spacing(4),
