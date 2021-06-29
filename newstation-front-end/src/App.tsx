@@ -35,7 +35,7 @@ function App() {
         <PrivateRoute path="/administrators">
           <Administrators />
         </PrivateRoute>
-        <Redirect to="/login" from="/" />
+        <Redirect to="/login" from="/" exact/>
         <Route path="/">
           <div style={{ textAlign: "center" }}>
             <h1 style={{ fontSize: "150px" }}>404</h1>
