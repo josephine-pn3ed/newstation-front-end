@@ -1,6 +1,6 @@
 import MUIDataTable from "mui-datatables";
 import { Container, Button } from "@material-ui/core";
-import useStyles from "../../styles/_Employee";
+import useStyles from "../../styles/_Administrator";
 import { Props } from "./types";
 
 const AdministratorsTable = (props: Props) => {

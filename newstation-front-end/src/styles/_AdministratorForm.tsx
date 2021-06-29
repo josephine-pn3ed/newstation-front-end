@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     backgroundColor: "#e3f2fd",
+    margin: theme.spacing(1),
   },
   paper: {
     marginTop: theme.spacing(8),
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     marginTop: "90px",
-    marginRight: "20px"
+    marginRight: "20px",
+    marginBottom: theme.spacing(5),
   },
   container: {
     paddingTop: theme.spacing(4),
