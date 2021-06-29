@@ -310,7 +310,10 @@ const AccountSettingsCompany = (props: Props) => {
                       name="company_email_address"
                       autoComplete="email"
                       type="email"
-                      value={company_email_address}
+                      defaultValue={company_email_address}
+                      InputProps={{
+                        readOnly: true,
+                      }}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleEditCompanyInput(event)
                       }

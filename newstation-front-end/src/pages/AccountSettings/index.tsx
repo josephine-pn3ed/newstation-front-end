@@ -141,16 +141,17 @@ const AccountSettings = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getUserId();
-          await axios.put('/employee/' + id, { ...editedAccount, user_password: new_password, checkPassword: "" })
-          Swal.fire(
-            'Updated!',
-            'Account Updated!',
-            'success'
-          )
-          setOpenEdit(false)
+          await axios.put("/employee/" + id, {
+            ...editedAccount,
+            user_password: new_password,
+            checkPassword: "",
+          });
+          Swal.fire("Updated!", "Password Updated!", "success");
+          setOpenEdit(false);
           getAccount();
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "Cancelled Account Update", "error");
+          Swal.fire("Cancelled", "Cancelled Password Update", "error");
+          setOpenEdit(false);
         }
       });
     } catch (error) {
@@ -174,11 +175,17 @@ const AccountSettings = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getCompanyId();
-          await axios.put('/company/' + id, { ...editedCompany, company_password: new_password, checkPassword: "" })
-          setOpenEdit(false)
+          await axios.put("/company/" + id, {
+            ...editedCompany,
+            company_password: new_password,
+            checkPassword: "",
+          });
+          Swal.fire("Updated!", "Account Updated!", "success");
+          setOpenEdit(false);
           getAccount();
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire("Cancelled", "Cancelled Account Update", "error");
+          setOpenEdit(false);
         }
       });
     } catch (error) {
@@ -201,12 +208,8 @@ const AccountSettings = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getUserId();
-          await axios.delete('/employee/' + id);
-          Swal.fire(
-            'Deleted!',
-            'Account Deleted!',
-            'success'
-          )
+          await axios.delete("/employee/" + id);
+          Swal.fire("Deleted!", "Account Deleted!", "success");
 
           logout();
           history.push("/login");
@@ -234,7 +237,7 @@ const AccountSettings = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const id = getCompanyId();
-          await axios.delete('/company/' + id);
+          await axios.delete("/company/" + id);
 
           Swal.fire("Deleted!", "Account Deleted!", "success");
           logout();
@@ -251,7 +254,7 @@ const AccountSettings = () => {
   useEffect(() => {
     getAccount();
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <div className={classes.root}>
