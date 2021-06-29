@@ -14,6 +14,7 @@ import useStyles from "../../styles/_Administrator";
 import { logout, getCompanyId } from "../../utils";
 import { Administrator } from "./types";
 import AdministratorsForm from "../../components/AdministratorsForm";
+import { access } from "fs";
 
 const Administrators = () => {
   const classes = useStyles();
@@ -276,10 +277,7 @@ const Administrators = () => {
   };
 
   const administratorsToPushToHooks = (data: Administrator[]) => {
-    const active_administrators: string[][] = [];
-    const inactive_administrators: string[][] = [];
-
-    data.forEach((value: Administrator) => {
+    const res = data.reduce((acc: any, curr: any) => {
       const {
         id,
         user_first_name,
@@ -290,35 +288,27 @@ const Administrators = () => {
         user_contact_number,
         user_position,
         user_status,
-      } = value;
+      } = curr;
 
-      const administrator: any[] = [];
+      const administrator = [
+        `${user_first_name} ${user_middle_name} ${user_last_name}`,
+        user_email_address,
+        user_password,
+        user_contact_number,
+        user_position,
+        actionButtons(id, user_status),
+      ];
 
-      administrator.push(
-        user_first_name + " " + user_middle_name + " " + user_last_name
-      );
-      administrator.push(user_email_address);
-      administrator.push(user_password);
-      administrator.push(user_contact_number);
-      administrator.push(user_position);
+      if (user_status === "Active") {
+        return [administrator, ...acc];
+      }
+      if (user_status === "Inactive") {
+        return [...acc, administrator];
+      }
+      return acc;
+    }, []);
 
-      administrator.push(actionButtons(id, user_status));
-
-      user_status === "Active" && active_administrators.push(administrator);
-      user_status === "Inactive" && inactive_administrators.push(administrator);
-    });
-
-    const administrators: string[][] = [];
-
-    active_administrators.forEach((value: string[]) => {
-      administrators.push(value);
-    });
-
-    inactive_administrators.forEach((value: string[]) => {
-      administrators.push(value);
-    });
-
-    setAdministrators(administrators);
+    setAdministrators(res);
     setAdministratorsLoaded(true);
   };
 

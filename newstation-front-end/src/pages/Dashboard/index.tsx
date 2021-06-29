@@ -115,7 +115,8 @@ const Dashboard = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
 
-    setNews({ ...news, [name]: value });
+    // setNews({ ...news, [name]: value });
+    setNews((news)=>({...news, [name]:value}));
   };
 
   const handleButtonDelete = (id: string) => {
