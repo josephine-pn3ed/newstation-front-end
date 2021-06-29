@@ -19,6 +19,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { getUser } from '../../utils';
 
 const AccountSettingsCompany = (props: Props) => {
   const classesCompany = useStylesCompany();
@@ -143,14 +144,16 @@ const AccountSettingsCompany = (props: Props) => {
                 >
                   EDIT ACCOUNT DETAILS
                 </Button>
-                <Button
-                  size="large"
-                  color="secondary"
-                  variant="contained"
-                  onClick={handleDeleteCompany}
-                >
-                  DELETE ACCOUNT
-                </Button>
+                {getUser() !== "company" && (
+                  <Button
+                    size="large"
+                    color="secondary"
+                    variant="contained"
+                    onClick={handleDeleteCompany}
+                  >
+                    DELETE ACCOUNT
+                  </Button>
+                )}
               </CardActions>
             )}
           </Card>

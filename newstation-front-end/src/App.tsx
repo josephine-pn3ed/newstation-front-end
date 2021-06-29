@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import {
@@ -30,6 +35,7 @@ function App() {
         <PrivateRoute path="/administrators">
           <Administrators />
         </PrivateRoute>
+        <Redirect to="/login" from="/" />
         <Route path="/">
           <div style={{ textAlign: "center" }}>
             <h1 style={{ fontSize: "150px" }}>404</h1>
