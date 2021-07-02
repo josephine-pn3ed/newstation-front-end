@@ -18,13 +18,13 @@ const EmployeeRegistrationForm = (props: Props) => {
   } = props;
 
   const {
-    user_first_name,
-    user_middle_name,
-    user_last_name,
-    user_address,
-    user_email_address,
-    user_contact_number,
-    user_position,
+    first_name,
+    middle_name,
+    last_name,
+    address,
+    email_address,
+    contact_number,
+    position,
   } = employee;
 
   return (
@@ -45,12 +45,12 @@ const EmployeeRegistrationForm = (props: Props) => {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes("user_first_name")}
-                    name="user_first_name"
+                    error={error.includes("first_name")}
+                    name="first_name"
                     variant="outlined"
                     fullWidth
                     label="First Name"
-                    value={user_first_name}
+                    value={first_name}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       handleEmployeeInputChange(event)
                     }
@@ -58,12 +58,12 @@ const EmployeeRegistrationForm = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes("user_middle_name")}
-                    name="user_middle_name"
+                    error={error.includes("middle_name")}
+                    name="middle_name"
                     variant="outlined"
                     fullWidth
                     label="Middle Name"
-                    value={user_middle_name}
+                    value={middle_name}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       handleEmployeeInputChange(event)
                     }
@@ -71,12 +71,12 @@ const EmployeeRegistrationForm = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes("user_last_name")}
-                    name="user_last_name"
+                    error={error.includes("last_name")}
+                    name="last_name"
                     variant="outlined"
                     fullWidth
                     label="Last Name"
-                    value={user_last_name}
+                    value={last_name}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       handleEmployeeInputChange(event)
                     }
@@ -86,15 +86,15 @@ const EmployeeRegistrationForm = (props: Props) => {
                   <Grid item xs={12}>
                     <TextField
                       error={
-                        error.includes("user_email_address") || errorRegister
+                        error.includes("email_address") || errorRegister
                       }
                       variant="outlined"
                       fullWidth
                       label="Email Address"
-                      name="user_email_address"
+                      name="email_address"
                       autoComplete="email"
                       type="email"
-                      value={user_email_address}
+                      value={email_address}
                       helperText={
                         errorRegister && "Email address has already been taken"
                       }
@@ -106,12 +106,12 @@ const EmployeeRegistrationForm = (props: Props) => {
                 }
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes("user_address")}
+                    error={error.includes("address")}
                     variant="outlined"
                     fullWidth
                     label="Address"
-                    name="user_address"
-                    value={user_address}
+                    name="address"
+                    value={address}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       handleEmployeeInputChange(event)
                     }
@@ -119,12 +119,12 @@ const EmployeeRegistrationForm = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes("user_position")}
+                    error={error.includes("position")}
                     variant="outlined"
                     fullWidth
                     label="Position"
-                    name="user_position"
-                    value={user_position}
+                    name="position"
+                    value={position}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       handleEmployeeInputChange(event)
                     }
@@ -132,12 +132,12 @@ const EmployeeRegistrationForm = (props: Props) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes("user_contact_number")}
+                    error={error.includes("contact_number")}
                     variant="outlined"
                     fullWidth
                     label="Contact Number"
-                    name="user_contact_number"
-                    value={user_contact_number}
+                    name="contact_number"
+                    value={contact_number}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       handleEmployeeInputChange(event)
                     }

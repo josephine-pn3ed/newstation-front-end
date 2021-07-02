@@ -35,16 +35,16 @@ const Administrators = () => {
   const [administrator, setAdministrator] = useState<Administrator>({
     id: "",
     company_id: "",
-    user_first_name: "",
-    user_middle_name: "",
-    user_last_name: "",
-    user_email_address: "",
-    user_password: "",
-    user_confirm_password: "",
-    user_address: "",
-    user_position: "",
-    user_contact_number: "",
-    user_status: "Active",
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    email_address: "",
+    password: "",
+    confirm_password: "",
+    address: "",
+    position: "",
+    contact_number: "",
+    status: "Active",
     created_at: "",
     updated_at: "",
   });
@@ -54,16 +54,16 @@ const Administrators = () => {
     setAdministrator({
       id: "",
       company_id: "",
-      user_first_name: "",
-      user_middle_name: "",
-      user_last_name: "",
-      user_email_address: "",
-      user_password: "",
-      user_confirm_password: "",
-      user_address: "",
-      user_position: "",
-      user_contact_number: "",
-      user_status: "Active",
+      first_name: "",
+      middle_name: "",
+      last_name: "",
+      email_address: "",
+      password: "",
+      confirm_password: "",
+      address: "",
+      position: "",
+      contact_number: "",
+      status: "Active",
       created_at: "",
       updated_at: "",
     });
@@ -106,12 +106,12 @@ const Administrators = () => {
   };
 
   const handleUpdateAdministrator = async () => {
-    const { user_first_name, user_last_name, user_position } = administrator;
+    const { first_name, last_name, position } = administrator;
     let errors: string[] = [];
 
-    !user_first_name && errors.push("user_first_name");
-    !user_last_name && errors.push("user_last_name");
-    !user_position && errors.push("user_position");
+    !first_name && errors.push("first_name");
+    !last_name && errors.push("last_name");
+    !position && errors.push("position");
 
     setError(errors);
 
@@ -137,24 +137,24 @@ const Administrators = () => {
 
   const handleAdministratorRegister = async () => {
     const {
-      user_email_address,
-      user_first_name,
-      user_middle_name,
-      user_last_name,
-      user_contact_number,
-      user_address,
-      user_position,
+      email_address,
+      first_name,
+      middle_name,
+      last_name,
+      contact_number,
+      address,
+      position,
     } = administrator;
     const validateEmail =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errors: string[] = [];
 
-    !user_first_name && errors.push("user_first_name");
-    !user_last_name && errors.push("user_last_name");
-    !user_email_address && errors.push("user_email_address");
-    !user_position && errors.push("user_position");
-    !validateEmail.test(user_email_address) &&
-      errors.push("user_email_address");
+    !first_name && errors.push("first_name");
+    !last_name && errors.push("last_name");
+    !email_address && errors.push("email_address");
+    !position && errors.push("position");
+    !validateEmail.test(email_address) &&
+      errors.push("email_address");
 
     setError(errors);
 
@@ -162,13 +162,13 @@ const Administrators = () => {
       if (!errors.length) {
         const result = await axios.post("/administrator", {
           company_id: getCompanyId(),
-          user_email_address: user_email_address.toLowerCase(),
-          user_first_name: user_first_name,
-          user_middle_name: user_middle_name,
-          user_last_name: user_last_name,
-          user_position: user_position,
-          user_contact_number: user_contact_number,
-          user_address: user_address,
+          email_address: email_address.toLowerCase(),
+          first_name: first_name,
+          middle_name: middle_name,
+          last_name: last_name,
+          position: position,
+          contact_number: contact_number,
+          address: address,
         });
 
         const { success, message } = result.data;
@@ -278,26 +278,26 @@ const Administrators = () => {
     const res = data.reduce((acc: any, curr: any) => {
       const {
         id,
-        user_first_name,
-        user_middle_name,
-        user_last_name,
-        user_email_address,
-        user_password,
-        user_contact_number,
-        user_position,
-        user_status,
+        first_name,
+        middle_name,
+        last_name,
+        email_address,
+        password,
+        contact_number,
+        position,
+        status,
       } = curr;
 
       const administrator = [
-        `${user_first_name} ${user_middle_name} ${user_last_name}`,
-        user_email_address,
-        user_password,
-        user_contact_number,
-        user_position,
-        actionButtons(id, user_status),
+        `${first_name} ${middle_name} ${last_name}`,
+        email_address,
+        password,
+        contact_number,
+        position,
+        actionButtons(id, status),
       ];
 
-      if (user_status === "Active") {
+      if (status === "Active") {
         acc.unshift(administrator);
         return acc;
       }

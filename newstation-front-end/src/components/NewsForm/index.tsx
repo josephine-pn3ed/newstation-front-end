@@ -12,9 +12,10 @@ const NewsForm = (props: Props) => {
     handleButtonUpdate,
     addForm,
     news,
+    error,
   } = props;
 
-  const { id, news_topic, news_body } = news;
+  const { id, topic, body } = news;
 
   return (
     <Paper elevation={3} className={classes.content}>
@@ -29,12 +30,12 @@ const NewsForm = (props: Props) => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  error={false}
-                  name="news_topic"
+                  error={error.includes("topic")}
+                  name="topic"
                   variant="outlined"
                   fullWidth
                   label="Topic"
-                  value={news_topic}
+                  value={topic}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -45,14 +46,15 @@ const NewsForm = (props: Props) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  error={error.includes("body")}
                   id="outlined-multiline-static"
                   label="Message"
-                  name="news_body"
+                  name="body"
                   multiline
                   rows={20}
                   variant="outlined"
                   className={classes.multiline}
-                  value={news_body}
+                  value={body}
                   InputLabelProps={{
                     shrink: true,
                   }}

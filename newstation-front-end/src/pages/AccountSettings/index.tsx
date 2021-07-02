@@ -22,16 +22,15 @@ const AccountSettings = () => {
 
   const [editedAccount, setEditedAccount] = useState<State>({
     id: "",
-    user_first_name: "",
-    user_middle_name: "",
-    user_last_name: "",
-    user_email_address: "",
-    user_password: "",
-    user_address: "",
-    user_position: "",
-    user_contact_number: "",
-    user_image: "",
-    user_status: "Active",
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    email_address: "",
+    password: "",
+    address: "",
+    position: "",
+    contact_number: "",
+    status: "Active",
     new_password: "",
     checkPassword: "",
     updated_at: "",
@@ -39,12 +38,12 @@ const AccountSettings = () => {
 
   const [editedCompany, setEditedCompany] = useState<Company>({
     id: "",
-    company_name: "",
-    company_address: "",
-    company_contact_number: "",
-    company_email_address: "",
-    company_password: "",
-    company_status: "Active",
+    name: "",
+    address: "",
+    contact_number: "",
+    email_address: "",
+    password: "",
+    status: "Active",
     new_password: "",
     checkPassword: "",
   });
@@ -162,8 +161,7 @@ const AccountSettings = () => {
           const id = getUserId();
           await axios.put("/employee/" + id, {
             ...editedAccount,
-            user_password: new_password,
-            checkPassword: "",
+            password: new_password,
           });
           toast("Password updated successfully!", {
             type: "success",
@@ -197,8 +195,7 @@ const AccountSettings = () => {
           const id = getCompanyId();
           await axios.put("/company/" + id, {
             ...editedCompany,
-            company_password: new_password,
-            checkPassword: "",
+            password: new_password,
           });
           toast("Company updated successfully!", {
             type: "success",

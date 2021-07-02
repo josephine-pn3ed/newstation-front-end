@@ -61,13 +61,13 @@ const AccountSettingsContent = (props: Props) => {
   } = props;
 
   const {
-    user_first_name,
-    user_middle_name,
-    user_last_name,
-    user_password,
-    user_address,
-    user_position,
-    user_contact_number,
+    first_name,
+    middle_name,
+    last_name,
+    password,
+    address,
+    position,
+    contact_number,
     new_password,
     checkPassword,
   } = editedAccount;
@@ -87,7 +87,7 @@ const AccountSettingsContent = (props: Props) => {
                 Account Information
               </Typography>
               <Typography variant="h2" component="h2">
-                {user_first_name} {user_middle_name} {user_last_name}
+                {first_name} {middle_name} {last_name}
               </Typography>
               <Typography
                 className={classesEmployees.pos}
@@ -97,9 +97,9 @@ const AccountSettingsContent = (props: Props) => {
               </Typography>
               <br />
               <Typography variant="h5" component="h2">
-                {user_address}
+                {address}
               </Typography>
-              {user_address && (
+              {address && (
                 <Typography
                   className={classesEmployees.pos}
                   color="textSecondary"
@@ -110,9 +110,9 @@ const AccountSettingsContent = (props: Props) => {
               <br />
               <br />
               <Typography variant="h5" component="h2">
-                {user_contact_number}
+                {contact_number}
               </Typography>
-              {user_contact_number && (
+              {contact_number && (
                 <Typography
                   className={classesEmployees.pos}
                   color="textSecondary"
@@ -121,7 +121,7 @@ const AccountSettingsContent = (props: Props) => {
                 </Typography>
               )}
               <br />
-              <TextField value={user_password} type="password" />
+              <TextField value={password} type="password" />
               <Button
                 size="small"
                 color="inherit"
@@ -138,7 +138,7 @@ const AccountSettingsContent = (props: Props) => {
               </Typography>
               <br />
               <Typography variant="h5" component="h2">
-                {user_position}
+                {position}
               </Typography>
               <Typography
                 className={classesEmployees.pos}
@@ -148,7 +148,7 @@ const AccountSettingsContent = (props: Props) => {
               </Typography>
               <br />
             </CardContent>
-            {user_first_name && (
+            {first_name && (
               <CardActions>
                 <Button
                   size="large"
@@ -172,7 +172,7 @@ const AccountSettingsContent = (props: Props) => {
             )}
           </Card>
         )}
-        {changePassword && user_password && (
+        {changePassword && password && (
           <Container maxWidth="sm" className={classesEmployees.paperPassword}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -187,7 +187,7 @@ const AccountSettingsContent = (props: Props) => {
                 </Typography>
                 <FormControl
                   variant="outlined"
-                  error={checkPassword !== user_password}
+                  error={checkPassword !== password}
                   fullWidth
                 >
                   <InputLabel htmlFor="outlined-adornment-password">
@@ -195,10 +195,10 @@ const AccountSettingsContent = (props: Props) => {
                   </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-password"
-                    name="user_password"
+                    name="password"
                     type={showCurrent ? "text" : "password"}
                     value={checkPassword}
-                    disabled={checkPassword === user_password}
+                    disabled={checkPassword === password}
                     label="Confirm Current Password"
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       handleInputPasswordAccount(event)
@@ -217,7 +217,7 @@ const AccountSettingsContent = (props: Props) => {
                     }
                     labelWidth={75}
                   />
-                  {checkPassword !== user_password && (
+                  {checkPassword !== password && (
                     <FormHelperText>
                       Please verify password before updating.{" "}
                     </FormHelperText>
@@ -228,10 +228,10 @@ const AccountSettingsContent = (props: Props) => {
                 <FormControl
                   variant="outlined"
                   error={
-                    (!new_password || checkPassword !== user_password) &&
-                    checkPassword === user_password
+                    (!new_password || checkPassword !== password) &&
+                    checkPassword === password
                   }
-                  disabled={checkPassword !== user_password}
+                  disabled={checkPassword !== password}
                   fullWidth
                 >
                   <InputLabel htmlFor="outlined-adornment-password">
@@ -259,7 +259,7 @@ const AccountSettingsContent = (props: Props) => {
                     }
                     labelWidth={75}
                   />
-                  {checkPassword !== user_password ? (
+                  {checkPassword !== password ? (
                     <FormHelperText>
                       {" "}
                       Available once password is verified{" "}
@@ -272,7 +272,7 @@ const AccountSettingsContent = (props: Props) => {
                   )}
                   <Button
                     fullWidth
-                    disabled={checkPassword !== user_password}
+                    disabled={checkPassword !== password}
                     variant="contained"
                     color="primary"
                     className={classesEmployees.submit}
@@ -295,7 +295,7 @@ const AccountSettingsContent = (props: Props) => {
           </Container>
         )}
 
-        {openEdit && user_first_name && (
+        {openEdit && first_name && (
           <div className={classesEmployees.paperCenter}>
             <Container maxWidth="sm" className={classesEmployees.paper}>
               <Typography
@@ -310,9 +310,9 @@ const AccountSettingsContent = (props: Props) => {
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <TextField
-                      error={!user_first_name}
-                      name="user_first_name"
-                      value={user_first_name}
+                      error={!first_name}
+                      name="first_name"
+                      value={first_name}
                       variant="outlined"
                       fullWidth
                       label="First Name"
@@ -323,9 +323,9 @@ const AccountSettingsContent = (props: Props) => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      error={!user_middle_name}
-                      name="user_middle_name"
-                      value={user_middle_name}
+                      error={!middle_name}
+                      name="middle_name"
+                      value={middle_name}
                       variant="outlined"
                       fullWidth
                       label="Middle Name"
@@ -336,9 +336,9 @@ const AccountSettingsContent = (props: Props) => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      error={!user_last_name}
-                      name="user_last_name"
-                      value={user_last_name}
+                      error={!last_name}
+                      name="last_name"
+                      value={last_name}
                       variant="outlined"
                       fullWidth
                       label="Last Name"
@@ -351,7 +351,7 @@ const AccountSettingsContent = (props: Props) => {
                   <Grid item xs={12}>
                     <FormControl
                       variant="outlined"
-                      error={checkPassword !== user_password}
+                      error={checkPassword !== password}
                       fullWidth
                     >
                       <InputLabel htmlFor="outlined-adornment-password">
@@ -359,7 +359,7 @@ const AccountSettingsContent = (props: Props) => {
                       </InputLabel>
                       <OutlinedInput
                         id="outlined-adornment-password"
-                        name="user_password"
+                        name="password"
                         type={showCurrent ? "text" : "password"}
                         value={checkPassword}
                         label="Confirm Current Password"
@@ -380,7 +380,7 @@ const AccountSettingsContent = (props: Props) => {
                         }
                         labelWidth={75}
                       />
-                      {checkPassword !== user_password && (
+                      {checkPassword !== password && (
                         <FormHelperText>
                           Please verify password before updating.{" "}
                         </FormHelperText>
@@ -389,12 +389,12 @@ const AccountSettingsContent = (props: Props) => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      error={!user_address}
+                      error={!address}
                       variant="outlined"
                       fullWidth
                       label="Address"
-                      name="user_address"
-                      value={user_address}
+                      name="address"
+                      value={address}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleEditAccountInput(event)
                       }
@@ -402,12 +402,12 @@ const AccountSettingsContent = (props: Props) => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      error={!user_position}
+                      error={!position}
                       variant="outlined"
                       fullWidth
                       label="Job Title"
-                      name="user_position"
-                      value={user_position}
+                      name="position"
+                      value={position}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleEditAccountInput(event)
                       }
@@ -415,12 +415,12 @@ const AccountSettingsContent = (props: Props) => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      error={!user_contact_number}
+                      error={!contact_number}
                       variant="outlined"
                       fullWidth
                       label="Contact Number"
-                      name="user_contact_number"
-                      value={user_contact_number}
+                      name="contact_number"
+                      value={contact_number}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleEditAccountInput(event)
                       }
@@ -429,7 +429,7 @@ const AccountSettingsContent = (props: Props) => {
                 </Grid>
                 <Button
                   fullWidth
-                  disabled={checkPassword !== user_password}
+                  disabled={checkPassword !== password}
                   variant="contained"
                   color="primary"
                   className={classesEmployees.submit}

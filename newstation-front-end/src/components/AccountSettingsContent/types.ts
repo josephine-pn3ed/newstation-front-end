@@ -15,16 +15,15 @@ type Status = "Active" | "Inactive";
 
 interface Employee {
   id: string;
-  user_first_name: string;
-  user_middle_name: string;
-  user_last_name: string;
-  user_email_address: string;
-  user_password: string;
-  user_address: string;
-  user_position: string;
-  user_contact_number: string;
-  user_image: string;
-  user_status: Status;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  email_address: string;
+  password: string;
+  address: string;
+  position: string;
+  contact_number: string;
+  status: Status;
   updated_at: string;
   new_password: string;
   checkPassword: string;

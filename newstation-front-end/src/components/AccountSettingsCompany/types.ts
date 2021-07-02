@@ -15,12 +15,12 @@ type Status = "Active" | "Inactive";
 
 interface Company {
   id: string;
-  company_name: string;
-  company_address: string;
-  company_contact_number: string;
-  company_email_address: string;
-  company_password: string;
-  company_status: Status;
+  name: string;
+  address: string;
+  contact_number: string;
+  email_address: string;
+  password: string;
+  status: Status;
   new_password: string;
   checkPassword: string;
 }

@@ -28,13 +28,12 @@ const Dashboard = () => {
     id: "",
     company_name: "",
     user_id: "",
-    user_first_name: "",
-    user_middle_name: "",
-    user_last_name: "",
-    news_topic: "",
-    news_body: "",
-    news_image: null,
-    news_status: "Active",
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    topic: "",
+    body: "",
+    status: "Active",
     created_at: "",
     updated_at: "",
   });
@@ -59,17 +58,17 @@ const Dashboard = () => {
   };
 
   const handleCloseAddForm = (open: boolean) => {
+    setError([]);
     setNews({
       id: "",
       company_name: "",
       user_id: "",
-      user_first_name: "",
-      user_middle_name: "",
-      user_last_name: "",
-      news_topic: "",
-      news_body: "",
-      news_image: null,
-      news_status: "Active",
+      first_name: "",
+      middle_name: "",
+      last_name: "",
+      topic: "",
+      body: "",
+      status: "Active",
       created_at: "",
       updated_at: "",
     });
@@ -78,19 +77,12 @@ const Dashboard = () => {
   };
 
   const handleUpdateForm = async (newsId: string) => {
+    setError([]);
     setAddForm(false);
     try {
       const response = await axios.get("/news-company/" + newsId);
       const { result, success } = response.data;
-      const {
-        id,
-        news_topic,
-        news_body,
-        news_image,
-        news_status,
-        created_at,
-        updated_at,
-      } = result;
+      const { id, topic, body, status, created_at, updated_at } = result;
 
       if (!success) throw Error;
       setCloseAddForm(true);
@@ -98,13 +90,12 @@ const Dashboard = () => {
         id: id,
         company_name: "",
         user_id: "",
-        user_first_name: "",
-        user_middle_name: "",
-        user_last_name: "",
-        news_topic: news_topic,
-        news_body: news_body,
-        news_image: news_image,
-        news_status: news_status,
+        first_name: "",
+        middle_name: "",
+        last_name: "",
+        topic: topic,
+        body: body,
+        status: status,
         created_at: created_at,
         updated_at: updated_at,
       });
@@ -156,19 +147,19 @@ const Dashboard = () => {
   };
 
   const handleButtonUpdate = async (id: string) => {
-    const { news_topic, news_body } = news;
+    const { topic, body } = news;
     let errors: string[] = [];
 
-    !news_topic && errors.push("news_topic");
-    !news_body && errors.push("news_body");
+    !topic && errors.push("topic");
+    !body && errors.push("body");
 
     setError(errors);
 
     if (!errors.length) {
       try {
         const result = await axios.put("/news/" + id, {
-          news_topic: news_topic,
-          news_body: news_body,
+          topic: topic,
+          body: body,
         });
 
         const { success } = result.data;
@@ -176,7 +167,7 @@ const Dashboard = () => {
         if (!success) throw Error;
 
         toast("News updated successfully!", {
-          type: "success",
+          type: "success"
         });
 
         handleCloseAddForm(false);
@@ -190,19 +181,19 @@ const Dashboard = () => {
   };
 
   const handleButtonSubmit = async () => {
-    const { news_topic, news_body } = news;
+    const { topic, body } = news;
     let errors: string[] = [];
 
-    !news_topic && errors.push("news_topic");
-    !news_body && errors.push("news_body");
+    !topic && errors.push("topic");
+    !body && errors.push("body");
 
     setError(errors);
 
-    try {
-      if (!errors.length) {
+    if (!errors.length) {
+      try {
         const result = await axios.post("/news", {
-          news_topic: news_topic,
-          news_body: news_body,
+          topic: topic,
+          body: body,
           company_id: getCompanyId(),
           user_id: getUserId(),
         });
@@ -216,11 +207,11 @@ const Dashboard = () => {
         });
         handleCloseAddForm(false);
         getNews();
+      } catch (error) {
+        toast("Internal Server Error!", {
+          type: "error",
+        });
       }
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
     }
   };
 
@@ -230,6 +221,7 @@ const Dashboard = () => {
     try {
       const response = await axios.get("/news/" + getCompanyId());
       const { success, news } = response.data;
+
       if (!success) throw Error;
       setRetrievedNews(news);
       setNewsLoaded(true);

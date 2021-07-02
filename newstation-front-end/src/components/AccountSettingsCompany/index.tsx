@@ -34,11 +34,11 @@ const AccountSettingsCompany = (props: Props) => {
     handleInputPasswordCompany,
   } = props;
   const {
-    company_name,
-    company_email_address,
-    company_password,
-    company_address,
-    company_contact_number,
+    name,
+    email_address,
+    password,
+    address,
+    contact_number,
     checkPassword,
     new_password,
   } = editedCompany;
@@ -83,16 +83,16 @@ const AccountSettingsCompany = (props: Props) => {
                 Account Information
               </Typography>
               <Typography variant="h2" component="h2">
-                {company_name}
+                {name}
               </Typography>
               <Typography className={classesCompany.pos} color="textSecondary">
                 Company Name
               </Typography>
               <br />
               <Typography variant="h5" component="h2">
-                {company_address}
+                {address}
               </Typography>
-              {company_address && (
+              {address && (
                 <Typography
                   className={classesCompany.pos}
                   color="textSecondary"
@@ -109,9 +109,9 @@ const AccountSettingsCompany = (props: Props) => {
               </Typography>
               <br />
               <Typography variant="h5" component="h2">
-                {company_contact_number}
+                {contact_number}
               </Typography>
-              {company_contact_number && (
+              {contact_number && (
                 <Typography
                   className={classesCompany.pos}
                   color="textSecondary"
@@ -120,7 +120,7 @@ const AccountSettingsCompany = (props: Props) => {
                 </Typography>
               )}
               <br />
-              <TextField value={company_password} type="password" />
+              <TextField value={password} type="password" />
               <Button
                 size="small"
                 color="default"
@@ -134,7 +134,7 @@ const AccountSettingsCompany = (props: Props) => {
               </Typography>
               <br />
             </CardContent>
-            {company_name && (
+            {name && (
               <CardActions>
                 <Button
                   size="large"
@@ -158,7 +158,7 @@ const AccountSettingsCompany = (props: Props) => {
             )}
           </Card>
         )}
-        {changePassword && company_password && (
+        {changePassword && password && (
           <Container maxWidth="md" className={classesCompany.paperPassword}>
             <Grid item xs={12}>
               <Typography
@@ -172,7 +172,7 @@ const AccountSettingsCompany = (props: Props) => {
               </Typography>
               <FormControl
                 variant="outlined"
-                error={checkPassword !== company_password}
+                error={checkPassword !== password}
                 fullWidth
               >
                 <InputLabel htmlFor="outlined-adornment-password">
@@ -180,10 +180,10 @@ const AccountSettingsCompany = (props: Props) => {
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
-                  name="company_password"
+                  name="password"
                   type={showCurrent ? "text" : "password"}
                   value={checkPassword}
-                  disabled={checkPassword === company_password}
+                  disabled={checkPassword === password}
                   label="Confirm Current Password"
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     handleInputPasswordCompany(event)
@@ -202,7 +202,7 @@ const AccountSettingsCompany = (props: Props) => {
                   }
                   labelWidth={75}
                 />
-                {checkPassword !== company_password && (
+                {checkPassword !== password && (
                   <FormHelperText>
                     Please verify password before updating.{" "}
                   </FormHelperText>
@@ -213,8 +213,8 @@ const AccountSettingsCompany = (props: Props) => {
             <Grid item xs={12}>
               <FormControl
                 variant="outlined"
-                error={!new_password || checkPassword !== company_password}
-                disabled={checkPassword !== company_password}
+                error={!new_password || checkPassword !== password}
+                disabled={checkPassword !== password}
                 fullWidth
               >
                 <InputLabel htmlFor="outlined-adornment-password">
@@ -242,7 +242,7 @@ const AccountSettingsCompany = (props: Props) => {
                   }
                   labelWidth={75}
                 />
-                {checkPassword !== company_password ? (
+                {checkPassword !== password ? (
                   <FormHelperText>
                     {" "}
                     Available once password is verified{" "}
@@ -252,7 +252,7 @@ const AccountSettingsCompany = (props: Props) => {
                 )}
                 <Button
                   fullWidth
-                  disabled={checkPassword !== company_password}
+                  disabled={checkPassword !== password}
                   variant="contained"
                   color="primary"
                   className={classesCompany.submit}
@@ -274,7 +274,7 @@ const AccountSettingsCompany = (props: Props) => {
           </Container>
         )}
 
-        {openEdit && company_name && (
+        {openEdit && name && (
           <div className={classesCompany.paperCenter}>
             <Container maxWidth="sm" className={classesCompany.paper}>
               <Typography
@@ -290,9 +290,9 @@ const AccountSettingsCompany = (props: Props) => {
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <TextField
-                      error={!company_name}
-                      name="company_name"
-                      value={company_name}
+                      error={!name}
+                      name="name"
+                      value={name}
                       variant="outlined"
                       fullWidth
                       label="Company Name"
@@ -303,14 +303,14 @@ const AccountSettingsCompany = (props: Props) => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      error={!company_email_address}
+                      error={!email_address}
                       variant="outlined"
                       fullWidth
                       label="Email Address"
-                      name="company_email_address"
+                      name="email_address"
                       autoComplete="email"
                       type="email"
-                      defaultValue={company_email_address}
+                      defaultValue={email_address}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -322,7 +322,7 @@ const AccountSettingsCompany = (props: Props) => {
                   <Grid item xs={12}>
                     <FormControl
                       variant="outlined"
-                      error={checkPassword !== company_password}
+                      error={checkPassword !== password}
                       fullWidth
                     >
                       <InputLabel htmlFor="outlined-adornment-password">
@@ -330,7 +330,7 @@ const AccountSettingsCompany = (props: Props) => {
                       </InputLabel>
                       <OutlinedInput
                         id="outlined-adornment-password"
-                        name="company_password"
+                        name="password"
                         type={showCurrent ? "text" : "password"}
                         value={checkPassword}
                         label="Confirm Current Password"
@@ -355,12 +355,12 @@ const AccountSettingsCompany = (props: Props) => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      error={!company_address}
+                      error={!address}
                       variant="outlined"
                       fullWidth
                       label="Address"
-                      name="company_address"
-                      value={company_address}
+                      name="address"
+                      value={address}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleEditCompanyInput(event)
                       }
@@ -369,12 +369,12 @@ const AccountSettingsCompany = (props: Props) => {
 
                   <Grid item xs={12}>
                     <TextField
-                      error={!company_contact_number}
+                      error={!contact_number}
                       variant="outlined"
                       fullWidth
                       label="Contact Number"
-                      name="company_contact_number"
-                      value={company_contact_number}
+                      name="contact_number"
+                      value={contact_number}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleEditCompanyInput(event)
                       }
@@ -383,7 +383,7 @@ const AccountSettingsCompany = (props: Props) => {
                 </Grid>
                 <Button
                   fullWidth
-                  disabled={checkPassword !== company_password}
+                  disabled={checkPassword !== password}
                   variant="contained"
                   color="primary"
                   className={classesCompany.submit}
