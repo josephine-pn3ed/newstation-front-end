@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { Props } from "./types";
 import { isLogin } from "../../utils";

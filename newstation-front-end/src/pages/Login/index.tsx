@@ -1,20 +1,19 @@
 import axios from "axios";
-import Swal from "sweetalert2";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import LoginForm from "../../components/LoginForm";
 import useStyles from "../../styles/_LoginForm";
 import { Credentials } from "./types";
+import { ToastContainer, toast } from "react-toastify";
 import { login, logout } from "../../utils";
 
 const Login = () => {
   const classes = useStyles();
   const history = useHistory();
-
   const [open, setOpen] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [errorLogin, setErrorLogin] = useState<boolean>(false);
+  const [errorLogin, setErrorLogin] = useState<string>("");
   const [errorLoginPassword, setErrorLoginPassword] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
 
@@ -61,36 +60,44 @@ const Login = () => {
           password: password,
         });
 
-        const { success, message, user, email, id } = result.data;
+        const { success, message } = result.data;
 
         if (!success) throw Error;
         else {
           if (message === "Wrong password.") {
             setErrorLoginPassword(true);
-            setErrorLogin(false);
+            setErrorLogin("");
           } else if (message === "Invalid credentials!") {
-            setErrorLogin(true);
+            setErrorLogin("Invalid credentials!");
+          } else if (message === "Database Down!") {
+            throw Error;
           } else {
             setErrorLoginPassword(false);
-            setErrorLogin(false);
-            login(email, user, message, id);
+            setErrorLogin("");
+            login(message);
+            toast("Logged in successfully!", {
+              type: "success",
+            });
             history.push("/dashboard");
           }
         }
       }
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
 
-    setCredentials({ ...credentials, [name]: value });
+    setCredentials((credentials) => ({ ...credentials, [name]: value }));
   };
 
   return (
     <div className={classes.root}>
+      <ToastContainer />
       <Navbar
         open={!open}
         handleDrawerOpen={handleDrawerOpen}

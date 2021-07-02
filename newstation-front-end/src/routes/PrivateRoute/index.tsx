@@ -8,12 +8,17 @@ const PrivateRoute = (props: Props) => {
 
   const routeComponent = () => {
     if (isLogin()) {
-      if (getUser() === "administrator" && path === "/administrators") {
-        return <Redirect to={{ pathname: "/dashboard" }} />;
-      } else if (getUser() === "employee") {
-        if (path === "/employees" || path === "/administrators") {
-          return <Redirect to={{ pathname: "/dashboard" }} />;
-        }
+      if (
+        (getUser() === "administrator" && path === "/administrators") ||
+        (getUser() === "employee" &&
+          (path === "/employees" || path === "/administrators"))
+      ) {
+        return (
+          <div style={{ textAlign: "center", color: 'red' }}>
+            <h1 style={{ fontSize: "100px" }}>401</h1>
+            <h1>Unauthorized</h1>
+          </div>
+        );
       }
       return children;
     } else {

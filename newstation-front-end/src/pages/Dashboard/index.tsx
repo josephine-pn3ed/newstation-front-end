@@ -10,6 +10,8 @@ import NewsForm from "../../components/NewsForm";
 import useStyles from "../../styles/_Dashboard";
 import { logout, getCompanyId, getUserId } from "../../utils";
 import { State } from "./types";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Dashboard = () => {
   const classes = useStyles();
@@ -108,15 +110,16 @@ const Dashboard = () => {
       });
       setAddForm(false);
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
 
-    // setNews({ ...news, [name]: value });
-    setNews((news)=>({...news, [name]:value}));
+    setNews((news) => ({ ...news, [name]: value }));
   };
 
   const handleButtonDelete = (id: string) => {
@@ -133,17 +136,22 @@ const Dashboard = () => {
         reverseButtons: true,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.delete("/news/" + id);
+          const response = await axios.delete("/news/" + id);
+          const { success } = response.data;
 
-          Swal.fire("Deleted!", "News has been deleted.", "success");
+          if (!success) throw Error;
+
+          toast("News deleted successfully!", {
+            type: "success",
+          });
 
           getNews();
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "Deleting news has been cancelled.", "error");
         }
       });
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -166,11 +174,17 @@ const Dashboard = () => {
         const { success } = result.data;
 
         if (!success) throw Error;
-        Swal.fire("Updated!", "News updated successfully!", "success");
+
+        toast("News updated successfully!", {
+          type: "success",
+        });
+
         handleCloseAddForm(false);
         getNews();
       } catch (error) {
-        Swal.fire("Oops...", "Something went wrong!", "error");
+        toast("Internal Server Error!", {
+          type: "error",
+        });
       }
     }
   };
@@ -196,12 +210,17 @@ const Dashboard = () => {
         const { success } = result.data;
 
         if (!success) throw Error;
-        Swal.fire("Added!", "News added successfully!", "success");
+
+        toast("News added successfully!", {
+          type: "success",
+        });
         handleCloseAddForm(false);
         getNews();
       }
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -215,7 +234,9 @@ const Dashboard = () => {
       setRetrievedNews(news);
       setNewsLoaded(true);
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -226,6 +247,7 @@ const Dashboard = () => {
 
   return (
     <div className={classes.root}>
+      <ToastContainer />
       <Navbar
         open={open}
         handleDrawerOpen={handleDrawerOpen}

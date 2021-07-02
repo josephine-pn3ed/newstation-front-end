@@ -9,6 +9,7 @@ import { logout, getUser, getCompanyId, getUserId } from "../../utils";
 import { State, Company } from "./types";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
 
 const AccountSettings = () => {
   const classes = useStyles();
@@ -65,8 +66,16 @@ const AccountSettings = () => {
     setOpenEdit(!openEdit);
   };
   const handleCloseEdit = () => {
-    setEditedAccount({ ...editedAccount, checkPassword: "", new_password: "" });
-    setEditedCompany({ ...editedCompany, checkPassword: "", new_password: "" });
+    setEditedAccount((editedAccount) => ({
+      ...editedAccount,
+      checkPassword: "",
+      new_password: "",
+    }));
+    setEditedCompany((editedCompany) => ({
+      ...editedCompany,
+      checkPassword: "",
+      new_password: "",
+    }));
     setOpenEdit(false);
     getAccount();
   };
@@ -75,28 +84,34 @@ const AccountSettings = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = event.target;
-    setEditedAccount({ ...editedAccount, [name]: value });
+    setEditedAccount((editedAccount) => ({ ...editedAccount, [name]: value }));
   };
 
   const handleEditCompanyInput = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = event.target;
-    setEditedCompany({ ...editedCompany, [name]: value });
+    setEditedCompany((editedCompany) => ({ ...editedCompany, [name]: value }));
   };
 
   const handleInputPasswordAccount = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { value } = event.target;
-    setEditedAccount({ ...editedAccount, checkPassword: value });
+    setEditedAccount((editedAccount) => ({
+      ...editedAccount,
+      checkPassword: value,
+    }));
   };
 
   const handleInputPasswordCompany = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { value } = event.target;
-    setEditedCompany({ ...editedCompany, checkPassword: value });
+    setEditedCompany((editedCompany) => ({
+      ...editedCompany,
+      checkPassword: value,
+    }));
   };
 
   const getAccount = () => {
@@ -110,7 +125,9 @@ const AccountSettings = () => {
       const { result } = response.data;
       setEditedAccount(result);
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -121,7 +138,9 @@ const AccountSettings = () => {
       const { result } = response.data;
       setEditedCompany(result);
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -146,16 +165,17 @@ const AccountSettings = () => {
             user_password: new_password,
             checkPassword: "",
           });
-          Swal.fire("Updated!", "Password Updated!", "success");
+          toast("Password updated successfully!", {
+            type: "success",
+          });
           setOpenEdit(false);
           getAccount();
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "Cancelled Password Update", "error");
-          setOpenEdit(false);
-        }
+        } 
       });
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -180,16 +200,17 @@ const AccountSettings = () => {
             company_password: new_password,
             checkPassword: "",
           });
-          Swal.fire("Updated!", "Account Updated!", "success");
+          toast("Company updated successfully!", {
+            type: "success",
+          });
           setOpenEdit(false);
           getAccount();
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "Cancelled Account Update", "error");
-          setOpenEdit(false);
         }
       });
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -209,16 +230,19 @@ const AccountSettings = () => {
         if (result.isConfirmed) {
           const id = getUserId();
           await axios.delete("/employee/" + id);
-          Swal.fire("Deleted!", "Account Deleted!", "success");
+
+          toast("Account deleted successfully!", {
+            type: "success",
+          });
 
           logout();
           history.push("/login");
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "Cancelled Account Deletion", "error");
         }
       });
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -239,15 +263,17 @@ const AccountSettings = () => {
           const id = getCompanyId();
           await axios.delete("/company/" + id);
 
-          Swal.fire("Deleted!", "Account Deleted!", "success");
+          toast("Company deleted successfully!", {
+            type: "success",
+          });
           logout();
           history.push("/login");
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "Cancelled Account Deletion", "error");
-        }
+        } 
       });
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -258,6 +284,7 @@ const AccountSettings = () => {
 
   return (
     <div className={classes.root}>
+      <ToastContainer />
       <Navbar
         open={open}
         handleDrawerOpen={handleDrawerOpen}

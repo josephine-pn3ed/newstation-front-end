@@ -25,7 +25,6 @@ function App() {
         <PrivateRoute path="/dashboard" exact>
           <Dashboard />
         </PrivateRoute>
-
         <PrivateRoute path="/employees">
           <Employee />
         </PrivateRoute>
@@ -37,7 +36,7 @@ function App() {
         </PrivateRoute>
         <Redirect to="/login" from="/" exact/>
         <Route path="/">
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center", color: 'red' }}>
             <h1 style={{ fontSize: "150px" }}>404</h1>
             <h1>Page Not Found</h1>
           </div>

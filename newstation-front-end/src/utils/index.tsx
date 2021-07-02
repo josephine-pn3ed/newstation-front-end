@@ -1,49 +1,60 @@
+import jwt_decode from "jwt-decode";
+
 export const login = (
-  email: string,
-  user: string,
-  company_id: string,
-  id: string
+  token: string
 ) => {
-  localStorage.setItem("user_email", email);
-  localStorage.setItem("company_id", company_id);
-  localStorage.setItem("user", user);
-  localStorage.setItem("user_id", id);
+
+  localStorage.setItem("token", token);
 };
 
 export const logout = () => {
-  localStorage.removeItem("user_email");
-  localStorage.removeItem("company_id");
-  localStorage.removeItem("user");
-  localStorage.removeItem("user_id");
+  localStorage.removeItem("token");
 };
 
 export const isLogin = () => {
-  if (localStorage.getItem("user_email")) {
+  const token = localStorage.getItem("token");
+  if (token) {
     return true;
   }
   return false;
 };
 
 export const getUserEmail = () => {
-  return localStorage.getItem("user_email");
+  const token = localStorage.getItem("token");
+  if (token) {
+    const decodedToken: { user_email: string } = jwt_decode(token);
+    const { user_email } = decodedToken;
+    return user_email;
+  }
+  return null;
 };
 
 export const getCompanyId = () => {
-  return localStorage.getItem("company_id");
+  const token = localStorage.getItem("token");
+  if (token) {
+    const decodedToken: { company_id: string } = jwt_decode(token);
+    const { company_id } = decodedToken;
+    return company_id;
+  }
+  return null;
 };
 
 export const getUserId = () => {
-  return localStorage.getItem("user_id");
-};
-
-export const removeCompanyId = () => {
-  localStorage.removeItem("company_id");
+  const token = localStorage.getItem("token");
+  if (token) {
+    const decodedToken: { user_id: string } = jwt_decode(token);
+    const { user_id } = decodedToken;
+    return user_id;
+  }
+  return null;
 };
 
 export const getUser = () => {
-  return localStorage.getItem("user");
-};
-
-export const removeUser = () => {
-  localStorage.removeItem("user");
+  const token = localStorage.getItem("token");
+  if (token) {
+    const decodedToken: { user: string } = jwt_decode(token);
+    const { user } = decodedToken;
+    return user;
+  }
+  return null;
 };

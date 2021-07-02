@@ -14,6 +14,7 @@ import useStyles from "../../styles/_Employee";
 import { logout, getCompanyId } from "../../utils";
 import { Employee } from "./types";
 import EmployeesForm from "../../components/EmployeesForm";
+import { ToastContainer, toast } from "react-toastify";
 
 const Employees = () => {
   const classes = useStyles();
@@ -24,8 +25,7 @@ const Employees = () => {
   const [formLoaded, setFormLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
 
-  const [employeesLoaded, setEmployeesLoaded] =
-    useState<boolean>(false);
+  const [employeesLoaded, setEmployeesLoaded] = useState<boolean>(false);
 
   const [errorRegister, setErrorRegister] = useState<boolean>(false);
 
@@ -49,6 +49,7 @@ const Employees = () => {
   });
 
   const handleFormLoaded = (open: boolean) => {
+    setError([]);
     setEmployee({
       id: "",
       company_id: "",
@@ -87,6 +88,7 @@ const Employees = () => {
   };
 
   const handleEditButton = async (id: string) => {
+    setError([]);
     try {
       const response = await axios.get("/employee/" + id);
       const { result, success } = response.data;
@@ -96,16 +98,14 @@ const Employees = () => {
       setFormLoaded(true);
       setAddForm(false);
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
   const handleUpdateEmployee = async () => {
-    const {
-      user_first_name,
-      user_last_name,
-      user_position,
-    } = employee;
+    const { user_first_name, user_last_name, user_position } = employee;
     let errors: string[] = [];
 
     !user_first_name && errors.push("user_first_name");
@@ -130,7 +130,9 @@ const Employees = () => {
         handleCloseEdit();
       }
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -182,7 +184,9 @@ const Employees = () => {
         }
       }
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -218,7 +222,9 @@ const Employees = () => {
         }
       });
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -262,7 +268,9 @@ const Employees = () => {
         }
       });
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -271,19 +279,18 @@ const Employees = () => {
     try {
       const response = await axios.get("/employees/" + getCompanyId());
       const { result, success } = response.data;
-      
+
       if (!success) throw Error;
-      employeesToPushToHooks(result);
+      employeesPushToHooks(result);
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
-  const employeesToPushToHooks = (data: Employee[]) => {
-    const active_employees: string[][] = [];
-    const inactive_employees: string[][] = [];
-
-    data.forEach((value: Employee) => {
+  const employeesPushToHooks = (data: Employee[]) => {
+    const all_employees = data.reduce((array_employees: any, curr: any) => {
       const {
         id,
         user_first_name,
@@ -294,35 +301,26 @@ const Employees = () => {
         user_contact_number,
         user_position,
         user_status,
-      } = value;
+      } = curr;
 
-      const employee: any[] = [];
+      const employee = [
+        `${user_first_name} ${user_middle_name} ${user_last_name}`,
+        user_email_address,
+        user_password,
+        user_contact_number,
+        user_position,
+        actionButtons(id, user_status),
+      ];
 
-      employee.push(
-        user_first_name + " " + user_middle_name + " " + user_last_name
-      );
-      employee.push(user_email_address);
-      employee.push(user_password);
-      employee.push(user_contact_number);
-      employee.push(user_position);
+      if (user_status === "Active") {
+        array_employees.unshift(employee);
+        return array_employees;
+      }
+      array_employees.push(employee);
+      return array_employees;
+    }, []);
 
-      employee.push(actionButtons(id, user_status));
-
-      user_status === "Active" && active_employees.push(employee);
-      user_status === "Inactive" && inactive_employees.push(employee);
-    });
-
-    const employees: string[][] = [];
-
-    active_employees.forEach((value: string[]) => {
-      employees.push(value);
-    });
-
-    inactive_employees.forEach((value: string[]) => {
-      employees.push(value);
-    });
-
-    setEmployees(employees);
+    setEmployees(all_employees);
     setEmployeesLoaded(true);
   };
 
@@ -379,6 +377,7 @@ const Employees = () => {
 
   return (
     <div className={classes.root}>
+      <ToastContainer />
       <Navbar
         open={open}
         handleDrawerOpen={handleDrawerOpen}

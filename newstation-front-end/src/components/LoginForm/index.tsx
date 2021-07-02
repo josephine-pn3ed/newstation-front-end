@@ -50,14 +50,14 @@ const LoginForm = (props: Props) => {
                 {errorLogin && (
                   <Grid item xs={12}>
                     <ListItemText
-                      primary="Invalid credentials!"
+                      primary={errorLogin}
                       className={classes.error}
                     />
                   </Grid>
                 )}
                 <Grid item xs={12}>
                   <TextField
-                    error={error.includes("email_address") || errorLogin}
+                    error={error.includes("email_address") || !!errorLogin}
                     variant="outlined"
                     fullWidth
                     label="Email Address"
@@ -75,7 +75,7 @@ const LoginForm = (props: Props) => {
                     error={
                       error.includes("password") ||
                       errorLoginPassword ||
-                      errorLogin
+                      !!errorLogin
                     }
                   >
                     <InputLabel htmlFor="outlined-adornment-password">

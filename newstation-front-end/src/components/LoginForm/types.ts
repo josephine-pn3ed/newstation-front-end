@@ -6,7 +6,7 @@ export interface Props {
   handleLogin: () => void;
   credentials: Credentials;
   error: string[];
-  errorLogin: boolean;
+  errorLogin: string;
   errorLoginPassword: boolean;
 }
 

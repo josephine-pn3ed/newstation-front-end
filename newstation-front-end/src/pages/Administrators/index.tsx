@@ -14,7 +14,7 @@ import useStyles from "../../styles/_Administrator";
 import { logout, getCompanyId } from "../../utils";
 import { Administrator } from "./types";
 import AdministratorsForm from "../../components/AdministratorsForm";
-import { access } from "fs";
+import { ToastContainer, toast } from "react-toastify";
 
 const Administrators = () => {
   const classes = useStyles();
@@ -50,6 +50,7 @@ const Administrators = () => {
   });
 
   const handleFormLoaded = (open: boolean) => {
+    setError([]);
     setAdministrator({
       id: "",
       company_id: "",
@@ -88,6 +89,7 @@ const Administrators = () => {
   };
 
   const handleEditButton = async (id: string) => {
+    setError([]);
     try {
       const response = await axios.get("/administrator/" + id);
       const { result, success } = response.data;
@@ -97,7 +99,9 @@ const Administrators = () => {
       setFormLoaded(true);
       setAddForm(false);
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -118,16 +122,16 @@ const Administrators = () => {
         const { success } = response.data;
 
         if (!success) throw Error;
-        Swal.fire(
-          "Updated!",
-          "Administrator information updated successfully!",
-          "success"
-        );
+        toast("Administrator updated successfully!", {
+          type: "success",
+        });
         getAdministrators();
         handleCloseEdit();
       }
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -171,7 +175,9 @@ const Administrators = () => {
 
         if (!success) throw Error;
         if (message === "Administrator added successfully!") {
-          Swal.fire("Added!", "Administrator added successfully!", "success");
+          toast("Administrator added successfully!", {
+            type: "success",
+          });
           setFormLoaded(false);
           getAdministrators();
         } else {
@@ -179,7 +185,9 @@ const Administrators = () => {
         }
       }
     } catch (error) {
-      Swal.fire("An error occurred while registering an employee!");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -199,23 +207,17 @@ const Administrators = () => {
         if (result.isConfirmed) {
           await axios.delete("/administrator/" + id);
 
-          Swal.fire(
-            "Deleted!",
-            "Administrator information has been deleted.",
-            "success"
-          );
+          toast("Administrator deleted successfully!", {
+            type: "success",
+          });
 
           getAdministrators();
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            "Cancelled",
-            "Deleting administrator information has been cancelled.",
-            "error"
-          );
         }
       });
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -224,7 +226,7 @@ const Administrators = () => {
   ) => {
     const { value, name } = event.target;
 
-    setAdministrator({ ...administrator, [name]: value });
+    setAdministrator((administrator) => ({ ...administrator, [name]: value }));
   };
 
   const handleRestoreAdministrator = (id: string) => {
@@ -243,23 +245,17 @@ const Administrators = () => {
         if (result.isConfirmed) {
           await axios.put("/administrator/restore/" + id);
 
-          Swal.fire(
-            "Restored!",
-            "Administrator information has been restored.",
-            "success"
-          );
+          toast("Administrator restored successfully!", {
+            type: "success",
+          });
 
           getAdministrators();
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            "Cancelled",
-            "Restoring administrator information has been cancelled.",
-            "error"
-          );
         }
       });
     } catch (error) {
-      Swal.fire("Oops...", "Something went wrong!", "error");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
@@ -270,13 +266,15 @@ const Administrators = () => {
       const { result, success } = response.data;
 
       if (!success) throw Error;
-      administratorsToPushToHooks(result);
+      administratorsPushToHooks(result);
     } catch (error) {
-      Swal.fire("There is an error while getting administrators!");
+      toast("Internal Server Error!", {
+        type: "error",
+      });
     }
   };
 
-  const administratorsToPushToHooks = (data: Administrator[]) => {
+  const administratorsPushToHooks = (data: Administrator[]) => {
     const res = data.reduce((acc: any, curr: any) => {
       const {
         id,
@@ -300,11 +298,10 @@ const Administrators = () => {
       ];
 
       if (user_status === "Active") {
-        return [administrator, ...acc];
+        acc.unshift(administrator);
+        return acc;
       }
-      if (user_status === "Inactive") {
-        return [...acc, administrator];
-      }
+      acc.push(administrator);
       return acc;
     }, []);
 
@@ -365,6 +362,7 @@ const Administrators = () => {
 
   return (
     <div className={classes.root}>
+      <ToastContainer />
       <Navbar
         open={open}
         handleDrawerOpen={handleDrawerOpen}

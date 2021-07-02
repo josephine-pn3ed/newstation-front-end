@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     marginTop: "90px",
-    marginRight: "20px"
+    marginRight: "20px",
+    marginBottom: theme.spacing(18)
   },
   container: {
     paddingTop: theme.spacing(4),
