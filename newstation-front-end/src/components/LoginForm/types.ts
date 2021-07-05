@@ -7,7 +7,6 @@ export interface Props {
   credentials: Credentials;
   error: string[];
   errorLogin: string;
-  errorLoginPassword: boolean;
 }
 
 type Status = "Active" | "Inactive";

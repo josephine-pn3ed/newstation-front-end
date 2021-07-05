@@ -14,7 +14,6 @@ import {
 } from "../../utils";
 import { State, Company } from "./types";
 import axios from "axios";
-import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 
 const AccountSettings = () => {
@@ -150,7 +149,6 @@ const AccountSettings = () => {
       const id = getCompanyId();
       const response = await axios.get("/company/" + id);
       const { data } = response;
-      console.log(response)
 
       if (data === "Database down!" || data === "No company found!") throw data;
       setEditedCompany(data);

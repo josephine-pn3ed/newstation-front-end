@@ -30,7 +30,6 @@ const LoginForm = (props: Props) => {
     credentials,
     error,
     errorLogin,
-    errorLoginPassword,
   } = props;
 
   const { password } = credentials;

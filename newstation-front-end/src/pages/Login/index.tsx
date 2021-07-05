@@ -14,7 +14,6 @@ const Login = () => {
   const [open, setOpen] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errorLogin, setErrorLogin] = useState<string>("");
-  const [errorLoginPassword, setErrorLoginPassword] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
 
   const [credentials, setCredentials] = useState<Credentials>({
@@ -69,7 +68,6 @@ const Login = () => {
           setError(["email_address"])
           setErrorLogin(data);
         } else {
-          setErrorLoginPassword(false);
           setErrorLogin("");
           login(data);
           toast("Logged in successfully!", {
@@ -108,7 +106,6 @@ const Login = () => {
         error={error}
         credentials={credentials}
         errorLogin={errorLogin}
-        errorLoginPassword={errorLoginPassword}
       />
     </div>
   );
