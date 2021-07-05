@@ -11,7 +11,7 @@ import Navbar from "../../components/Navbar";
 import Sidenav from "../../components/Sidenav";
 import EmployeesTable from "../../components/EmployeesTable";
 import useStyles from "../../styles/_Employee";
-import { logout, getCompanyId } from "../../utils";
+import { logout, getCompanyId, displayConfirmation } from "../../utils";
 import { Employee } from "./types";
 import EmployeesForm from "../../components/EmployeesForm";
 import { ToastContainer, toast } from "react-toastify";
@@ -92,16 +92,23 @@ const Employees = () => {
     setError([]);
     try {
       const response = await axios.get("/employee/" + id);
-      const { result, success } = response.data;
+      const { data } = response;
 
-      if (!success) throw Error;
-      setEmployee(result);
+      if (data === "Database down!" || data === "No employee found!")
+        throw data;
+      setEmployee(data);
       setFormLoaded(true);
       setAddForm(false);
     } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      if (error === "No employee found!") {
+        toast(error, {
+          type: "error",
+        });
+      } else {
+        toast("Internal Server Error!", {
+          type: "error",
+        });
+      }
     }
   };
 
@@ -115,25 +122,30 @@ const Employees = () => {
 
     setError(errors);
 
-    try {
-      if (!errors.length) {
+    if (!errors.length) {
+      try {
         const { id } = employee;
         const response = await axios.put("/employee/" + id, employee);
-        const { success } = response.data;
+        const { data } = response;
 
-        if (!success) throw Error;
-        Swal.fire(
-          "Updated!",
-          "Employee information updated successfully!",
-          "success"
-        );
+        if (data === "Database down!" || data === "Employee not updated!")
+          throw data;
+        toast("Employee updated successfully!", {
+          type: "success",
+        });
         getEmployees();
         handleCloseEdit();
+      } catch (error) {
+        if (error === "Employee not updated!") {
+          toast(error, {
+            type: "error",
+          });
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
+        }
       }
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
     }
   };
 
@@ -155,13 +167,12 @@ const Employees = () => {
     !last_name && errors.push("last_name");
     !email_address && errors.push("email_address");
     !position && errors.push("position");
-    !validateEmail.test(email_address) &&
-      errors.push("email_address");
+    !validateEmail.test(email_address) && errors.push("email_address");
 
     setError(errors);
 
-    try {
-      if (!errors.length) {
+    if (!errors.length) {
+      try {
         const result = await axios.post("/employee", {
           company_id: getCompanyId(),
           email_address: email_address.toLowerCase(),
@@ -173,59 +184,55 @@ const Employees = () => {
           address: address,
         });
 
-        const { success, message } = result.data;
+        const { data } = result;
 
-        if (!success) throw Error;
-        if (message === "Employee added successfully!") {
-          Swal.fire("Added!", "Employee added successfully!", "success");
-          setFormLoaded(false);
-          getEmployees();
-        } else {
+        if (data === "Database down!" || data === "Employee not added!")
+          throw data;
+        toast("Employee added successfully!", {
+          type: "success",
+        });
+        setFormLoaded(false);
+        getEmployees();
+      } catch (error) {
+        if (error === "Employee not added!") {
+          toast(error, {
+            type: "error",
+          });
           setErrorRegister(true);
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
         }
       }
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
     }
   };
 
-  const handleDeleteButton = (id: string) => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "This employee information will be deleted.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await axios.delete("/employee/" + id);
+  const handleDeleteButton = async (id: string) => {
+    const result = await displayConfirmation("delete", "employee");
+    if (result) {
+      try {
+        const response = await axios.delete("/employee/" + id);
+        const { data } = response;
 
-          Swal.fire(
-            "Deleted!",
-            "Employee information has been deleted.",
-            "success"
-          );
+        if (data === "Database down!" || data === "Employee not deleted!")
+          throw data;
+        toast("Employee deleted successfully!", {
+          type: "success",
+        });
 
-          getEmployees();
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            "Cancelled",
-            "Deleting employee information has been cancelled.",
-            "error"
-          );
+        getEmployees();
+      } catch (error) {
+        if (error === "Employee not deleted!") {
+          toast(error, {
+            type: "error",
+          });
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
         }
-      });
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      }
     }
   };
 
@@ -237,41 +244,32 @@ const Employees = () => {
     setEmployee({ ...employee, [name]: value });
   };
 
-  const handleRestoreEmployee = (id: string) => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "This employee information will be restored.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, restore it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await axios.put("/employee/restore/" + id);
+  const handleRestoreEmployee = async (id: string) => {
+    const result = await displayConfirmation("employee", "restore");
+    if (result) {
+      try {
+        const response = await axios.put("/employee/restore/" + id);
+        const { data } = response;
 
-          Swal.fire(
-            "Restored!",
-            "Employee information has been restored.",
-            "success"
-          );
+        if (data === "Database down!" || data === "Employee not restored!")
+          throw data;
 
-          getEmployees();
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            "Cancelled",
-            "Restoring employee information has been cancelled.",
-            "error"
-          );
+        toast("Employee restored successfully!", {
+          type: "success",
+        });
+
+        getEmployees();
+      } catch (error) {
+        if (error === "Employee not restored!") {
+          toast(error, {
+            type: "error",
+          });
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
         }
-      });
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      }
     }
   };
 
@@ -279,14 +277,21 @@ const Employees = () => {
     setEmployeesLoaded(false);
     try {
       const response = await axios.get("/employees/" + getCompanyId());
-      const { result, success } = response.data;
+      const { data } = response;
 
-      if (!success) throw Error;
-      employeesPushToHooks(result);
+      if (data === "Database down!" || data === "No employee found!")
+        throw data;
+      employeesPushToHooks(data);
     } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      if (error === "No employee found!") {
+        toast(error, {
+          type: "error",
+        });
+      } else {
+        toast("Internal Server Error!", {
+          type: "error",
+        });
+      }
     }
   };
 

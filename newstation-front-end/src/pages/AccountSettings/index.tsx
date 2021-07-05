@@ -5,7 +5,13 @@ import Sidenav from "../../components/Sidenav";
 import AccountSettingsContent from "../../components/AccountSettingsContent";
 import AccountSettingsCompany from "../../components/AccountSettingsCompany";
 import useStyles from "../../styles/_Dashboard";
-import { logout, getUser, getCompanyId, getUserId } from "../../utils";
+import {
+  logout,
+  getUser,
+  getCompanyId,
+  getUserId,
+  displayConfirmation,
+} from "../../utils";
 import { State, Company } from "./types";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -121,12 +127,21 @@ const AccountSettings = () => {
     try {
       const id = getUserId();
       const response = await axios.get("/employee/" + id);
-      const { result } = response.data;
-      setEditedAccount(result);
+      const { data } = response;
+
+      if (data === "Database down!" || data === "No employee found!")
+        throw data;
+      setEditedAccount(data);
     } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      if (error === "No employee found!") {
+        toast(error, {
+          type: "error",
+        });
+      } else {
+        toast("Internal Server Error!", {
+          type: "error",
+        });
+      }
     }
   };
 
@@ -134,143 +149,148 @@ const AccountSettings = () => {
     try {
       const id = getCompanyId();
       const response = await axios.get("/company/" + id);
-      const { result } = response.data;
-      setEditedCompany(result);
+      const { data } = response;
+      console.log(response)
+
+      if (data === "Database down!" || data === "No company found!") throw data;
+      setEditedCompany(data);
     } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      if (error === "No company found!") {
+        toast(error, {
+          type: "error",
+        });
+      } else {
+        toast("Internal Server Error!", {
+          type: "error",
+        });
+      }
     }
   };
 
-  const handleUpdateAccount = () => {
-    try {
-      const { new_password } = editedAccount;
-      Swal.fire({
-        title: "Are you sure?",
-        text: "This Employee will be Updated!.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, update it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          const id = getUserId();
-          await axios.put("/employee/" + id, {
-            ...editedAccount,
-            password: new_password,
-          });
-          toast("Password updated successfully!", {
-            type: "success",
-          });
-          setOpenEdit(false);
-          getAccount();
-        } 
-      });
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
-    }
-  };
+  const handleUpdateAccount = async () => {
+    const result = await displayConfirmation("update", "password");
+    if (result) {
+      try {
+        const { new_password } = editedAccount;
+        const id = getUserId();
+        const response = await axios.put("/employee/" + id, {
+          ...editedAccount,
+          password: new_password,
+        });
+        const { data } = response;
 
-  const handleUpdateCompany = () => {
-    try {
-      const { new_password } = editedCompany;
-      Swal.fire({
-        title: "Are you sure?",
-        text: "This Company will be Updated!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, update it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          const id = getCompanyId();
-          await axios.put("/company/" + id, {
-            ...editedCompany,
-            password: new_password,
+        if (data === "Database down!" || data === "Employee not updated!")
+          throw data;
+        toast("Password updated successfully!", {
+          type: "success",
+        });
+        setOpenEdit(false);
+        getAccount();
+      } catch (error) {
+        if (error === "Employee not updated!") {
+          toast("Password not updated!", {
+            type: "error",
           });
-          toast("Company updated successfully!", {
-            type: "success",
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
           });
-          setOpenEdit(false);
-          getAccount();
         }
-      });
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      }
     }
   };
 
-  const handleDeleteAccount = () => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Your account will be deleted.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          const id = getUserId();
-          await axios.delete("/employee/" + id);
+  const handleUpdateCompany = async () => {
+    const result = await displayConfirmation("update", "password");
+    if (result) {
+      try {
+        const { new_password } = editedCompany;
 
-          toast("Account deleted successfully!", {
-            type: "success",
+        const id = getCompanyId();
+        const response = await axios.put("/company/" + id, {
+          ...editedCompany,
+          password: new_password,
+        });
+        const { data } = response;
+
+        if (data === "Database down!" || data === "Company not updated!")
+          throw data;
+        toast("Password updated successfully!", {
+          type: "success",
+        });
+        setOpenEdit(false);
+        getAccount();
+      } catch (error) {
+        if (error === "Company not updated!") {
+          toast("Password not updated!", {
+            type: "error",
           });
-
-          logout();
-          history.push("/login");
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
         }
-      });
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      }
     }
   };
 
-  const handleDeleteCompany = () => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "This Company will be deleted.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          const id = getCompanyId();
-          await axios.delete("/company/" + id);
+  const handleDeleteAccount = async () => {
+    const result = await displayConfirmation("delete", "account");
+    if (result) {
+      try {
+        const id = getUserId();
+        const response = await axios.delete("/employee/" + id);
+        const { data } = response;
 
-          toast("Company deleted successfully!", {
-            type: "success",
+        if (data === "Database down!" || data === "Employee not deleted!")
+          throw data;
+
+        toast("Account deleted successfully!", {
+          type: "success",
+        });
+
+        logout();
+        history.push("/login");
+      } catch (error) {
+        if (error === "Employee not deleted!") {
+          toast("Account not deleted!", {
+            type: "error",
           });
-          logout();
-          history.push("/login");
-        } 
-      });
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
+        }
+      }
+    }
+  };
+
+  const handleDeleteCompany = async () => {
+    const result = await displayConfirmation("delete", "account");
+    if (result) {
+      try {
+        const id = getCompanyId();
+        const response = await axios.delete("/company/" + id);
+        const { data } = response;
+
+        if (data === "Database down!" || data === "Company not deleted!")
+          throw data;
+        toast("Company deleted successfully!", {
+          type: "success",
+        });
+        logout();
+        history.push("/login");
+      } catch (error) {
+        if (error === "Company not deleted!") {
+          toast("Account not deleted!", {
+            type: "error",
+          });
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
+        }
+      }
     }
   };
 

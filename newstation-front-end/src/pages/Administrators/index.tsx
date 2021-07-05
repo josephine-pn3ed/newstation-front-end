@@ -3,7 +3,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import RestoreIcon from "@material-ui/icons/Restore";
 import Loader from "react-loader-spinner";
-import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
@@ -11,7 +10,7 @@ import Navbar from "../../components/Navbar";
 import Sidenav from "../../components/Sidenav";
 import AdministratorsTable from "../../components/AdministratorsTable";
 import useStyles from "../../styles/_Administrator";
-import { logout, getCompanyId } from "../../utils";
+import { logout, getCompanyId, displayConfirmation } from "../../utils";
 import { Administrator } from "./types";
 import AdministratorsForm from "../../components/AdministratorsForm";
 import { ToastContainer, toast } from "react-toastify";
@@ -92,16 +91,23 @@ const Administrators = () => {
     setError([]);
     try {
       const response = await axios.get("/administrator/" + id);
-      const { result, success } = response.data;
+      const { data } = response;
 
-      if (!success) throw Error;
-      setAdministrator(result);
+      if (data === "Database down!" || data === "No administrator found!")
+        throw data;
+      setAdministrator(data);
       setFormLoaded(true);
       setAddForm(false);
     } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      if (error === "No administrator found!") {
+        toast(error, {
+          type: "error",
+        });
+      } else {
+        toast("Internal Server Error!", {
+          type: "error",
+        });
+      }
     }
   };
 
@@ -115,23 +121,30 @@ const Administrators = () => {
 
     setError(errors);
 
-    try {
-      if (!errors.length) {
+    if (!errors.length) {
+      try {
         const { id } = administrator;
         const response = await axios.put("/administrator/" + id, administrator);
-        const { success } = response.data;
+        const { data } = response;
 
-        if (!success) throw Error;
+        if (data === "Database down!" || data === "Administrator not updated!")
+          throw data;
         toast("Administrator updated successfully!", {
           type: "success",
         });
         getAdministrators();
         handleCloseEdit();
+      } catch (error) {
+        if (error === "Administrator not updated!") {
+          toast(error, {
+            type: "error",
+          });
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
+        }
       }
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
     }
   };
 
@@ -153,13 +166,12 @@ const Administrators = () => {
     !last_name && errors.push("last_name");
     !email_address && errors.push("email_address");
     !position && errors.push("position");
-    !validateEmail.test(email_address) &&
-      errors.push("email_address");
+    !validateEmail.test(email_address) && errors.push("email_address");
 
     setError(errors);
 
-    try {
-      if (!errors.length) {
+    if (!errors.length) {
+      try {
         const result = await axios.post("/administrator", {
           company_id: getCompanyId(),
           email_address: email_address.toLowerCase(),
@@ -171,53 +183,55 @@ const Administrators = () => {
           address: address,
         });
 
-        const { success, message } = result.data;
+        const { data } = result;
 
-        if (!success) throw Error;
-        if (message === "Administrator added successfully!") {
-          toast("Administrator added successfully!", {
-            type: "success",
+        if (data === "Database down!" || data === "Administrator not added!")
+          throw data;
+        toast("Administrator added successfully!", {
+          type: "success",
+        });
+        setFormLoaded(false);
+        getAdministrators();
+      } catch (error) {
+        if (error === "Administrator not added!") {
+          toast(error, {
+            type: "error",
           });
-          setFormLoaded(false);
-          getAdministrators();
-        } else {
           setErrorRegister(true);
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
         }
       }
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
     }
   };
 
-  const handleDeleteButton = (id: string) => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "This administrator information will be deleted.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await axios.delete("/administrator/" + id);
+  const handleDeleteButton = async (id: string) => {
+    const result = await displayConfirmation("delete", "administrator");
+    if (result) {
+      try {
+        const response = await axios.delete("/administrator/" + id);
+        const {data} = response;
 
-          toast("Administrator deleted successfully!", {
-            type: "success",
+        if (data === "Database down!" || data === "Administrator not deleted!")
+          throw data;
+        toast("Administrator deleted successfully!", {
+          type: "success",
+        });
+
+        getAdministrators();
+      } catch (error) {
+        if (error === "Administrator not deleted!") {
+          toast(error, {
+            type: "error",
           });
-
-          getAdministrators();
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
         }
-      });
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      }
     }
   };
 
@@ -229,33 +243,32 @@ const Administrators = () => {
     setAdministrator((administrator) => ({ ...administrator, [name]: value }));
   };
 
-  const handleRestoreAdministrator = (id: string) => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "This administrator information will be restored.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, restore it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await axios.put("/administrator/restore/" + id);
+  const handleRestoreAdministrator = async (id: string) => {
+    const result = await displayConfirmation("restore", "administrator");
+    if (result) {
+      try {
+        const response = await axios.put("/administrator/restore/" + id);
+        const {data} = response;
 
-          toast("Administrator restored successfully!", {
-            type: "success",
+        if (data === "Database down!" || data === "Administrator not restored!")
+          throw data;
+
+        toast("Administrator restored successfully!", {
+          type: "success",
+        });
+
+        getAdministrators();
+      } catch (error) {
+        if (error === "Administrator not restored!") {
+          toast(error, {
+            type: "error",
           });
-
-          getAdministrators();
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
         }
-      });
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      }
     }
   };
 
@@ -263,14 +276,21 @@ const Administrators = () => {
     setAdministratorsLoaded(false);
     try {
       const response = await axios.get("/administrators/" + getCompanyId());
-      const { result, success } = response.data;
+      const {data} = response;
 
-      if (!success) throw Error;
-      administratorsPushToHooks(result);
+      if (data === "Database down!" || data === "No administrator found!")
+        throw data;
+      administratorsPushToHooks(data);
     } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      if (error === "No administrator found!") {
+        toast(error, {
+          type: "error",
+        });
+      } else {
+        toast("Internal Server Error!", {
+          type: "error",
+        });
+      }
     }
   };
 

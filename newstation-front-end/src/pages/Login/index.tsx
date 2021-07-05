@@ -47,39 +47,35 @@ const Login = () => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errors: string[] = [];
 
+    !validateEmail.test(email_address) && errors.push("email_address") && setErrorLogin("Invalid Email Address!");
     !email_address && errors.push("email_address");
     !password && errors.push("password");
-    !validateEmail.test(email_address) && errors.push("email_address");
 
     setError(errors);
 
     try {
       if (!errors.length) {
-        const result = await axios.post("/login", {
+        const response = await axios.post("/login", {
           email_address: email_address.toLowerCase(),
           password: password,
         });
+        const { data } = response;
 
-        const { success, message } = result.data;
-
-        if (!success) throw Error;
-        else {
-          if (message === "Wrong password.") {
-            setErrorLoginPassword(true);
-            setErrorLogin("");
-          } else if (message === "Invalid credentials!") {
-            setErrorLogin("Invalid credentials!");
-          } else if (message === "Database Down!") {
-            throw Error;
-          } else {
-            setErrorLoginPassword(false);
-            setErrorLogin("");
-            login(message);
-            toast("Logged in successfully!", {
-              type: "success",
-            });
-            history.push("/dashboard");
-          }
+        if (data === "Database down!") throw data;
+        if (data === "Wrong password.") {
+          setError(["password"])
+          setErrorLogin(data);
+        } else if (data === "Email does not exist.") {
+          setError(["email_address"])
+          setErrorLogin(data);
+        } else {
+          setErrorLoginPassword(false);
+          setErrorLogin("");
+          login(data);
+          toast("Logged in successfully!", {
+            type: "success",
+          });
+          history.push("/dashboard");
         }
       }
     } catch (error) {

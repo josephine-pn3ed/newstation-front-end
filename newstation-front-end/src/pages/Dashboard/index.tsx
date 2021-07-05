@@ -1,5 +1,4 @@
 import axios from "axios";
-import Swal from "sweetalert2";
 import Loader from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -8,7 +7,12 @@ import Sidenav from "../../components/Sidenav";
 import NewsContent from "../../components/NewsContent";
 import NewsForm from "../../components/NewsForm";
 import useStyles from "../../styles/_Dashboard";
-import { logout, getCompanyId, getUserId } from "../../utils";
+import {
+  logout,
+  getCompanyId,
+  getUserId,
+  displayConfirmation,
+} from "../../utils";
 import { State } from "./types";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -81,10 +85,10 @@ const Dashboard = () => {
     setAddForm(false);
     try {
       const response = await axios.get("/news-company/" + newsId);
-      const { result, success } = response.data;
-      const { id, topic, body, status, created_at, updated_at } = result;
+      const { data } = response;
 
-      if (!success) throw Error;
+      if (data === "Database down!" || data === "No news found!") throw data;
+      const { id, topic, body, status, created_at, updated_at } = data;
       setCloseAddForm(true);
       setNews({
         id: id,
@@ -101,9 +105,15 @@ const Dashboard = () => {
       });
       setAddForm(false);
     } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      if (error === "No news found!") {
+        toast(error, {
+          type: "error",
+        });
+      } else {
+        toast("Internal Server Error!", {
+          type: "error",
+        });
+      }
     }
   };
 
@@ -113,36 +123,31 @@ const Dashboard = () => {
     setNews((news) => ({ ...news, [name]: value }));
   };
 
-  const handleButtonDelete = (id: string) => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "This news will be deleted.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          const response = await axios.delete("/news/" + id);
-          const { success } = response.data;
+  const handleButtonDelete = async (id: string) => {
+    const result = await displayConfirmation("delete", "news");
+    if (result) {
+      try {
+        const response = await axios.delete("/news/" + id);
+        const { data } = response;
 
-          if (!success) throw Error;
+        if (data === "Database down!" || data === "News not deleted!") throw DataView;
 
-          toast("News deleted successfully!", {
-            type: "success",
+        toast("News deleted successfully!", {
+          type: "success",
+        });
+
+        getNews();
+      } catch (error) {
+        if (error === "News not deleted!") {
+          toast(error, {
+            type: "error",
           });
-
-          getNews();
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
         }
-      });
-    } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      }
     }
   };
 
@@ -162,20 +167,26 @@ const Dashboard = () => {
           body: body,
         });
 
-        const { success } = result.data;
+        const { data } = result;
 
-        if (!success) throw Error;
+        if (data === "Database down!" || data === "News not updated!") throw data;
 
         toast("News updated successfully!", {
-          type: "success"
+          type: "success",
         });
 
         handleCloseAddForm(false);
         getNews();
       } catch (error) {
-        toast("Internal Server Error!", {
-          type: "error",
-        });
+        if (error === "News not updated!") {
+          toast(error, {
+            type: "error",
+          });
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
+        }
       }
     }
   };
@@ -198,19 +209,25 @@ const Dashboard = () => {
           user_id: getUserId(),
         });
 
-        const { success } = result.data;
+        const { data } = result;
 
-        if (!success) throw Error;
+        if (data === "Database down!" || data === "News not added!") throw data;
 
-        toast("News added successfully!", {
+        toast(data, {
           type: "success",
         });
         handleCloseAddForm(false);
         getNews();
       } catch (error) {
-        toast("Internal Server Error!", {
-          type: "error",
-        });
+        if (error === "News not added!") {
+          toast(error, {
+            type: "error",
+          });
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
+        }
       }
     }
   };
@@ -220,15 +237,21 @@ const Dashboard = () => {
 
     try {
       const response = await axios.get("/news/" + getCompanyId());
-      const { success, news } = response.data;
+      const { data } = response;
 
-      if (!success) throw Error;
-      setRetrievedNews(news);
+      if (data === "Database Down!" || data === "No news found!") throw data;
+      setRetrievedNews(data);
       setNewsLoaded(true);
     } catch (error) {
-      toast("Internal Server Error!", {
-        type: "error",
-      });
+      if (error === "No news found!") {
+        toast(error, {
+          type: "error",
+        });
+      } else {
+        toast("Internal Server Error!", {
+          type: "error",
+        });
+      }
     }
   };
 
