@@ -1,6 +1,7 @@
 export interface Props {
   handleEditCompanyInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleUpdateCompany: () => void;
+  handleUpdateCompanyPassword: () => void;
   handleDeleteCompany: () => void;
   editedCompany: Company;
   handleOpenEdit: () => void;

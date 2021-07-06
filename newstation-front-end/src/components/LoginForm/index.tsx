@@ -13,6 +13,7 @@ import {
   FormControl,
   Button,
   ListItemText,
+  FormHelperText
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { Props } from "./types";
@@ -100,6 +101,9 @@ const LoginForm = (props: Props) => {
                       }
                       labelWidth={75}
                     />
+                    {(error.includes("password") ||
+                      !!errorLogin
+                    ) && <FormHelperText> Please input password. </FormHelperText>}
                   </FormControl>
                 </Grid>
               </Grid>

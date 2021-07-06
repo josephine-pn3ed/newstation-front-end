@@ -32,10 +32,10 @@ const AccountSettingsCompany = (props: Props) => {
     handleCloseEdit,
     openEdit,
     handleInputPasswordCompany,
+    handleUpdateCompanyPassword
   } = props;
   const {
     name,
-    email_address,
     password,
     address,
     contact_number,
@@ -64,7 +64,7 @@ const AccountSettingsCompany = (props: Props) => {
   };
 
   const handleClosePassword = () => {
-    handleUpdateCompany();
+    handleUpdateCompanyPassword();
     setChangePassword(!changePassword);
   };
 
@@ -158,101 +158,83 @@ const AccountSettingsCompany = (props: Props) => {
             )}
           </Card>
         )}
-        {changePassword && password && (
-          <Container maxWidth="md" className={classesCompany.paperPassword}>
-            <Grid item xs={12}>
-              <Typography
-                className={classesCompany.title}
-                align="center"
-                color="primary"
-                gutterBottom
-              >
-                {" "}
-                Change Password
-              </Typography>
-              <FormControl
-                variant="outlined"
-                error={checkPassword !== password}
-                fullWidth
-              >
-                <InputLabel htmlFor="outlined-adornment-password">
-                  Confirm Current Password
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  name="password"
-                  type={showCurrent ? "text" : "password"}
-                  value={checkPassword}
-                  disabled={checkPassword === password}
-                  label="Confirm Current Password"
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    handleInputPasswordCompany(event)
-                  }
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowCurrent}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showCurrent ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  labelWidth={75}
-                />
-                {checkPassword !== password && (
-                  <FormHelperText>
-                    Please verify password before updating.{" "}
-                  </FormHelperText>
-                )}
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} />
-            <Grid item xs={12}>
-              <FormControl
-                variant="outlined"
-                error={!new_password || checkPassword !== password}
-                disabled={checkPassword !== password}
-                fullWidth
-              >
-                <InputLabel htmlFor="outlined-adornment-password">
-                  New Password
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  name="new_password"
-                  type={showPassword ? "text" : "password"}
-                  value={new_password}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    handleEditCompanyInput(event)
-                  }
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  labelWidth={75}
-                />
-                {checkPassword !== password ? (
-                  <FormHelperText>
-                    {" "}
-                    Available once password is verified{" "}
-                  </FormHelperText>
-                ) : (
-                  <FormHelperText> Please Enter Valid Password </FormHelperText>
-                )}
+        {(changePassword && password) && (
+          <Container maxWidth="sm" className={classesCompany.paperPassword} >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography className={classesCompany.title} align='center' color="primary" gutterBottom> Change Password</Typography>
+                <FormControl
+                  variant="outlined"
+                  error={checkPassword !== password}
+                  fullWidth
+                >
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Confirm Current Password
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    name="password"
+                    type={showCurrent ? "text" : "password"}
+                    value={checkPassword}
+                    disabled={checkPassword === password}
+                    label="Confirm Current Password"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputPasswordCompany(event)
+                    }
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowCurrent}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showCurrent ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    labelWidth={75}
+                  />
+                  {checkPassword !== password && <FormHelperText>Please verify password before updating. </FormHelperText>}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                {checkPassword === password && <FormControl
+                  variant="outlined"
+                  error={(!new_password || checkPassword !== password) && checkPassword === password}
+                  disabled={checkPassword !== password}
+                  fullWidth
+                >
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    New Password
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    name="new_password"
+                    type={showPassword ? "text" : "password"}
+                    value={new_password}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleEditCompanyInput(event)
+                    }
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    labelWidth={75}
+                  />
+                  {checkPassword !== password ? <FormHelperText> Available once password is verified </FormHelperText>
+                    : <FormHelperText> Please Enter Valid Password </FormHelperText>}
+                </FormControl>}
+
                 <Button
                   fullWidth
-                  disabled={checkPassword !== password}
+                  disabled={(checkPassword !== (password))}
                   variant="contained"
                   color="primary"
                   className={classesCompany.submit}
@@ -269,7 +251,8 @@ const AccountSettingsCompany = (props: Props) => {
                 >
                   BACK
                 </Button>
-              </FormControl>
+
+              </Grid>
             </Grid>
           </Container>
         )}
@@ -284,7 +267,7 @@ const AccountSettingsCompany = (props: Props) => {
               >
                 {" "}
                 Account Management Settings
-              </Typography>
+              </Typography> 
 
               <form className={classesCompany.form} noValidate>
                 <Grid container spacing={1}>
@@ -296,24 +279,6 @@ const AccountSettingsCompany = (props: Props) => {
                       variant="outlined"
                       fullWidth
                       label="Company Name"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        handleEditCompanyInput(event)
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      error={!email_address}
-                      variant="outlined"
-                      fullWidth
-                      label="Email Address"
-                      name="email_address"
-                      autoComplete="email"
-                      type="email"
-                      defaultValue={email_address}
-                      InputProps={{
-                        readOnly: true,
-                      }}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleEditCompanyInput(event)
                       }
@@ -383,7 +348,7 @@ const AccountSettingsCompany = (props: Props) => {
                 </Grid>
                 <Button
                   fullWidth
-                  disabled={checkPassword !== password}
+                  disabled={checkPassword !== password || !name || !address || !contact_number}
                   variant="contained"
                   color="primary"
                   className={classesCompany.submit}
@@ -405,7 +370,7 @@ const AccountSettingsCompany = (props: Props) => {
           </div>
         )}
       </Container>
-    </main>
+    </main >
   );
 };
 

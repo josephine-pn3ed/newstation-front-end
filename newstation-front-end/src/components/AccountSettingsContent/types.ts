@@ -2,6 +2,7 @@ export interface Props {
   handleEditAccountInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleUpdateAccount: () => void;
   handleDeleteAccount: () => void;
+  handleUpdateAccountPassword: () => void;
   editedAccount: Employee;
   handleOpenEdit: () => void;
   handleCloseEdit: () => void;

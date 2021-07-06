@@ -68,6 +68,9 @@ const AccountSettings = () => {
 
   const handleOpenEdit = () => {
     setOpenEdit(!openEdit);
+    toast("Please confirm password before any changes!", {
+      type: "warning",
+    });
   };
   const handleCloseEdit = () => {
     setEditedAccount((editedAccount) => ({
@@ -169,10 +172,42 @@ const AccountSettings = () => {
     const result = await displayConfirmation("update", "password");
     if (result) {
       try {
-        const { new_password } = editedAccount;
         const id = getUserId();
         const response = await axios.put("/employee/" + id, {
           ...editedAccount,
+          checkPassword: "",
+          new_password: ""
+        });
+        const { data } = response;
+
+        if (data === "Database down!" || data === "Employee not updated!")
+          throw data;
+        toast("Account updated successfully!", {
+          type: "success",
+        });
+        setOpenEdit(false);
+        getAccount();
+      } catch (error) {
+        if (error === "Employee not updated!") {
+          toast("Not updated!", {
+            type: "error",
+          });
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
+        }
+      }
+    }
+  };
+
+  const handleUpdateAccountPassword = async () => {
+    const result = await displayConfirmation("update", "password");
+    if (result) {
+      try {
+        const { new_password } = editedAccount;
+        const id = getUserId();
+        const response = await axios.put("/employee/" + id, {
           password: new_password,
         });
         const { data } = response;
@@ -202,11 +237,43 @@ const AccountSettings = () => {
     const result = await displayConfirmation("update", "password");
     if (result) {
       try {
+        const id = getCompanyId();
+        const response = await axios.put("/company/" + id, {
+          ...editedCompany,
+          checkPassword: "",
+          new_password: ""
+        });
+        const { data } = response;
+
+        if (data === "Database down!" || data === "Company not updated!")
+          throw data;
+        toast("Company updated successfully!", {
+          type: "success",
+        });
+        setOpenEdit(false);
+        getAccount();
+      } catch (error) {
+        if (error === "Company not updated!") {
+          toast("Not updated!", {
+            type: "error",
+          });
+        } else {
+          toast("Internal Server Error!", {
+            type: "error",
+          });
+        }
+      }
+    }
+  };
+
+  const handleUpdateCompanyPassword = async () => {
+    const result = await displayConfirmation("update", "password");
+    if (result) {
+      try {
         const { new_password } = editedCompany;
 
         const id = getCompanyId();
         const response = await axios.put("/company/" + id, {
-          ...editedCompany,
           password: new_password,
         });
         const { data } = response;
@@ -220,7 +287,7 @@ const AccountSettings = () => {
         getAccount();
       } catch (error) {
         if (error === "Company not updated!") {
-          toast("Password not updated!", {
+          toast("Not updated!", {
             type: "error",
           });
         } else {
@@ -297,6 +364,8 @@ const AccountSettings = () => {
     // eslint-disable-next-line
   }, []);
 
+
+
   return (
     <div className={classes.root}>
       <ToastContainer />
@@ -316,6 +385,7 @@ const AccountSettings = () => {
           handleCloseEdit={handleCloseEdit}
           openEdit={openEdit}
           handleInputPasswordCompany={handleInputPasswordCompany}
+          handleUpdateCompanyPassword={handleUpdateCompanyPassword}
         />
       ) : (
         <AccountSettingsContent
@@ -327,6 +397,7 @@ const AccountSettings = () => {
           handleCloseEdit={handleCloseEdit}
           openEdit={openEdit}
           handleInputPasswordAccount={handleInputPasswordAccount}
+          handleUpdateAccountPassword={handleUpdateAccountPassword}
         />
       )}
     </div>

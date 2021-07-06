@@ -39,7 +39,7 @@ const AccountSettingsContent = (props: Props) => {
   };
 
   const handleClosePassword = () => {
-    handleUpdateAccount();
+    handleUpdateAccountPassword();
     setChangePassword(!changePassword);
   };
 
@@ -58,6 +58,7 @@ const AccountSettingsContent = (props: Props) => {
     handleCloseEdit,
     openEdit,
     handleInputPasswordAccount,
+    handleUpdateAccountPassword
   } = props;
 
   const {
@@ -165,7 +166,7 @@ const AccountSettingsContent = (props: Props) => {
                     variant="contained"
                     onClick={handleDeleteAccount}
                   >
-                    DELETE ACCOUNT5
+                    DELETE ACCOUNT
                   </Button>
                 )}
               </CardActions>
@@ -225,7 +226,7 @@ const AccountSettingsContent = (props: Props) => {
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <FormControl
+                {checkPassword === password && <FormControl
                   variant="outlined"
                   error={
                     (!new_password || checkPassword !== password) &&
@@ -259,37 +260,40 @@ const AccountSettingsContent = (props: Props) => {
                     }
                     labelWidth={75}
                   />
-                  {checkPassword !== password ? (
-                    <FormHelperText>
-                      {" "}
-                      Available once password is verified{" "}
-                    </FormHelperText>
-                  ) : (
-                    <FormHelperText>
-                      {" "}
-                      Please Enter Valid Password{" "}
-                    </FormHelperText>
-                  )}
-                  <Button
-                    fullWidth
-                    disabled={checkPassword !== password}
-                    variant="contained"
-                    color="primary"
-                    className={classesEmployees.submit}
-                    onClick={handleClosePassword}
-                  >
-                    Update Password
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    color="inherit"
-                    className={classesEmployees.submit}
-                    onClick={handleOpenPassword}
-                  >
-                    BACK
-                  </Button>
                 </FormControl>
+                }
+                {checkPassword !== password ? (
+                  <FormHelperText>
+                    {" "}
+                    Available once password is verified{" "}
+                  </FormHelperText>
+                ) : (
+                  <FormHelperText>
+                    {" "}
+                    Please Enter Valid Password{" "}
+                  </FormHelperText>
+                )}
+                <Button
+                  fullWidth
+                  disabled={checkPassword !== password}
+                  variant="contained"
+                  color="primary"
+                  className={classesEmployees.submit}
+                  onClick={handleClosePassword}
+                >
+                  Update Password
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  color="inherit"
+                  className={classesEmployees.submit}
+                  onClick={handleOpenPassword}
+                >
+                  BACK
+                </Button>
+
+
               </Grid>
             </Grid>
           </Container>
@@ -429,7 +433,7 @@ const AccountSettingsContent = (props: Props) => {
                 </Grid>
                 <Button
                   fullWidth
-                  disabled={checkPassword !== password}
+                  disabled={checkPassword !== password || !first_name || !middle_name || !last_name || !address || !position || !contact_number}
                   variant="contained"
                   color="primary"
                   className={classesEmployees.submit}
