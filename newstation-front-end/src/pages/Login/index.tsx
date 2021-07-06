@@ -60,7 +60,7 @@ const Login = () => {
         });
         const { data } = response;
 
-        if (data === "Database Down!") throw data;
+        if (data === "Database down!") throw data;
         if (data === "Wrong password.") {
           setError(["password"])
           setErrorLogin(data);

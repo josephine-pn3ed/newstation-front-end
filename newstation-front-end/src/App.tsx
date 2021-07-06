@@ -25,13 +25,13 @@ function App() {
         <PrivateRoute path="/dashboard" exact>
           <Dashboard />
         </PrivateRoute>
-        <PrivateRoute path="/employees">
+        <PrivateRoute path="/employee">
           <Employee />
         </PrivateRoute>
         <PrivateRoute path="/account-settings">
           <AccountSettings />
         </PrivateRoute>
-        <PrivateRoute path="/administrators">
+        <PrivateRoute path="/administrator">
           <Administrators />
         </PrivateRoute>
         <Redirect to="/login" from="/" exact/>

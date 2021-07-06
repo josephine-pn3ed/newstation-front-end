@@ -239,7 +239,7 @@ const Dashboard = () => {
       const response = await axios.get("/news/" + getCompanyId());
       const { data } = response;
 
-      if (data === "Database Down!" || data === "No news found!") throw data;
+      if (data === "Database down!" || data === "No news found!") throw data;
       setRetrievedNews(data);
       setNewsLoaded(true);
     } catch (error) {

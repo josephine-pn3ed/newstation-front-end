@@ -55,24 +55,24 @@ const Sidenav = (props: Props) => {
             <ListItem
               button
               component="a"
-              onClick={() => history.push("/administrators")}
+              onClick={() => history.push("/administrator")}
             >
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary="Administrators" />
+              <ListItemText primary="Administrator" />
             </ListItem>
           )}
           {(getUser() === "company" || getUser() === "administrator") && (
             <ListItem
               button
               component="a"
-              onClick={() => history.push("/employees")}
+              onClick={() => history.push("/employee")}
             >
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary="Employees" />
+              <ListItemText primary="Employee" />
             </ListItem>
           )}
           <ListItem

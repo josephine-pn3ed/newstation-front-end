@@ -9,9 +9,9 @@ const PrivateRoute = (props: Props) => {
   const routeComponent = () => {
     if (isLogin()) {
       if (
-        (getUser() === "administrator" && path === "/administrators") ||
+        (getUser() === "administrator" && path === "/administrator") ||
         (getUser() === "employee" &&
-          (path === "/employees" || path === "/administrators"))
+          (path === "/employee" || path === "/administrator"))
       ) {
         return (
           <div style={{ textAlign: "center", color: 'red' }}>
