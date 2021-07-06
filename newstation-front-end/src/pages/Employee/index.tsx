@@ -20,7 +20,7 @@ const Employees = () => {
   const history = useHistory();
 
   const [open, setOpen] = useState<boolean>(true);
-  const [employees, setEmployees] = useState<string[][]>([]);
+  const [employees, setEmployees] = useState<(string | JSX.Element)[][]>([]);
   const [formLoaded, setFormLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
 
@@ -244,7 +244,7 @@ const Employees = () => {
   ) => {
     const { value, name } = event.target;
 
-    setEmployee({ ...employee, [name]: value });
+    setEmployee((employee) => ({ ...employee, [name]: value }));
   };
 
   const handleRestoreEmployee = async (id: string) => {
@@ -299,7 +299,7 @@ const Employees = () => {
   };
 
   const employeesPushToHooks = (data: Employee[]) => {
-    const all_employees = data.reduce((array_employees: any, curr: any) => {
+    const all_employees = data.reduce((array_employees: (string | JSX.Element)[][], current_employee: Employee) => {
       const {
         id,
         first_name,
@@ -310,7 +310,7 @@ const Employees = () => {
         contact_number,
         position,
         status,
-      } = curr;
+      } = current_employee;
 
       const employee = [
         `${first_name} ${middle_name} ${last_name}`,
@@ -322,11 +322,9 @@ const Employees = () => {
       ];
 
       if (status === "Active") {
-        array_employees.unshift(employee);
-        return array_employees;
+        return [employee, ...array_employees];
       }
-      array_employees.push(employee);
-      return array_employees;
+      return [...array_employees, employee];
     }, []);
 
     setEmployees(all_employees);

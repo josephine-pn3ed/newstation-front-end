@@ -1,5 +1,5 @@
 export interface Props {
-  employees: string[][];
+  employees: (string | JSX.Element)[][];
   handleFormLoaded : (open: boolean) => void;
   formLoaded: boolean;
 }

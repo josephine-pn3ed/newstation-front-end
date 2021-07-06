@@ -20,7 +20,7 @@ const Administrators = () => {
   const history = useHistory();
 
   const [open, setOpen] = useState<boolean>(true);
-  const [administrators, setAdministrators] = useState<string[][]>([]);
+  const [administrators, setAdministrators] = useState<(string | JSX.Element)[][]>([]);
   const [formLoaded, setFormLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
 
@@ -301,7 +301,7 @@ const Administrators = () => {
   };
 
   const administratorsPushToHooks = (data: Administrator[]) => {
-    const res = data.reduce((acc: any, curr: any) => {
+    const res = data.reduce((array_administrators: (string | JSX.Element)[][], current_administrator: Administrator) => {
       const {
         id,
         first_name,
@@ -312,7 +312,7 @@ const Administrators = () => {
         contact_number,
         position,
         status,
-      } = curr;
+      } = current_administrator;
 
       const administrator = [
         `${first_name} ${middle_name} ${last_name}`,
@@ -324,11 +324,9 @@ const Administrators = () => {
       ];
 
       if (status === "Active") {
-        acc.unshift(administrator);
-        return acc;
+        return [administrator, ...array_administrators];
       }
-      acc.push(administrator);
-      return acc;
+      return [...array_administrators, administrator];
     }, []);
 
     setAdministrators(res);
