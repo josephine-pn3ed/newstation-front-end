@@ -275,7 +275,7 @@ const Administrators = () => {
   const getAdministrators = async () => {
     setAdministratorsLoaded(false);
     try {
-      const response = await axios.get("/administrators/" + getCompanyId());
+      const response = await axios.get("/administrator/company/" + getCompanyId());
       const {data} = response;
 
       if (data === "Database down!" || data === "No administrator found!")

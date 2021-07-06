@@ -275,7 +275,7 @@ const Employees = () => {
   const getEmployees = async () => {
     setEmployeesLoaded(false);
     try {
-      const response = await axios.get("/employee/" + getCompanyId());
+      const response = await axios.get("/employee/company/" + getCompanyId());
       const { data } = response;
 
       if (data === "Database down!" || data === "No employee found!")
