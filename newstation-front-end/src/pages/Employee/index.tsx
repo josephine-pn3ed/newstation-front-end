@@ -187,17 +187,21 @@ const Employees = () => {
 
         if (data === "Database down!" || data === "Employee not added!")
           throw data;
-        toast("Employee added successfully!", {
-          type: "success",
-        });
-        setFormLoaded(false);
-        getEmployees();
+        if (data === "Email address has already been taken.") {
+          setErrorRegister(true);
+        }
+        if (data === "Employee added successfully!") {
+          toast(data, {
+            type: "success",
+          });
+          setFormLoaded(false);
+          getEmployees();
+        }
       } catch (error) {
         if (error === "Employee not added!") {
           toast(error, {
             type: "error",
           });
-          setErrorRegister(true);
         } else {
           toast("Internal Server Error!", {
             type: "error",

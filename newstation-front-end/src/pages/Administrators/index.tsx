@@ -187,17 +187,21 @@ const Administrators = () => {
 
         if (data === "Database down!" || data === "Administrator not added!")
           throw data;
-        toast("Administrator added successfully!", {
-          type: "success",
-        });
-        setFormLoaded(false);
-        getAdministrators();
+        if (data === "Email address has already been taken.") {
+          setErrorRegister(true);
+        }
+        if (data === "Administrator added successfully!") {
+          toast(data, {
+            type: "success",
+          });
+          setFormLoaded(false);
+          getAdministrators();
+        }
       } catch (error) {
         if (error === "Administrator not added!") {
           toast(error, {
             type: "error",
           });
-          setErrorRegister(true);
         } else {
           toast("Internal Server Error!", {
             type: "error",
@@ -212,7 +216,7 @@ const Administrators = () => {
     if (result) {
       try {
         const response = await axios.delete("/administrator/" + id);
-        const {data} = response;
+        const { data } = response;
 
         if (data === "Database down!" || data === "Administrator not deleted!")
           throw data;
@@ -248,7 +252,7 @@ const Administrators = () => {
     if (result) {
       try {
         const response = await axios.put("/administrator/restore/" + id);
-        const {data} = response;
+        const { data } = response;
 
         if (data === "Database down!" || data === "Administrator not restored!")
           throw data;
@@ -275,8 +279,10 @@ const Administrators = () => {
   const getAdministrators = async () => {
     setAdministratorsLoaded(false);
     try {
-      const response = await axios.get("/administrator/company/" + getCompanyId());
-      const {data} = response;
+      const response = await axios.get(
+        "/administrator/company/" + getCompanyId()
+      );
+      const { data } = response;
 
       if (data === "Database down!" || data === "No administrator found!")
         throw data;
