@@ -101,8 +101,8 @@ const LoginForm = (props: Props) => {
                       }
                       labelWidth={75}
                     />
-                    {(error.includes("password") ||
-                      !!errorLogin
+                    {(!password &&
+                      errorLogin
                     ) && <FormHelperText> Please input password. </FormHelperText>}
                   </FormControl>
                 </Grid>
